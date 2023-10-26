@@ -1,7 +1,8 @@
-package com.springtec.services;
+package com.springtec.services.impl;
 
 import com.springtec.models.entity.Client;
 import com.springtec.models.repositories.ClientRepository;
+import com.springtec.services.IClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClientImplService implements IClientService{
+public class ClientImplService implements IClientService {
 
     private final ClientRepository clientRepository;
 
@@ -38,4 +39,5 @@ public class ClientImplService implements IClientService{
     public boolean existsById(Integer id) {
         return false;
     }
+
 }

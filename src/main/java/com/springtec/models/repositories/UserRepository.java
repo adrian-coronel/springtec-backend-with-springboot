@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     //Aqui JPA entiende que queremos buscar por EMAIL
     Optional<User> findByEmail(String email) ;
+    Boolean existsByEmail(String email);
 }
