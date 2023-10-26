@@ -5,6 +5,5 @@ package com.springtec.models.enums;
  para representar el estado de una solicitud */
 public enum Role {
     CLIENT,
-    TECHNICAL,
-    HELPDESK
+    TECHNICAL
 }

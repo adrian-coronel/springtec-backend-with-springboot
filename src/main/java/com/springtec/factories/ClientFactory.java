@@ -25,7 +25,7 @@ public class ClientFactory implements IUserFactory{
 
     @Override
     public User createUser(RegisterRequest request) throws DuplicateEmailException {
-        // todo HACER LA VERIFICACION DE EMAIL
+        // en caso se ingrese un email existente, ARROJAMOS nuestro exception personalizado
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new DuplicateEmailException("El email ingresado ya existe");
         }

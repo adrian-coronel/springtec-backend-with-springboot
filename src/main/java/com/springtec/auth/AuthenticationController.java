@@ -19,7 +19,7 @@ public class AuthenticationController {
     @PostMapping("/register")
    public ResponseEntity<?> register(
            @RequestBody RegisterRequest request
-    ) {
+   ) {
         try {
             var token = authService.register(request);
             return new ResponseEntity<>(
@@ -39,6 +39,20 @@ public class AuthenticationController {
                     , HttpStatus.BAD_REQUEST
             );
         }
-    }
+   }
 
+    @PostMapping("/authenticate")
+    public ResponseEntity<?> authenticate(
+            // Utilizamos nuestra clase AuthenticationRequest -> es DTO(xq se encapsula los datos que se envian o reciben)
+            @RequestBody AuthenticationRequest request
+    ) {
+        var token = authService.authenticate(request);
+        return new ResponseEntity<>(
+                MessageResponse.builder()
+                        .message("Autenticado correctamente")
+                        .body(token)
+                        .build()
+                , HttpStatus.OK
+        );
+    }
 }

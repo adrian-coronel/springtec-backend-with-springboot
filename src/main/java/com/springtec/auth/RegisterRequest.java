@@ -1,8 +1,6 @@
 package com.springtec.auth;
 
-import com.springtec.models.entity.Client;
-import com.springtec.models.entity.Technical;
-import com.springtec.models.entity.User;
+import com.springtec.models.entity.*;
 import com.springtec.models.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Esta clase sigué el patrón DTO ya que se está utilizando para encapsular
@@ -35,9 +34,8 @@ public class RegisterRequest {
     private Date birthDate;
 
 
-
     // Exclusive Technical
-    private Integer jobId;
+    private List<Integer> professionsId;
     private Integer availabilityId;
 
 }

@@ -13,8 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationRequest {
 
-    private String token; // Token que se enviará al usuario
+    private String email;
+    private String password;
 
 }
