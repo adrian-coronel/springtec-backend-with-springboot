@@ -19,26 +19,6 @@ public class Technical {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    /*
-    * Ventajas de utilizar SET:
-    * Eliminación de duplicados
-    * Eficiencia en la búsqueda
-    * Rendimiento en operaciones de conjunto
-    * */
-    @ManyToMany
-    @JoinTable(
-            name = "technical_profession", // nombre de la tabla de union
-            joinColumns = @JoinColumn(name = "technical_id"),// Especifica el campo que cojerá de nuestra entidad
-            inverseJoinColumns = @JoinColumn(name = "profession_id")) // El campo que cojerá de la entidad contraría
-    private Set<Profession> professions;
-
-    @ManyToOne // Muchos usuarios pueden tener UNA disponibilidad
-    @JoinColumn(name = "availability_id", unique = false)
-    private Availability availability;
     private String name;
     private String lastname;
     private String motherLastname;
@@ -46,5 +26,27 @@ public class Technical {
     private String latitude;
     private String longitude;
     private Date birthDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    /*
+     * Ventajas de utilizar SET:
+     * Eliminación de duplicados
+     * Eficiencia en la búsqueda
+     * Rendimiento en operaciones de conjunto
+     * */
+    @ManyToMany
+    @JoinTable(
+        name = "technical_profession", // nombre de la tabla de union
+        // se establece la columna de clave foránea en la tabla "technical_profession" que se asocia con la entidad Technical
+        joinColumns = @JoinColumn(name = "technical_id"),
+        inverseJoinColumns = @JoinColumn(name = "profession_id")) // El campo que cojerá de la entidad contraría
+    private Set<Profession> professions;
+
+    @ManyToOne // Muchos usuarios pueden tener UNA disponibilidad
+    @JoinColumn(name = "availability_id", unique = false)
+    private Availability availability;
 
 }

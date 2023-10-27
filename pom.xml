@@ -40,6 +40,18 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!--MODEL MAPPER-->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <!--DEVTOOLS-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>3.1.5</version>
+        </dependency>
         <!--JWT DEPENDENCIES-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

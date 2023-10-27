@@ -52,6 +52,7 @@ public class TechnicalFactory implements IUserFactory{
                 .build();
         User userSaved = userRepository.save(user);
 
+
         // Recibimos las profesiones y las pasamos en un objeto SET
         Set<Profession> professions = new HashSet<>();
         for (Integer id : request.getProfessionsId()) {

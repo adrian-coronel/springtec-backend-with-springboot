@@ -17,7 +17,7 @@ public class ClientImplService implements IClientService {
 
     @Override
     public List<Client> findAll() {
-        return null;
+        return clientRepository.findAll();
     }
 
     @Override
