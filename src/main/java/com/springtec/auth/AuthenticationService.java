@@ -1,14 +1,14 @@
 package com.springtec.auth;
 
 import com.springtec.config.JwtService;
+import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.factories.ClientFactory;
 import com.springtec.factories.IUserFactory;
 import com.springtec.factories.TechnicalFactory;
-import com.springtec.models.entity.Client;
-import com.springtec.models.entity.Technical;
+import com.springtec.models.entity.Role;
 import com.springtec.models.entity.User;
-import com.springtec.models.enums.Role;
 import com.springtec.models.repositories.AvailabilityRepository;
+import com.springtec.models.repositories.RoleRepository;
 import com.springtec.models.repositories.UserRepository;
 import com.springtec.services.impl.ClientImplService;
 import com.springtec.services.impl.ProfessionImplService;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final AvailabilityRepository availabilityRepository;
     private final ClientImplService clientService;
     private final TechnicalImplService technicalService;
@@ -39,7 +40,7 @@ public class AuthenticationService {
      * */
     public AuthenticationResponse register(RegisterRequest request) throws Exception {
         // Creamos un tipo de USERFACTORY dependiendo del ROL
-        IUserFactory userFactory = getUserFactory(request.getRole());
+        IUserFactory userFactory = getUserFactory(request.getRoleId());
         // Una vez tenemos el TIPO, le pasamos los datos enviados
         User userSaved = userFactory.createUser(request);
         // Generamos el token con el usuario guardado
@@ -81,13 +82,16 @@ public class AuthenticationService {
     /**
      * Este metódo buscará crear algún tipo de USERFACTORY dependiendo de su ROL
      * */
-    private IUserFactory getUserFactory(Role role) throws Exception {
-        switch (role) {
-            case CLIENT -> {
-                return new ClientFactory(userRepository,clientService,passwordEncoder);
+    private IUserFactory getUserFactory(Integer roleId) throws Exception {
+        Role role = roleRepository.findById(roleId)
+            .orElseThrow(() -> new ElementNotExistInDBException("El rol no existe con ID -> "+ roleId));
+
+        switch (role.getName().toUpperCase()) {
+            case "CLIENT" -> {
+                return new ClientFactory(role,userRepository,clientService,passwordEncoder);
             }
-            case TECHNICAL -> {
-                return new TechnicalFactory(userRepository, availabilityRepository,technicalService,professionService,passwordEncoder);
+            case "TECHNICAL" -> {
+                return new TechnicalFactory(role,userRepository, availabilityRepository,technicalService,professionService,passwordEncoder);
             }
             default -> throw new Exception();
         }

@@ -2,8 +2,10 @@ package com.springtec.config.data;
 
 import com.springtec.models.entity.Availability;
 import com.springtec.models.entity.Profession;
+import com.springtec.models.entity.Role;
 import com.springtec.models.repositories.AvailabilityRepository;
 import com.springtec.models.repositories.ProfessionRepository;
+import com.springtec.models.repositories.RoleRepository;
 import com.springtec.models.repositories.TechnicalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -16,6 +18,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private final AvailabilityRepository availabilityRepository;
     private final ProfessionRepository professionRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -29,5 +32,8 @@ public class DataInitializer implements CommandLineRunner {
         professionRepository.save(new Profession("Electricista"));
         professionRepository.save(new Profession("Contador"));
         professionRepository.save(new Profession("Ingeniero Civil"));
+
+        roleRepository.save(new Role("CLIENT"));
+        roleRepository.save(new Role("TECHNICAL"));
     }
 }

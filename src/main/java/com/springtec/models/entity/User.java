@@ -1,6 +1,5 @@
 package com.springtec.models.entity;
 
-import com.springtec.models.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,13 +31,14 @@ public class User  implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
-    @Enumerated(EnumType.STRING) //Asigna los valores de la enumeración a cadenas en la BD
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //Devolvemos un punto de lista, con una Nuevo AUTORIDAD CONCEDIDA SIMPLE
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override

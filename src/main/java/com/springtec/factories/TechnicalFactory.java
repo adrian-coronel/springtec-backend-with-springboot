@@ -3,10 +3,7 @@ package com.springtec.factories;
 import com.springtec.auth.RegisterRequest;
 import com.springtec.exceptions.DuplicateEmailException;
 import com.springtec.exceptions.ElementNotExistInDBException;
-import com.springtec.models.entity.Availability;
-import com.springtec.models.entity.Profession;
-import com.springtec.models.entity.Technical;
-import com.springtec.models.entity.User;
+import com.springtec.models.entity.*;
 import com.springtec.models.repositories.AvailabilityRepository;
 import com.springtec.models.repositories.UserRepository;
 import com.springtec.services.impl.ProfessionImplService;
@@ -22,7 +19,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class TechnicalFactory implements IUserFactory{
 
-
+    private final Role role;
     private final UserRepository userRepository;
     private final AvailabilityRepository availabilityRepository;
     private final TechnicalImplService technicalService;
@@ -48,7 +45,7 @@ public class TechnicalFactory implements IUserFactory{
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(role)
                 .build();
         User userSaved = userRepository.save(user);
 

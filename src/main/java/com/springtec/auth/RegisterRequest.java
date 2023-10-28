@@ -1,7 +1,6 @@
 package com.springtec.auth;
 
 import com.springtec.models.entity.*;
-import com.springtec.models.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +21,8 @@ public class RegisterRequest {
 
     private String email;
     private String password;
-    private Role role;
+    // todo ESTA BIEN
+    private Integer roleId;
 
     // Atributos del cliente y tecnico
     private String name;

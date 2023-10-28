@@ -3,6 +3,7 @@ package com.springtec.factories;
 import com.springtec.auth.RegisterRequest;
 import com.springtec.exceptions.DuplicateEmailException;
 import com.springtec.models.entity.Client;
+import com.springtec.models.entity.Role;
 import com.springtec.models.entity.User;
 import com.springtec.models.repositories.UserRepository;
 import com.springtec.services.impl.ClientImplService;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ClientFactory implements IUserFactory{
 
-
+    private final Role role;
     private final UserRepository userRepository;
     private final ClientImplService clientService;
     private final PasswordEncoder passwordEncoder;
@@ -33,7 +34,7 @@ public class ClientFactory implements IUserFactory{
         var user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(role)
                 .build();
         var userSaved = userRepository.save(user);
 
