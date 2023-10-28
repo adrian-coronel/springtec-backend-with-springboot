@@ -2,6 +2,7 @@ package com.springtec.models.dto;
 
 import com.springtec.models.entity.Availability;
 import com.springtec.models.entity.Profession;
+import com.springtec.models.entity.Technical;
 import com.springtec.models.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,4 +30,19 @@ public class TechnicalDto {
     private User user;
     private Set<Profession> professions;
     private Availability availability;
+
+    public TechnicalDto(Technical technical) {
+        this.id = technical.getId();
+        this.name = technical.getName();
+        this.lastname = technical.getLastname();
+        this.motherLastname = technical.getMotherLastname();
+        this.dni = technical.getDni();
+        this.latitude = technical.getLatitude();
+        this.longitude = technical.getLongitude();
+        this.user = technical.getUser();
+        this.professions = technical.getProfessions();
+        this.availability = technical.getAvailability();
+    }
+
+
 }

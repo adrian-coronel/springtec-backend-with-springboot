@@ -28,6 +28,10 @@ public class TechnicalController {
     @GetMapping("technicals")
     public ResponseEntity<?> showAll(){
         List<Technical> technicals = technicalService.findAll();
+        // Mapeamos los tecnicos a tecnicosDTO con todos sus campos
+        List<TechnicalDto> technicalDtos = technicals.stream()
+            .map(TechnicalDto::new).toList();
+
         if (technicals.isEmpty()) {
             return new ResponseEntity<>(
                 MessageResponse.builder()
@@ -37,13 +41,7 @@ public class TechnicalController {
                 , HttpStatus.OK
             );
         }
-        // ModelMapper simplifica la conversión de objetos de un tipo a otro.
-        ModelMapper modelMapper = new ModelMapper();
 
-        // Mapear la lista de entidades a una lista de DTOs
-        List<TechnicalDto> technicalDtos = technicals.stream()
-            .map(technical -> modelMapper.map(technical, TechnicalDto.class))
-            .toList();
         return new ResponseEntity<>(
             MessageResponse.builder()
                 .message("")
@@ -57,13 +55,11 @@ public class TechnicalController {
     public ResponseEntity<?> showById(@PathVariable Integer id) {
         try {
             Technical technical = technicalService.findById(id);
-            ModelMapper modelMapper = new ModelMapper();
-            TechnicalDto technicalDto = modelMapper.map(technical, TechnicalDto.class);
-
             return new ResponseEntity<>(
                 MessageResponse.builder()
                     .message("")
-                    .body(technicalDto)
+                    // Enviamos un tecnico DTO con todos sus datos
+                    .body(new TechnicalDto(technical))
                     .build()
                 , HttpStatus.OK
             );
