@@ -1,11 +1,17 @@
 package com.springtec.models.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "technical_profession")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "technical_has_profession")
 public class TechnicalProfession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +25,9 @@ public class TechnicalProfession {
     @JoinColumn(name = "profession_id")
     private Profession profession;
 
+    @ManyToOne
+    @JoinColumn(name = "experience_id")
+    private Experience experience;
     // Otros campos y métodos según sea necesario
 }
 

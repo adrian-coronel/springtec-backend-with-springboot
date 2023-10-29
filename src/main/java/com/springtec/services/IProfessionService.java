@@ -9,5 +9,6 @@ public interface IProfessionService {
     List<Profession> findAll();
     Profession findById(Integer id);
     Profession save(Profession profession);
+    boolean existsById(Integer id);
 
 }

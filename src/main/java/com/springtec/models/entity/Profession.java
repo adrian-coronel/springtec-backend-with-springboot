@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Set;
 
@@ -27,6 +28,9 @@ public class Profession {
     )
     private Set<Technical> technicals;
     private String  name;
+
+    @Column(columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
+    private char state = '1';
 
     public Profession(String name) {
         this.name = name;

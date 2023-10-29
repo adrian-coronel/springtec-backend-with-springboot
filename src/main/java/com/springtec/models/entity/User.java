@@ -28,12 +28,13 @@ public class User  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(unique = true)
     private String email;
     private String password;
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+    @Column(name="state",columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
+    private char state = '1';
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

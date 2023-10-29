@@ -14,5 +14,5 @@ public interface ITechnicalService {
     Technical findById(Integer id) throws ElementNotExistInDBException;
     void delete(Technical technical);
     boolean existsById(Integer id);
-
+    boolean existsByDni(String dni);
 }

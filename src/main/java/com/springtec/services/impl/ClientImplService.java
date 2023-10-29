@@ -35,9 +35,6 @@ public class ClientImplService implements IClientService {
 
     }
 
-    @Override
-    public boolean existsById(Integer id) {
-        return false;
-    }
+
 
 }

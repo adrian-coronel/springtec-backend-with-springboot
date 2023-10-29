@@ -1,5 +1,6 @@
 package com.springtec.auth;
 
+import com.springtec.models.dto.TechnicalProfessionDto;
 import com.springtec.models.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,6 @@ public class RegisterRequest {
 
     private String email;
     private String password;
-    // todo ESTA BIEN
     private Integer roleId;
 
     // Atributos del cliente y tecnico
@@ -35,7 +35,7 @@ public class RegisterRequest {
 
 
     // Exclusive Technical
-    private List<Integer> professionsId;
+    private List<TechnicalProfessionDto> professions;
     private Integer availabilityId;
 
 }

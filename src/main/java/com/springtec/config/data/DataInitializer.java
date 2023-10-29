@@ -1,12 +1,10 @@
 package com.springtec.config.data;
 
 import com.springtec.models.entity.Availability;
+import com.springtec.models.entity.Experience;
 import com.springtec.models.entity.Profession;
 import com.springtec.models.entity.Role;
-import com.springtec.models.repositories.AvailabilityRepository;
-import com.springtec.models.repositories.ProfessionRepository;
-import com.springtec.models.repositories.RoleRepository;
-import com.springtec.models.repositories.TechnicalRepository;
+import com.springtec.models.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -19,6 +17,7 @@ public class DataInitializer implements CommandLineRunner {
     private final AvailabilityRepository availabilityRepository;
     private final ProfessionRepository professionRepository;
     private final RoleRepository roleRepository;
+    private final ExperienceRepository experienceRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -35,5 +34,10 @@ public class DataInitializer implements CommandLineRunner {
 
         roleRepository.save(new Role("CLIENT"));
         roleRepository.save(new Role("TECHNICAL"));
+
+        experienceRepository.save(new Experience("Estudiante Universitario"));
+        experienceRepository.save(new Experience("No titulado"));
+        experienceRepository.save(new Experience("Técnico"));
+        experienceRepository.save(new Experience("Ingeniero"));
     }
 }

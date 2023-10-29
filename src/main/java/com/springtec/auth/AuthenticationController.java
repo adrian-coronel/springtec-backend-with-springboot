@@ -20,6 +20,7 @@ public class AuthenticationController {
    public ResponseEntity<?> register(
            @RequestBody RegisterRequest request
    ) {
+        System.out.println(request);
         try {
             var token = authService.register(request);
             return new ResponseEntity<>(

@@ -57,4 +57,11 @@ public class TechnicalImplService implements ITechnicalService {
     public boolean existsById(Integer id) {
         return false;
     }
+
+    @Override
+    public boolean existsByDni(String dni) {
+        return technicalRepository.existsByDni(dni);
+    }
+
+
 }

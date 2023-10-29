@@ -11,5 +11,4 @@ public interface IClientService {
     Client save(Client client);
     Client findById(Integer id);
     void delete(Client client);
-    boolean existsById(Integer id);
 }

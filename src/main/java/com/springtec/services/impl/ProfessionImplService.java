@@ -31,6 +31,11 @@ public class ProfessionImplService implements IProfessionService {
         return professionRepository.save(profession);
     }
 
+    @Override
+    public boolean existsById(Integer id) {
+        return professionRepository.existsById(id);
+    }
+
     public Boolean existsAllById(List<Integer> Ids) {
         boolean existsAll = true;
         for (Integer id : Ids) {
@@ -39,4 +44,5 @@ public class ProfessionImplService implements IProfessionService {
         }
         return existsAll;
     }
+
 }

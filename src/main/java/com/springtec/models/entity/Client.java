@@ -23,10 +23,11 @@ public class Client {
     @JoinColumn(name = "user_id")
     private User user;
     private String name;
+    @Column(name = "father_lastname")
     private String lastname;
+    @Column(name = "mother_lastname")
     private String motherLastname;
+    // todo CONTROLAR ERROR, EL CAMPO ES UNIQUE
     private String dni;
-    private String latitude;
-    private String longitude;
     private Date birthDate;
 }

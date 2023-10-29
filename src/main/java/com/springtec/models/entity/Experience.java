@@ -11,17 +11,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "availability")
-public class Availability {
+@Table(name = "experience")
+public class Experience {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    @Column(columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
-    private char state = '1';
 
-    public Availability(String name){
+    public Experience(String name) {
         this.name = name;
     }
-
 }

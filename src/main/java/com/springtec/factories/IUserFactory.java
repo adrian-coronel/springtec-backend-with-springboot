@@ -10,5 +10,5 @@ import com.springtec.models.entity.User;
  * creamos una fabrica para CONSTRUIR ENTIDADES según su ROL
  * */
 public interface IUserFactory {
-    User createUser(RegisterRequest request) throws DuplicateEmailException, ElementNotExistInDBException;
+    User createUser(RegisterRequest request) throws Exception;
 }

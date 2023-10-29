@@ -7,10 +7,7 @@ import com.springtec.factories.IUserFactory;
 import com.springtec.factories.TechnicalFactory;
 import com.springtec.models.entity.Role;
 import com.springtec.models.entity.User;
-import com.springtec.models.repositories.AvailabilityRepository;
-import com.springtec.models.repositories.RoleRepository;
-import com.springtec.models.repositories.UserRepository;
-import com.springtec.services.impl.ClientImplService;
+import com.springtec.models.repositories.*;
 import com.springtec.services.impl.ProfessionImplService;
 import com.springtec.services.impl.TechnicalImplService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +23,8 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AvailabilityRepository availabilityRepository;
-    private final ClientImplService clientService;
+    private final ClientRepository clientRepository;
+    private final TechnicalProfessionRepository technicalProfessionRepository;
     private final TechnicalImplService technicalService;
     private final ProfessionImplService professionService;
     //Configuramos que se use "BCryptPasswordEncoder" como codificardor de Passwords
@@ -88,10 +86,11 @@ public class AuthenticationService {
 
         switch (role.getName().toUpperCase()) {
             case "CLIENT" -> {
-                return new ClientFactory(role,userRepository,clientService,passwordEncoder);
+                return new ClientFactory(role,userRepository,clientRepository,passwordEncoder);
             }
             case "TECHNICAL" -> {
-                return new TechnicalFactory(role,userRepository, availabilityRepository,technicalService,professionService,passwordEncoder);
+                return new TechnicalFactory(role,userRepository, availabilityRepository,technicalProfessionRepository,
+                    technicalService,professionService,passwordEncoder);
             }
             default -> throw new Exception();
         }
