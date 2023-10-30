@@ -28,10 +28,10 @@ public class TechnicalDto {
     private String longitude;
     private Date birthDate;
     private User user;
-    private Set<Profession> professions;
+    private Set<ProfessionDto> professions;
     private Availability availability;
 
-    public TechnicalDto(Technical technical) {
+    /*public TechnicalDto(Technical technical) {
         this.id = technical.getId();
         this.name = technical.getName();
         this.lastname = technical.getLastname();
@@ -43,7 +43,7 @@ public class TechnicalDto {
         this.user = technical.getUser();
         this.professions = technical.getProfessions();
         this.availability = technical.getAvailability();
-    }
+    }*/
 
 
 }

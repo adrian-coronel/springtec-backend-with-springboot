@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +28,8 @@ public class TechnicalController {
 
     @GetMapping("technicals")
     public ResponseEntity<?> showAll(){
-        List<Technical> technicals = technicalService.findAll();
-        // Mapeamos los tecnicos a tecnicosDTO con todos sus campos
-        List<TechnicalDto> technicalDtos = technicals.stream()
-            .map(TechnicalDto::new).toList();
-
-        if (technicals.isEmpty()) {
+        List<TechnicalDto> technicalDtos = technicalService.findAll();
+        if (technicalDtos.isEmpty()) {
             return new ResponseEntity<>(
                 MessageResponse.builder()
                     .message("No hay registros.")
@@ -52,14 +49,14 @@ public class TechnicalController {
     }
 
     @GetMapping("technical/{id}")
-    public ResponseEntity<?> showById(@PathVariable Integer id) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
         try {
-            Technical technical = technicalService.findById(id);
+            TechnicalDto technicalDto = technicalService.findById(id);
             return new ResponseEntity<>(
                 MessageResponse.builder()
                     .message("")
                     // Enviamos un tecnico DTO con todos sus datos
-                    .body(new TechnicalDto(technical))
+                    .body(technicalDto)
                     .build()
                 , HttpStatus.OK
             );
@@ -71,6 +68,29 @@ public class TechnicalController {
                     .body(null)
                     .build()
                 , HttpStatus.OK
+            );
+        }
+    }
+
+
+    @DeleteMapping("technical/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id){
+        try {
+            TechnicalDto technicalDto = technicalService.delete(id);
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message("Eliminado con exito")
+                    .body(technicalDto)
+                    .build(),
+                HttpStatus.OK
+            );
+
+        } catch (ElementNotExistInDBException e) {
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message(e.getMessage())
+                    .build()
+                ,HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
     }

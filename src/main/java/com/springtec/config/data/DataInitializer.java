@@ -22,7 +22,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Código para cargar datos de prueba
-        availabilityRepository.save(new Availability("A domicilio"));
+        /*availabilityRepository.save(new Availability("A domicilio"));
         availabilityRepository.save(new Availability("En taller"));
         availabilityRepository.save(new Availability("Ambos"));
 
@@ -38,6 +38,6 @@ public class DataInitializer implements CommandLineRunner {
         experienceRepository.save(new Experience("Estudiante Universitario"));
         experienceRepository.save(new Experience("No titulado"));
         experienceRepository.save(new Experience("Técnico"));
-        experienceRepository.save(new Experience("Ingeniero"));
+        experienceRepository.save(new Experience("Ingeniero"));*/
     }
 }

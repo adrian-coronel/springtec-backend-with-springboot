@@ -12,5 +12,5 @@ import java.util.Set;
 @Repository
 public interface TechnicalProfessionRepository
         extends JpaRepository<TechnicalProfession, Integer> {
-
+   List<TechnicalProfession> findAllByTechnical(Technical technical);
 }

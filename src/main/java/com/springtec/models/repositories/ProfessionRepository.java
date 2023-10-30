@@ -16,8 +16,7 @@ public interface ProfessionRepository extends JpaRepository<Profession, Integer>
 
     // DECLARO MI METODO PERSONALIZADO
 
-    @Query("SELECT p FROM Profession p INNER JOIN TechnicalProfession tp ON tp.profession = p WHERE tp.technical = :technical")
-    Set<Profession> findAllByTechnical(@Param("technical") Technical technical);
+
 
 
 }
