@@ -24,19 +24,19 @@ public class ClientController {
         List<Client> clients = clientService.findAll();
         if (clients.isEmpty()) {
             return new ResponseEntity<>(
-                    MessageResponse.builder()
-                            .message("No hay registros.")
-                            .body(null)
-                            .build()
-                    , HttpStatus.OK
+                MessageResponse.builder()
+                    .message("No hay registros.")
+                    .body(null)
+                    .build()
+                , HttpStatus.OK
             );
         }
         return new ResponseEntity<>(
-                MessageResponse.builder()
-                        .message("")
-                        .body(clients)
-                        .build()
-                , HttpStatus.OK
+            MessageResponse.builder()
+                .message("")
+                .body(clients)
+                .build()
+            , HttpStatus.OK
         );
     }
 }

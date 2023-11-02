@@ -1,8 +1,7 @@
 package com.springtec.factories;
 
 import com.springtec.auth.RegisterRequest;
-import com.springtec.exceptions.DuplicateEmailException;
-import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.models.dto.ITypeUserDTO;
 import com.springtec.models.entity.User;
 
 /**
@@ -11,4 +10,5 @@ import com.springtec.models.entity.User;
  * */
 public interface IUserFactory {
     User createUser(RegisterRequest request) throws Exception;
+
 }

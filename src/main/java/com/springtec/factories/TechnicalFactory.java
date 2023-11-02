@@ -3,6 +3,7 @@ package com.springtec.factories;
 import com.springtec.auth.RegisterRequest;
 import com.springtec.exceptions.DuplicateEmailException;
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.models.dto.ITypeUserDTO;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
 import com.springtec.models.repositories.AvailabilityRepository;
@@ -84,7 +85,8 @@ public class TechnicalFactory implements IUserFactory{
         return userSaved;
     }
 
-    private void filterException(RegisterRequest request) throws Exception {
+
+   private void filterException(RegisterRequest request) throws Exception {
         // en caso se ingrese un email existente, ARROJAMOS nuestro exception personalizado
         if (userRepository.existsByEmail(request.getEmail()))
             throw new DuplicateEmailException("El email ingresado ya existe");
@@ -97,4 +99,6 @@ public class TechnicalFactory implements IUserFactory{
             throw new ElementNotExistInDBException("El elemento avaiability con id="+request.getAvailabilityId()+" no existe");
 
     }
+
+
 }

@@ -63,6 +63,17 @@ public class TechnicalImplService implements ITechnicalService {
         return mapTechnicalToDto(technical, professionDtos);
     }
 
+    @Override
+    public TechnicalDto findByUser(User user) {
+        Technical technical = technicalRepository.findByUser(user);
+        List<TechnicalProfession> techProfList = technicalProfessionRepository.findAllByTechnical(technical);
+        Set<ProfessionDto> professionDtos = techProfList.stream()
+            .map(this::mapTechnicalProfessionToProfessionDto)
+            .collect(Collectors.toSet());
+
+        return mapTechnicalToDto(technical, professionDtos);
+    }
+
 
     @Transactional
     @Override

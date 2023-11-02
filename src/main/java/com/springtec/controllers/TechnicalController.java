@@ -2,26 +2,20 @@ package com.springtec.controllers;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.TechnicalDto;
-import com.springtec.models.entity.Client;
-import com.springtec.models.entity.Technical;
-import com.springtec.models.entity.TechnicalProfession;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.services.ITechnicalService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("api/v1/")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class TechnicalController {
 
     private final ITechnicalService technicalService;

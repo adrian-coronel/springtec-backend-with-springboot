@@ -17,7 +17,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TechnicalDto {
+public class TechnicalDto implements ITypeUserDTO{
 
     private Integer id;
     private String name;

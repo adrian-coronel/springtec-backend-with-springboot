@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         // Obtenemos el token desde la posicion para excluir "Bearer " y extraemos el username(email)
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
+        userEmail = jwtService.extractUsername(jwt); // todo CONTROLAR COMO SE ENVIA EL 403 CUANDO EL TOKEN ESTA MAL
 
         // Verificamos si AUN NO ESTA AUTENTICADO pero si nos ENVIA el TOKEN(email dentro)
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {

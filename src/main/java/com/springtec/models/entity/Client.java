@@ -27,7 +27,6 @@ public class Client {
     private String lastname;
     @Column(name = "mother_lastname")
     private String motherLastname;
-    // todo CONTROLAR ERROR, EL CAMPO ES UNIQUE
     private String dni;
     private Date birthDate;
 }

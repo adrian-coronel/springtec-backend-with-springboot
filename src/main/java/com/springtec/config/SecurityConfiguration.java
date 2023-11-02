@@ -25,32 +25,34 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Configuramos las reglas de seguridad
         http
-                // Desabilitamos la configuracion CSRF
-                .csrf()
-                .disable()
+            // Habilitamos CORS
+            .cors()
+            .and()
+            // Desabilitamos la configuracion CSRF
+            .csrf()
+            .disable()
 
-                // Autorizamos algunos puntos blancos que no requiren de token para accederlos(/login, /resgister...)
-                .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
-                .permitAll() // Se las permitimos a todas las que estan en la lista de arriba
+            // Autorizamos algunos puntos blancos que no requiren de token para accederlos(/login, /resgister...)
+            .authorizeHttpRequests()
+            .requestMatchers("/api/v1/auth/**")
+            .permitAll() // Se las permitimos a todas las que estan en la lista de arriba
 
-                // Cualquier otra solicitud debe ser AUTENTIFICADA
-                .anyRequest()
-                .authenticated()
+            // Cualquier otra solicitud debe ser AUTENTIFICADA
+            .anyRequest()
+            .authenticated()
 
-                // Y configuramos la gestion de sesiones-> Usaremos el filtro 1 vez por solicitud
-                // por ende, no es necerio guardar la sesion de estado
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Se crea una SESSION SIN ESTADO
+            // Y configuramos la gestion de sesiones-> Usaremos el filtro 1 vez por solicitud
+            // por ende, no es necerio guardar la sesion de estado
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Se crea una SESSION SIN ESTADO
 
-                // Especificamos el proveedor de autentificacion que usaremos
-                .and()
-                .authenticationProvider(authenticationProvider)
+            // Especificamos el proveedor de autentificacion que usaremos
+            .and()
+            .authenticationProvider(authenticationProvider)
 
-                // Implementamos NUESTRO FILTRO antes del filtro "UsernamePasswordAuthenticationFilter"
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+            // Implementamos NUESTRO FILTRO antes del filtro "UsernamePasswordAuthenticationFilter"
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
