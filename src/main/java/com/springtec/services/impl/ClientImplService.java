@@ -1,6 +1,10 @@
 package com.springtec.services.impl;
 
+import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.models.dto.ClientDto;
 import com.springtec.models.entity.Client;
+import com.springtec.models.entity.User;
+import com.springtec.models.enums.State;
 import com.springtec.models.repositories.ClientRepository;
 import com.springtec.services.IClientService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,20 @@ public class ClientImplService implements IClientService {
     @Override
     public Client findById(Integer id) {
         return null;
+    }
+
+    @Override
+    public ClientDto findByUser(User user) {
+        Client client = clientRepository.findByUser(user);
+        return ClientDto.builder()
+            .id(client.getId())
+            .name(client.getName())
+            .lastname(client.getLastname())
+            .motherLastname(client.getMotherLastname())
+            .dni(client.getDni())
+            .birthDate(client.getBirthDate())
+            .user(client.getUser())
+            .build();
     }
 
     @Override

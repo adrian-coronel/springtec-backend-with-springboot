@@ -31,7 +31,7 @@ public class TechnicalDto implements ITypeUserDTO{
     private Set<ProfessionDto> professions;
     private Availability availability;
 
-    /*public TechnicalDto(Technical technical) {
+    public TechnicalDto(Technical technical, Set<ProfessionDto> professions) {
         this.id = technical.getId();
         this.name = technical.getName();
         this.lastname = technical.getLastname();
@@ -41,9 +41,9 @@ public class TechnicalDto implements ITypeUserDTO{
         this.latitude = technical.getLatitude();
         this.longitude = technical.getLongitude();
         this.user = technical.getUser();
-        this.professions = technical.getProfessions();
+        this.professions = professions;
         this.availability = technical.getAvailability();
-    }*/
+    }
 
 
 }

@@ -11,11 +11,11 @@ import java.util.Date;
 public class ClientDto implements ITypeUserDTO{
 
    private Integer id;
-   private User user;
    private String name;
    private String lastname;
    private String motherLastname;
    private String dni;
    private Date birthDate;
+   private User user;
 
 }

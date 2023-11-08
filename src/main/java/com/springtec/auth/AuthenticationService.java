@@ -2,11 +2,10 @@ package com.springtec.auth;
 
 import com.springtec.config.JwtService;
 import com.springtec.exceptions.ElementNotExistInDBException;
-import com.springtec.factories.ClientFactory;
-import com.springtec.factories.IUserFactory;
-import com.springtec.factories.TechnicalFactory;
+import com.springtec.factories.*;
 import com.springtec.models.entity.Role;
 import com.springtec.models.entity.User;
+import com.springtec.models.enums.UserType;
 import com.springtec.models.repositories.*;
 import com.springtec.services.impl.ProfessionImplService;
 import com.springtec.services.impl.TechnicalImplService;
@@ -21,14 +20,8 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+    private final UserFactory userFactory;
     private final RoleRepository roleRepository;
-    private final AvailabilityRepository availabilityRepository;
-    private final ClientRepository clientRepository;
-    private final TechnicalProfessionRepository technicalProfessionRepository;
-    private final TechnicalImplService technicalService;
-    private final ProfessionImplService professionService;
-    //Configuramos que se use "BCryptPasswordEncoder" como codificardor de Passwords
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
@@ -37,10 +30,10 @@ public class AuthenticationService {
      * @return token
      * */
     public AuthenticationResponse register(RegisterRequest request) throws Exception {
+
         // Creamos un tipo de USERFACTORY dependiendo del ROL
-        IUserFactory userFactory = getUserFactory(request.getRoleId());
-        // Una vez tenemos el TIPO, le pasamos los datos enviados
-        User userSaved = userFactory.createUser(request);
+        User userSaved = user(request.getRoleId()).create(request);
+
         // Generamos el token con el usuario guardado
         String jwtToken = jwtService.generateToken(userSaved);
 
@@ -80,19 +73,14 @@ public class AuthenticationService {
     /**
      * Este metódo buscará crear algún tipo de USERFACTORY dependiendo de su ROL
      * */
-    private IUserFactory getUserFactory(Integer roleId) throws Exception {
+    private IUser user(Integer roleId) throws Exception {
         Role role = roleRepository.findById(roleId)
             .orElseThrow(() -> new ElementNotExistInDBException("El rol no existe con ID -> "+ roleId));
 
-        switch (role.getName().toUpperCase()) {
-            case "CLIENT" -> {
-                return new ClientFactory(role,userRepository,clientRepository,passwordEncoder);
-            }
-            case "TECHNICAL" -> {
-                return new TechnicalFactory(role,userRepository, availabilityRepository,technicalProfessionRepository,
-                    technicalService,professionService,passwordEncoder);
-            }
+        return switch (role.getName().toUpperCase()) {
+            case "CLIENT" -> userFactory.getUser(UserType.CLIENT);
+            case "TECHNICAL" -> userFactory.getUser(UserType.TECHNICAL);
             default -> throw new Exception();
-        }
+        };
     }
 }

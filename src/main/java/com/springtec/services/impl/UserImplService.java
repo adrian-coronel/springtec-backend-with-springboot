@@ -19,6 +19,7 @@ public class UserImplService implements IUserService {
 
    private final UserRepository userRepository;
    private final TechnicalImplService technicalService;
+   private final ClientImplService clientService;
 
    @Override
    public List<UserDto> findAll() {
@@ -33,16 +34,14 @@ public class UserImplService implements IUserService {
    }
 
    private ITypeUserDTO getTypeUser(User user) {
-      switch ( user.getRole().getName().toUpperCase() ) {
-         case "TECHNICAL":
-            return technicalService.findByUser(user);
-         case "CLIENT":
-            // todo COMPLETAR
-            return null;
-         default:
-            // todo CONTROLAR AQUI CON UN ERROR
-            return null;
-      }
+      return
+          switch (user.getRole().getName().toUpperCase()) {
+            case "TECHNICAL" -> technicalService.findByUser(user);
+            case "CLIENT" -> clientService.findByUser(user);
+            default ->
+               // todo CONTROLAR AQUI CON UN ERROR
+               null;
+         };
    }
 
    @Override

@@ -1,5 +1,6 @@
 package com.springtec.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springtec.models.entity.Role;
 import lombok.Builder;
 import lombok.Data;
