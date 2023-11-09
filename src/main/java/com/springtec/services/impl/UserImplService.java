@@ -5,10 +5,12 @@ import com.springtec.models.dto.ITypeUserDTO;
 import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.dto.UserDto;
 import com.springtec.models.entity.User;
+import com.springtec.models.payload.UserRequest;
 import com.springtec.models.repositories.RoleRepository;
 import com.springtec.models.repositories.UserRepository;
 import com.springtec.services.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class UserImplService implements IUserService {
    private final UserRepository userRepository;
    private final TechnicalImplService technicalService;
    private final ClientImplService clientService;
+   private final PasswordEncoder passwordEncoder;
 
    @Override
    public List<UserDto> findAll() {
@@ -44,14 +47,15 @@ public class UserImplService implements IUserService {
          };
    }
 
-   @Override
-   public UserDto save(User user) {
-      return null;
-   }
+
 
    @Override
-   public UserDto update(User user) {
-      return null;
+   public void update(UserRequest user, Integer id) throws ElementNotExistInDBException {
+      User userBeforeUpdate = userRepository.findById(id)
+          .orElseThrow(() -> new ElementNotExistInDBException("No existe el usuario con id -> "+ id));
+
+      userBeforeUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+      userRepository.save(userBeforeUpdate);
    }
 
    @Override
