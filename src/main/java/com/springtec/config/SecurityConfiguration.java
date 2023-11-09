@@ -35,8 +35,7 @@ public class SecurityConfiguration {
             // Autorizamos algunos puntos blancos que no requiren de token para accederlos(/login, /resgister...)
             .authorizeHttpRequests()
             .requestMatchers("/api/v1/auth/**")
-            .permitAll() // Se las permitimos a todas las que estan en la lista de arriba
-
+            .permitAll()
             // Cualquier otra solicitud debe ser AUTENTIFICADA
             .anyRequest()
             .authenticated()

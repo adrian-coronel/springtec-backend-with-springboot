@@ -40,7 +40,7 @@ public class Technical {
      * Eliminación de duplicados
      * Eficiencia en la búsqueda
      * Rendimiento en operaciones de conjunto
-     * */
+     */
     @ManyToMany
     @JoinTable(
         name = "technical_has_profession", // nombre de la tabla de union

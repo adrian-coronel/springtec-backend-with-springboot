@@ -1,5 +1,6 @@
 package com.springtec.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class User  implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String email;
+    @JsonIgnore
     private String password;
     @ManyToOne
     @JoinColumn(name = "role_id")

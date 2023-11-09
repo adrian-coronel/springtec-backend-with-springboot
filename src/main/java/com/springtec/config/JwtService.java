@@ -1,5 +1,6 @@
 package com.springtec.config;
 
+import com.springtec.models.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -42,10 +43,14 @@ public class JwtService {
     public String generateToken(
             Map<String, Object> extraClaims, //Parámetro para incluir reclamos(claims) adicionales
             UserDetails userDetails) {
+
+        User user = (User) userDetails; // Castear UserDetails a tu clase de usuario personalizada
+        extraClaims.put("userId", user.getId()); // Agregar el ID del usuario como reclamo adicional
+        extraClaims.put("role", user.getRole().getName()); // Agregar el rol del usuario como reclamo adicional
+
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername()) // El token contendrá el EMAIL
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Fecha en que se generó el token, le pasamos los milisegundos actuales
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1440))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256) // Establecemos la FIRMA y el algoritmo de firma

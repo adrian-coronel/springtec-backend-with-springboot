@@ -1,5 +1,6 @@
 package com.springtec.services.impl;
 
+import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.entity.Client;
 import com.springtec.models.repositories.ClientRepository;
 import com.springtec.services.IClientService;
@@ -26,8 +27,9 @@ public class ClientImplService implements IClientService {
     }
 
     @Override
-    public Client findById(Integer id) {
-        return null;
+    public Client findById(Integer id) throws ElementNotExistInDBException {
+        return clientRepository.findById(id)
+                .orElseThrow(()->new ElementNotExistInDBException("El cliente con id :"+id+" no existe"));
     }
 
     @Override
