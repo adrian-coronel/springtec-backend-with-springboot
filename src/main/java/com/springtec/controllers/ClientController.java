@@ -70,7 +70,7 @@ public class ClientController {
     }
 
 
-    @PatchMapping("client/{id}")
+    @PutMapping("client/{id}")
     public ResponseEntity<?> updateClient(@RequestBody ClientDto clientDto,@PathVariable Integer id) {
 
         try{
