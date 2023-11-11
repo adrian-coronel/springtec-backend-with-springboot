@@ -12,6 +12,7 @@ import com.springtec.services.impl.TechnicalImplService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,21 +47,24 @@ public class AuthenticationService {
      * Metodo para autenticar un usuario
      * @return token
      * */
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) throws ElementNotExistInDBException {
+        System.out.println(request);
+        // Buscamos al usuario para generar un token con sus detalles
+        User user = userRepository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new ElementNotExistInDBException("Credenciales incorrectas"));
+
         // Usamos el Administrador de Autentificacion para AUTENTICAR AL USUARIO
         authenticationManager.authenticate(
-                //El administrador realiza tod0 el trabajo
-                // En caso exista un error se arrojará un excepción
-                new UsernamePasswordAuthenticationToken(
-                        // Verifica los datos con los datos de la BD, en caso no coincide
-                        // lanzará una exception, qeu indica error de autenticatión
-                        request.getEmail(),
-                        request.getPassword()
-                )
+            //El administrador realiza tod0 el trabajo
+            // En caso exista un error se arrojará un excepción
+            new UsernamePasswordAuthenticationToken(
+                // Verifica los datos con los datos de la BD, en caso no coincide
+                // lanzará una exception, qeu indica error de autenticatión
+                user.getId(),
+                request.getPassword()
+            )
         );
 
-        // Buscamos al usuario y generamos un token con sus detalles
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
         var jwtToken = jwtService.generateToken(user); // generamos el token para el usuario
 
         return AuthenticationResponse.builder()

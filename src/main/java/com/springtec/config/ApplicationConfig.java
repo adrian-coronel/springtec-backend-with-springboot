@@ -36,7 +36,7 @@ public class ApplicationConfig {
     @Bean //Marca un método como un productor de un bean gestionado por Spring.
     public UserDetailsService userDetailsService() {
         //  username que retornará el metodo "loadUserByUsername()" de "UserDetailsService"
-        return username -> userRepository.findByEmail(username)
+        return username -> userRepository.findById( Integer.parseInt(username) )
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
     }
 
