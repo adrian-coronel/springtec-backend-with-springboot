@@ -45,6 +45,20 @@ public class ClientImplService implements IClientService {
                 .orElseThrow(()->new ElementNotExistInDBException("El cliente con id :"+id+" no existe"));
     }
 
+
+    @Override
+    public ClientDto findByUser(User user) {
+        Client client = clientRepository.findByUser(user);
+        return ClientDto.builder()
+                .id(client.getId())
+                .name(client.getName())
+                .lastname(client.getLastname())
+                .motherLastname(client.getMotherLastname())
+                .dni(client.getDni())
+                .birthDate(client.getBirthDate())
+                .user(client.getUser())
+                .build();
+    }
     @Override
     public void delete(Client client) {
 
