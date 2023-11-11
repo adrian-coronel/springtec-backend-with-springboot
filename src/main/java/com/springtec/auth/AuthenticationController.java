@@ -1,5 +1,6 @@
 package com.springtec.auth;
 
+import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.payload.MessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -52,13 +53,22 @@ public class AuthenticationController {
             // Utilizamos nuestra clase AuthenticationRequest -> es DTO(xq se encapsula los datos que se envian o reciben)
             @RequestBody AuthenticationRequest request
     ) {
-        var token = authService.authenticate(request);
-        return new ResponseEntity<>(
-                MessageResponse.builder()
-                        .message("Autenticado correctamente")
-                        .body(token)
-                        .build()
-                , HttpStatus.OK
-        );
+       try {
+          AuthenticationResponse token = authService.authenticate(request);
+          return new ResponseEntity<>(
+              MessageResponse.builder()
+                  .message("Autenticado correctamente")
+                  .body(token)
+                  .build()
+              , HttpStatus.OK
+          );
+       } catch (ElementNotExistInDBException e) {
+          return new ResponseEntity<>(
+              MessageResponse.builder()
+                  .message(e.getMessage())
+                  .build()
+              , HttpStatus.OK
+          );
+       }
     }
 }

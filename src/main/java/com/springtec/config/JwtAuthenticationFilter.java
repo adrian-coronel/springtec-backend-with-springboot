@@ -34,22 +34,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Vamos a solicitar el header "Authorization", que será el que tendrá TOKEN
         final String authHeader  = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        final String userId;
 
         // Si no hay un TOKEN o el TOKEN no comienza por Bearer (comun en los headers de autorizacion)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response); // Siga con el siguiente filtro
             return;
         }
-        // Obtenemos el token desde la posicion para excluir "Bearer " y extraemos el username(email)
+        // Obtenemos el token desde la posicion para excluir "Bearer " y extraemos el username(userId)
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt); // todo CONTROLAR COMO SE ENVIA EL 403 CUANDO EL TOKEN ESTA MAL
+        userId = jwtService.extractUsername(jwt); // todo CONTROLAR COMO SE ENVIA EL 403 CUANDO EL TOKEN ESTA MAL
 
-        // Verificamos si AUN NO ESTA AUTENTICADO pero si nos ENVIA el TOKEN(email dentro)
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        // Verificamos si AUN NO ESTA AUTENTICADO pero si nos ENVIA el TOKEN(userId dentro)
+        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             //Obtenemos los detalles del usuario de la base de datos
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userId);
 
             // Si el token es valido
             if (jwtService.isTokenvalid(jwt, userDetails)){
