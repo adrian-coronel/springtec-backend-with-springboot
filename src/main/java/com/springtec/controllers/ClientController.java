@@ -70,17 +70,29 @@ public class ClientController {
     }
 
 
-    @PatchMapping("client")
-    public ResponseEntity<?> updateClient(@RequestBody ClientDto clientDto){
-        ClientDto updatingClient = clientService.save(clientDto);
+    @PatchMapping("client/{id}")
+    public ResponseEntity<?> updateClient(@RequestBody ClientDto clientDto,@PathVariable Integer id) {
 
-        return  new ResponseEntity<>(
-                MessageResponse.builder()
-                        .message("Cliente Actualizado")
-                        .body(updatingClient)
-                        .build()
-                , HttpStatus.OK
-        );
+        try{
+            ClientDto updatingClient = clientService.update(clientDto,id);
+            return  new ResponseEntity<>(
+                    MessageResponse.builder()
+                            .message("Cliente Actualizado")
+                            .body(updatingClient)
+                            .build()
+                    , HttpStatus.OK
+            );
+        }catch (ElementNotExistInDBException e){
+            return  new ResponseEntity<>(
+                    MessageResponse.builder()
+                            .message(e.getMessage())
+                            .body(null)
+                            .build()
+                    , HttpStatus.OK
+            );
+        }
+
+
     }
 
 

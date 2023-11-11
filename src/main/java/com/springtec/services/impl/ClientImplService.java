@@ -25,30 +25,18 @@ public class ClientImplService implements IClientService {
     }
 
     @Override
-    public ClientDto save(ClientDto clientDto) {
+    public ClientDto update(ClientDto clientDto,Integer id) throws ElementNotExistInDBException {
+          Client client=clientRepository.findById(id)
+                  .orElseThrow(()->new ElementNotExistInDBException("El cliente no existe"));
 
-        User user = userRepository.getById(clientDto.getUser());
 
+          client.setName(clientDto.getName());
+          client.setLastname(clientDto.getLastname());
+          client.setMotherLastname(clientDto.getMotherLastname());
+          client.setBirthDate(clientDto.getBirthDate());
 
-          Client client= clientRepository.save(Client.builder()
-                  .dni(clientDto.getDni())
-                  .name(clientDto.getName())
-                  .lastname(clientDto.getLastname())
-                  .motherLastname(clientDto.getMotherLastname())
-                  .birthDate(clientDto.getBirthDate())
-                  .id(clientDto.getId())
-                  .user(user)
-                  .build());
-
-          return ClientDto.builder()
-                  .dni(client.getDni())
-                  .name(client.getName())
-                  .lastname(client.getLastname())
-                  .motherLastname(client.getMotherLastname())
-                  .birthDate(client.getBirthDate())
-                  .id(client.getId())
-                  .user(clientDto.getUser())
-                  .build();
+          Client clientUpdate = clientRepository.save(client);
+          return new ClientDto(clientUpdate);
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface IClientService {
 
 
     //save sirve para guardar como tambien para (actualizar siempre y cuando se le envie el Id)
-    ClientDto save(ClientDto clientDto);
+    ClientDto update(ClientDto clientDto,Integer id) throws ElementNotExistInDBException;
     Client findById(Integer id) throws ElementNotExistInDBException;
     void delete(Client client);
 }
