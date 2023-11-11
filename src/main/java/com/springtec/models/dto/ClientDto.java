@@ -11,7 +11,7 @@ import java.util.Date;
 public class ClientDto implements ITypeUserDTO{
 
    private Integer id;
-   private User user;
+   private Integer user;
    private String name;
    private String lastname;
    private String motherLastname;

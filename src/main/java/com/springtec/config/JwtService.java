@@ -51,6 +51,7 @@ public class JwtService {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
+                .setSubject(((User) userDetails).getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Fecha en que se generó el token, le pasamos los milisegundos actuales
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1440))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256) // Establecemos la FIRMA y el algoritmo de firma
