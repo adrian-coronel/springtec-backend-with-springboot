@@ -1,22 +1,21 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.factories.UserFactory;
 import com.springtec.models.dto.ProfessionDto;
 import com.springtec.models.dto.TechnicalDto;
-import com.springtec.models.entity.Profession;
-import com.springtec.models.entity.Technical;
-import com.springtec.models.entity.TechnicalProfession;
-import com.springtec.models.entity.User;
+import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
-import com.springtec.models.repositories.ProfessionRepository;
-import com.springtec.models.repositories.TechnicalProfessionRepository;
-import com.springtec.models.repositories.TechnicalRepository;
-import com.springtec.models.repositories.UserRepository;
+import com.springtec.models.enums.UserType;
+import com.springtec.models.payload.TechnicalProfessionRequest;
+import com.springtec.models.payload.TechnicalRequest;
+import com.springtec.models.repositories.*;
 import com.springtec.services.ITechnicalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,6 +27,9 @@ public class TechnicalImplService implements ITechnicalService {
     private final TechnicalRepository technicalRepository;
     private final UserRepository userRepository;
     private final TechnicalProfessionRepository technicalProfessionRepository;
+    private final ProfessionRepository professionRepository;
+    private final ExperienceRepository experienceRepository;
+    private final AvailabilityRepository availabilityRepository;
 
     @Override
     public List<TechnicalDto> findAll() {
@@ -39,13 +41,61 @@ public class TechnicalImplService implements ITechnicalService {
                 Set<ProfessionDto> professionDtos = technicalProfessionRepository.findAllByTechnical(technical).stream()
                     .map(this::mapTechnicalProfessionToProfessionDto)
                     .collect(Collectors.toSet());
-                return mapTechnicalToDto(technical, professionDtos);
+                return new TechnicalDto(technical, professionDtos);
             }).toList();
     }
 
     @Override
     public Technical save(Technical technical) {
         return technicalRepository.save(technical);
+    }
+
+    @Override
+    public TechnicalDto update(TechnicalRequest technicalRequest, Integer id) throws ElementNotExistInDBException {
+        Technical technicalFind = technicalRepository.findById(id)
+            .orElseThrow(() -> new ElementNotExistInDBException("El técnico que intenta actualizar no existe"));
+
+        int i = 0;
+        Set<ProfessionDto> professionDtos = new HashSet<>();
+        List<TechnicalProfession> techProfList = technicalProfessionRepository.findAllByTechnical(technicalFind);
+
+        for (TechnicalProfession techProf : techProfList) {
+            // Obtenemos la profession alcanzada por el usuario
+            TechnicalProfessionRequest techProfRequest = technicalRequest.getProfessions().get(i);
+
+            // Actualizamos profesión y experiencia
+            Profession profession = professionRepository.findById(techProfRequest.getProfessionId())
+                .orElseThrow(() -> new ElementNotExistInDBException("La profesión con id " + techProfRequest.getProfessionId() + " no existe"));
+            Experience experience = experienceRepository.findById(techProfRequest.getExperienceId())
+                .orElseThrow(() -> new ElementNotExistInDBException("La experiencia con id " + techProfRequest.getExperienceId() + " no existe"));
+
+            techProf.setProfession(profession);
+            techProf.setExperience(experience);
+
+            // Agregamos al ProfessionDTO al SET<ProfessionDTO>
+            professionDtos.add(
+                // Utilizamos la funcion "mapTechnicalProfessionToProfessionDto" para extraer la ProfessionDTO
+                mapTechnicalProfessionToProfessionDto( technicalProfessionRepository.save(techProf) )
+            );
+            i++;
+        }
+
+        // ACTUALIZAMOS TODOS LOS CAMPOS
+        technicalFind.setName(technicalRequest.getName());
+        technicalFind.setLastname(technicalRequest.getLastname());
+        technicalFind.setMotherLastname(technicalRequest.getMotherLastname());
+        technicalFind.setDni(technicalRequest.getDni());
+        technicalFind.setLatitude(technicalRequest.getLatitude());
+        technicalFind.setLongitude(technicalRequest.getLongitude());
+        technicalFind.setBirthDate(technicalRequest.getBirthDate());
+
+        Availability availability = availabilityRepository.findById(technicalRequest.getAvailabilityId())
+            .orElseThrow(() -> new ElementNotExistInDBException("La disponibilidad con id "+technicalRequest.getAvailabilityId()+" no existe"));
+        technicalFind.setAvailability(availability);
+
+        Technical technicalUpdate = technicalRepository.save(technicalFind);
+
+        return new TechnicalDto(technicalUpdate, professionDtos);
     }
 
     @Override
@@ -60,7 +110,7 @@ public class TechnicalImplService implements ITechnicalService {
             .map(this::mapTechnicalProfessionToProfessionDto)
             .collect(Collectors.toSet());
 
-        return mapTechnicalToDto(technical, professionDtos);
+        return new TechnicalDto(technical, professionDtos);
     }
 
     @Override
@@ -71,8 +121,9 @@ public class TechnicalImplService implements ITechnicalService {
             .map(this::mapTechnicalProfessionToProfessionDto)
             .collect(Collectors.toSet());
 
-        return mapTechnicalToDto(technical, professionDtos);
+        return new TechnicalDto(technical, professionDtos);
     }
+
 
 
     @Transactional
@@ -90,7 +141,7 @@ public class TechnicalImplService implements ITechnicalService {
             .map(this::mapTechnicalProfessionToProfessionDto)
             .collect(Collectors.toSet());
 
-        return mapTechnicalToDto(technical, professionDtos);
+        return new TechnicalDto(technical, professionDtos);
     }
 
 
@@ -107,22 +158,5 @@ public class TechnicalImplService implements ITechnicalService {
             .experience(techProf.getExperience())
             .build();
     }
-
-    private TechnicalDto mapTechnicalToDto(Technical technical, Set<ProfessionDto> professions) {
-        return TechnicalDto.builder()
-            .id(technical.getId())
-            .name(technical.getName())
-            .lastname(technical.getLastname())
-            .motherLastname(technical.getMotherLastname())
-            .dni(technical.getDni())
-            .latitude(technical.getLatitude())
-            .longitude(technical.getLongitude())
-            .birthDate(technical.getBirthDate())
-            .user(technical.getUser())
-            .professions(professions)
-            .availability(technical.getAvailability())
-            .build();
-    }
-
 
 }

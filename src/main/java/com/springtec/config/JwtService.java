@@ -1,11 +1,16 @@
 package com.springtec.config;
 
 import com.springtec.models.entity.User;
+import com.springtec.models.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import netscape.javascript.JSObject;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +21,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     // Clave generada en desde una plataforma: https://generate-random.org/encryption-key-generator
     private static final String SECRET_KEY = "argi4mM5i0TYXps7nKB/MTuDxuYzW5C/eYQoUDoHOfmXOZ76miVDPTD1rbb5lptMvh8fD5TPspz0fycodcT4KIjkYHwzj1ZvrjjJ17NZBQOhR1/iA75JeCXD3QCvx86pzB6eqWQnWyNufC3XOEn/Yb6KoFWX/QA35VkOqQUy52+75Z+UvDspvUIffKjd/qed4LKr0kKsEKEiJOYphOn5mzxCe9And+t36c9Ody4Vxh7ppoMyspl0r1aCQhU5ncyqNQ7bKoowwnNW/k1NobDDF6DzrWg35Nm2PQccrEb6PnFFKzJK17UJ9F7uOztCtfGapzBW5yJFCPZJO/FWd4RHSL82WboJzvHZSWkNgOHXPw86BGVLisdyGYvVrPnpQPJX4ziCBppIJHoq/puYRQ2Qtg==";
-
+    private final UserRepository userRepository;
 
     /**
      * Extraer el USERNAME del TOKEN
@@ -34,7 +40,16 @@ public class JwtService {
      * Generar un token sin Claims
      * */
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        HashMap<String, Object> userMap = new HashMap<>();
+        // todo CODIGO PARA ENVIAR EL USUARIO
+        /*User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        userMap.put("user", User.builder()
+            .id(user.getId())
+            .email(user.getEmail())
+            .role(user.getRole())
+            .state(user.getState())
+            .build());*/
+        return generateToken(userMap, userDetails);
     }
 
     /**
@@ -43,15 +58,10 @@ public class JwtService {
     public String generateToken(
             Map<String, Object> extraClaims, //Parámetro para incluir reclamos(claims) adicionales
             UserDetails userDetails) {
-
-        User user = (User) userDetails; // Castear UserDetails a tu clase de usuario personalizada
-        extraClaims.put("userId", user.getId()); // Agregar el ID del usuario como reclamo adicional
-        extraClaims.put("role", user.getRole().getName()); // Agregar el rol del usuario como reclamo adicional
-
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(((User) userDetails).getEmail())
+                .setSubject(userDetails.getUsername()) // El token contendrá el EMAIL
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Fecha en que se generó el token, le pasamos los milisegundos actuales
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1440))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256) // Establecemos la FIRMA y el algoritmo de firma

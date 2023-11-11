@@ -24,7 +24,6 @@ public class Technical {
     private String lastname;
     @Column(name = "mother_lastname")
     private String motherLastname;
-    // todo CONTROLAR ERROR, EL CAMPO ES UNIQUE
     private String dni;
     private String latitude;
     private String longitude;

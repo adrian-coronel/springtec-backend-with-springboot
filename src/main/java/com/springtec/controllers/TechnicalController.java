@@ -3,7 +3,9 @@ package com.springtec.controllers;
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.payload.MessageResponse;
+import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.services.ITechnicalService;
+import com.springtec.services.impl.TechnicalImplService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class TechnicalController {
 
-    private final ITechnicalService technicalService;
+    private final TechnicalImplService technicalService;
 
     @GetMapping("technicals")
     public ResponseEntity<?> showAll(){
@@ -66,6 +68,29 @@ public class TechnicalController {
         }
     }
 
+    @PutMapping("technical/{id}")
+    public ResponseEntity<?> update(
+        @PathVariable Integer id,
+        @RequestBody TechnicalRequest technicalRequest
+    ){
+        try {
+            TechnicalDto technicalDto = technicalService.update(technicalRequest, id);
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message("Actualizado correctamente")
+                    .body(technicalDto)
+                    .build()
+                , HttpStatus.OK
+            );
+        } catch (ElementNotExistInDBException e) {
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message(e.getMessage())
+                    .build()
+                , HttpStatus.OK
+            );
+        }
+    }
 
     @DeleteMapping("technical/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id){

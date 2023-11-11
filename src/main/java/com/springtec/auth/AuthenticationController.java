@@ -2,6 +2,7 @@ package com.springtec.auth;
 
 import com.springtec.models.payload.MessageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+/*@CrossOrigin(
+    origins = "http://127.0.0.1:5500",
+    methods = { RequestMethod.POST },
+    exposedHeaders = {"Access-Control-Allow-Origin","Access-Control-Allow-Credentials","Authorization"},
+    allowCredentials = "true",
+    maxAge = 3400
+)*/
 public class AuthenticationController {
 
     private final AuthenticationService authService;

@@ -12,6 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
+
 
 /**
  * Esta clase conteendra todas las configuraciones de nuestra aplicacion,
@@ -19,7 +25,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 
 // Spring tomará esta clase e intentará implementar e injectar todos los contenedores
+
 @Configuration
+@EnableWebMvc
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
@@ -62,6 +70,21 @@ public class ApplicationConfig {
             throws Exception {
         // Usaremos el AuthenticationConfiguration de SpringSecurity
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsMappingConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                    .allowedOrigins("http://127.0.0.1:5500","http://localhost:5173")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE")
+                    .maxAge(3600L)
+                    .allowedHeaders("Requestor-Type","Authorization","Content-Type")
+                    .exposedHeaders("X-Get-Header");
+            }
+        };
     }
 
 }
