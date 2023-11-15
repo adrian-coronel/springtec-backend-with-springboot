@@ -22,6 +22,7 @@ public class TechnicalController {
 
     private final TechnicalImplService technicalService;
 
+
     @GetMapping("technicals")
     public ResponseEntity<?> showAll(){
         List<TechnicalDto> technicalDtos = technicalService.findAll();
@@ -67,6 +68,20 @@ public class TechnicalController {
             );
         }
     }
+
+    @GetMapping("technicals/{profession}")
+    public ResponseEntity<?> show (@PathVariable String profession){
+
+
+      return new ResponseEntity<>(
+              MessageResponse.builder()
+                      .message("")
+                      .body(null)
+                      .build()
+              , HttpStatus.OK
+      );
+
+    };
 
     @PutMapping("technical/{id}")
     public ResponseEntity<?> update(
