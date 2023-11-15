@@ -31,6 +31,18 @@ public class TechnicalDto implements ITypeUserDTO{
     private Set<ProfessionDto> professions;
     private Availability availability;
 
+    public TechnicalDto(Technical technical) {
+        this.id = technical.getId();
+        this.name = technical.getName();
+        this.lastname = technical.getLastname();
+        this.motherLastname = technical.getMotherLastname();
+        this.dni = technical.getDni();
+        this.birthDate = technical.getBirthDate();
+        this.latitude = technical.getLatitude();
+        this.longitude = technical.getLongitude();
+        this.user = technical.getUser();
+    }
+
     public TechnicalDto(Technical technical, Set<ProfessionDto> professions) {
         this.id = technical.getId();
         this.name = technical.getName();

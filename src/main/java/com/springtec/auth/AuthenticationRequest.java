@@ -17,5 +17,6 @@ public class AuthenticationRequest {
 
     private String email;
     private String password;
+    private String token; // Se utiliza para verificar
 
 }

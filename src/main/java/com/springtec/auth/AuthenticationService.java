@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class AuthenticationService {
     private final UserFactory userFactory;
     private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
     /**
@@ -86,5 +89,14 @@ public class AuthenticationService {
             case "TECHNICAL" -> userFactory.getUser(UserType.TECHNICAL);
             default -> throw new Exception();
         };
+    }
+
+    public boolean verifyToken(AuthenticationRequest request) {
+        String userId = jwtService.extractUsername(request.getToken());
+        if (userId == null){
+            return false;
+        }
+        UserDetails userDetails =  this.userDetailsService.loadUserByUsername(userId);
+        return jwtService.isTokenvalid(request.getToken(), userDetails);
     }
 }

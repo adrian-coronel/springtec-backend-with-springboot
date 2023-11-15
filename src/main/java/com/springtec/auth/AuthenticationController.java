@@ -47,7 +47,7 @@ public class AuthenticationController {
             );
         }
    }
-    @CrossOrigin(origins = {"http://localhost:5173/"})
+
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(
             // Utilizamos nuestra clase AuthenticationRequest -> es DTO(xq se encapsula los datos que se envian o reciben)
@@ -70,5 +70,18 @@ public class AuthenticationController {
               , HttpStatus.OK
           );
        }
+    }
+
+    @PostMapping("/verifytoken")
+    public ResponseEntity<?> verifyToken(@RequestBody AuthenticationRequest request) {
+       boolean verify = authService.verifyToken(request);
+
+       return new ResponseEntity<>(
+           MessageResponse.builder()
+               .message("Verificación satisfactoria")
+               .body(verify)
+               .build()
+           , HttpStatus.OK
+       );
     }
 }

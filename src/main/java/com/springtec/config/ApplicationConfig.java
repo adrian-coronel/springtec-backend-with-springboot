@@ -78,8 +78,8 @@ public class ApplicationConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("http://127.0.0.1:5500","http://localhost:5173")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE")
+                    .allowedOrigins("http://127.0.0.1:5500","http://localhost:5173","http://10.0.2.2:4000")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS")
                     .maxAge(3600L)
                     .allowedHeaders("Requestor-Type","Authorization","Content-Type")
                     .exposedHeaders("X-Get-Header");

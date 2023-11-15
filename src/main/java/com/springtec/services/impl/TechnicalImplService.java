@@ -120,10 +120,17 @@ public class TechnicalImplService implements ITechnicalService {
         Set<ProfessionDto> professionDtos = techProfList.stream()
             .map(this::mapTechnicalProfessionToProfessionDto)
             .collect(Collectors.toSet());
-
         return new TechnicalDto(technical, professionDtos);
     }
 
+    @Override
+    public List<TechnicalDto> findByProfessionIdAndAvailabilityId(Integer professionId, Integer availavilityId) {
+       return technicalProfessionRepository
+           .findAllByProfessionIdAndTechnicalAvailabilityId(professionId, availavilityId)
+             .stream()
+             .map(techProf -> new TechnicalDto(techProf.getTechnical()))
+             .toList();
+    }
 
 
     @Transactional

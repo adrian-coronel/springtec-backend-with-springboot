@@ -22,9 +22,34 @@ public class TechnicalController {
 
     private final TechnicalImplService technicalService;
 
-    @GetMapping("technicals")
+    @GetMapping("technicals/all")
     public ResponseEntity<?> showAll(){
         List<TechnicalDto> technicalDtos = technicalService.findAll();
+        if (technicalDtos.isEmpty()) {
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message("No hay registros.")
+                    .body(null)
+                    .build()
+                , HttpStatus.OK
+            );
+        }
+
+        return new ResponseEntity<>(
+            MessageResponse.builder()
+                .message("")
+                .body(technicalDtos)
+                .build()
+            , HttpStatus.OK
+        );
+    }
+
+    @GetMapping("technicals/filter")
+    public ResponseEntity<?> showAllProfessionAndAvailability(
+        @RequestParam Integer professionId,
+        @RequestParam Integer availabilityId
+    ){
+        List<TechnicalDto> technicalDtos = technicalService.findByProfessionIdAndAvailabilityId(professionId, availabilityId);
         if (technicalDtos.isEmpty()) {
             return new ResponseEntity<>(
                 MessageResponse.builder()
