@@ -28,6 +28,7 @@ public class TechnicalController {
     public ResponseEntity<?> showAll(
         @RequestParam Map<String, String> filters
         ){
+        System.out.println(filters);
         List<TechnicalDto> technicalDtos = technicalService.findByFilters(filters);
         return new ResponseEntity<>(
             MessageResponse.builder()

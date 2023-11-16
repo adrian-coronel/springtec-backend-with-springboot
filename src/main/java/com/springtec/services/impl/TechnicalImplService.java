@@ -111,27 +111,40 @@ public class TechnicalImplService implements ITechnicalService {
         return new TechnicalDto(technical, professionDtos);
     }
 
+    @Transactional
     @Override
     public List<TechnicalDto> findByFilters(Map<String, String> filters) {
 
-        List<TechnicalProfession> technicalProfessionList;
-
-        if (filters.containsKey("professionId") && filters.containsKey("availabilityId")) {
-            technicalProfessionList = findByProfessionIdAndAvailabilityId(
+        if (filters.containsKey("latitude") && filters.containsKey("longitude")
+            && filters.containsKey("professionId") && filters.containsKey("availabilityId"))
+        {
+            return findAllNeabyByProfessionIdAndAvailabilityId(
+                Double.parseDouble(filters.get("latitude")),
+                Double.parseDouble(filters.get("longitude")),
+                // Si no se pasa una distancia, será 1km x default
+                filters.containsKey("distance") ? Double.parseDouble(filters.get("distance")) : 1,
                 Integer.parseInt(filters.get("professionId")),
                 Integer.parseInt(filters.get("availabilityId"))
             );
-        } else if (filters.containsKey("professionId")) {
-            technicalProfessionList = findByProfessionId(Integer.parseInt(filters.get("professionId")));
-        } else if (filters.containsKey("availabilityId")) {
-            return findByAvailabilityId(Integer.parseInt(filters.get("availabilityId")));
-        } else {
-            return findAllActiveTechnicalDtos();
         }
-        return technicalProfessionList
-            .stream()
-            .map(techProf -> new TechnicalDto(techProf.getTechnical()))
-            .toList();
+        if (filters.containsKey("professionId") && filters.containsKey("availabilityId")) {
+            return  technicalProfessionToTechnicalDtos(
+                findByProfessionIdAndAvailabilityId(
+                    Integer.parseInt(filters.get("professionId")),
+                    Integer.parseInt(filters.get("availabilityId"))
+                )
+            );
+        }
+        if (filters.containsKey("professionId")) {
+            return technicalProfessionToTechnicalDtos(
+                findByProfessionId(Integer.parseInt(filters.get("professionId")))
+            );
+        }
+        if (filters.containsKey("availabilityId")) {
+            return findByAvailabilityId(Integer.parseInt(filters.get("availabilityId")));
+        }
+
+        return findAllActiveTechnicalDtos();
     }
 
 
@@ -181,17 +194,38 @@ public class TechnicalImplService implements ITechnicalService {
             .findAllByProfessionIdAndTechnicalUserState(professionId, State.ACTIVE);
     }
 
+    private List<TechnicalDto> findAllNeabyByProfessionIdAndAvailabilityId(
+        double latitude, double longitude, double distance, int professionId, int avalabilityId
+    ) {
+        return technicalListToTechnicalDtoList(
+            technicalRepository.findAllNeabyByProfessionIdAndAvailabilityId(
+                latitude, longitude, distance, professionId, avalabilityId
+            )
+        );
+    }
+
     private List<TechnicalDto> findByAvailabilityId(int availabilityId) {
-        return technicalRepository.findAllByAvailabilityIdAndUserState(availabilityId, State.ACTIVE)
+        return technicalListToTechnicalDtoList(
+            technicalRepository.findAllByAvailabilityIdAndUserState(availabilityId, State.ACTIVE)
+        );
+    }
+
+    private List<TechnicalDto> findAllActiveTechnicalDtos() {
+        return technicalListToTechnicalDtoList(
+            technicalRepository.findAllByUserState(State.ACTIVE)
+        );
+    }
+
+    private List<TechnicalDto> technicalListToTechnicalDtoList(List<Technical> technicals){
+        return technicals
             .stream()
             .map(technical -> new TechnicalDto(technical, findAllProfessionDtoByTechnical(technical)))
             .toList();
     }
 
-    private List<TechnicalDto> findAllActiveTechnicalDtos() {
-        return technicalRepository.findAllByUserState(State.ACTIVE)
-            .stream()
-            .map(technical -> new TechnicalDto(technical, findAllProfessionDtoByTechnical(technical)))
+    private List<TechnicalDto> technicalProfessionToTechnicalDtos(List<TechnicalProfession> technicalProfessionList) {
+        return technicalProfessionList.stream()
+            .map(techProf -> new TechnicalDto(techProf.getTechnical()))
             .toList();
     }
 
