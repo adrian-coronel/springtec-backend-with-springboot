@@ -15,6 +15,8 @@ public interface TechnicalProfessionRepository
         extends JpaRepository<TechnicalProfession, Integer> {
    List<TechnicalProfession> findAllByTechnical(Technical technical);
 
-   List<TechnicalProfession> findAllByProfessionIdAndTechnicalAvailabilityId(Integer profession_id, Integer technical_availability_id);
+   List<TechnicalProfession> findAllByProfessionIdAndTechnicalAvailabilityIdAndTechnicalUserState(Integer profession_id, Integer technical_availability_id, char technical_user_state);
+
+   List<TechnicalProfession> findAllByProfessionIdAndTechnicalUserState(Integer profession_id, char technical_user_state);
 
 }

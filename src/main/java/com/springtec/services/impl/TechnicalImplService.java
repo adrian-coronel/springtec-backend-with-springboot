@@ -12,11 +12,13 @@ import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.ITechnicalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,20 +32,6 @@ public class TechnicalImplService implements ITechnicalService {
     private final ProfessionRepository professionRepository;
     private final ExperienceRepository experienceRepository;
     private final AvailabilityRepository availabilityRepository;
-
-    @Override
-    public List<TechnicalDto> findAll() {
-        // TRAEMOS LOS TECNICOS ACTIVOS
-        List<Technical> technicals = technicalRepository.findAllByUserState(State.ACTIVE);
-        return technicals.stream()
-            .map(technical -> {
-                // Obtenemos las profesiones y enperiencias y las mapeamos en PROFESSION DTO
-                Set<ProfessionDto> professionDtos = technicalProfessionRepository.findAllByTechnical(technical).stream()
-                    .map(this::mapTechnicalProfessionToProfessionDto)
-                    .collect(Collectors.toSet());
-                return new TechnicalDto(technical, professionDtos);
-            }).toList();
-    }
 
     @Override
     public Technical save(Technical technical) {
@@ -124,13 +112,28 @@ public class TechnicalImplService implements ITechnicalService {
     }
 
     @Override
-    public List<TechnicalDto> findByProfessionIdAndAvailabilityId(Integer professionId, Integer availavilityId) {
-       return technicalProfessionRepository
-           .findAllByProfessionIdAndTechnicalAvailabilityId(professionId, availavilityId)
-             .stream()
-             .map(techProf -> new TechnicalDto(techProf.getTechnical()))
-             .toList();
+    public List<TechnicalDto> findByFilters(Map<String, String> filters) {
+
+        List<TechnicalProfession> technicalProfessionList;
+
+        if (filters.containsKey("professionId") && filters.containsKey("availabilityId")) {
+            technicalProfessionList = findByProfessionIdAndAvailabilityId(
+                Integer.parseInt(filters.get("professionId")),
+                Integer.parseInt(filters.get("availabilityId"))
+            );
+        } else if (filters.containsKey("professionId")) {
+            technicalProfessionList = findByProfessionId(Integer.parseInt(filters.get("professionId")));
+        } else if (filters.containsKey("availabilityId")) {
+            return findByAvailabilityId(Integer.parseInt(filters.get("availabilityId")));
+        } else {
+            return findAllActiveTechnicalDtos();
+        }
+        return technicalProfessionList
+            .stream()
+            .map(techProf -> new TechnicalDto(techProf.getTechnical()))
+            .toList();
     }
+
 
 
     @Transactional
@@ -166,4 +169,35 @@ public class TechnicalImplService implements ITechnicalService {
             .build();
     }
 
+    private List<TechnicalProfession> findByProfessionIdAndAvailabilityId(int professionId, int availabilityId) {
+        return technicalProfessionRepository
+            .findAllByProfessionIdAndTechnicalAvailabilityIdAndTechnicalUserState(
+                professionId, availabilityId, State.ACTIVE
+            );
+    }
+
+    private List<TechnicalProfession> findByProfessionId(int professionId) {
+        return technicalProfessionRepository
+            .findAllByProfessionIdAndTechnicalUserState(professionId, State.ACTIVE);
+    }
+
+    private List<TechnicalDto> findByAvailabilityId(int availabilityId) {
+        return technicalRepository.findAllByAvailabilityIdAndUserState(availabilityId, State.ACTIVE)
+            .stream()
+            .map(technical -> new TechnicalDto(technical, findAllProfessionDtoByTechnical(technical)))
+            .toList();
+    }
+
+    private List<TechnicalDto> findAllActiveTechnicalDtos() {
+        return technicalRepository.findAllByUserState(State.ACTIVE)
+            .stream()
+            .map(technical -> new TechnicalDto(technical, findAllProfessionDtoByTechnical(technical)))
+            .toList();
+    }
+
+    private Set<ProfessionDto> findAllProfessionDtoByTechnical(Technical technical) {
+        return technicalProfessionRepository.findAllByTechnical(technical).stream()
+            .map(this::mapTechnicalProfessionToProfessionDto)
+            .collect(Collectors.toSet());
+    }
 }

@@ -2,7 +2,6 @@ package com.springtec.controllers;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.ITypeUserDTO;
-import com.springtec.models.dto.UserDto;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.models.payload.UserRequest;
 import com.springtec.services.IUserService;

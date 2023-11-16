@@ -8,17 +8,18 @@ import com.springtec.models.entity.User;
 import com.springtec.models.payload.TechnicalRequest;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ITechnicalService {
 
-    List<TechnicalDto> findAll();
+
     // Cuando se envia el ID en save() CrudRepository reconoce que
     // se quiere actualizar y lo hace por detrás
     Technical save(Technical technical);
     TechnicalDto update(TechnicalRequest technicalRequest, Integer id) throws ElementNotExistInDBException;
     TechnicalDto findById(Integer id) throws ElementNotExistInDBException;
     TechnicalDto findByUser(User user);
-    List<TechnicalDto> findByProfessionIdAndAvailabilityId(Integer professionId, Integer availavilityId);
+    List<TechnicalDto> findByFilters(Map<String, String> filters);
     TechnicalDto delete(Integer technical) throws ElementNotExistInDBException;
     boolean existsByDni(String dni);
 

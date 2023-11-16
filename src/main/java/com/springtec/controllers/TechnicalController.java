@@ -2,6 +2,7 @@ package com.springtec.controllers;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.TechnicalDto;
+import com.springtec.models.entity.Profession;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.services.ITechnicalService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("api/v1/")
@@ -22,19 +24,11 @@ public class TechnicalController {
 
     private final TechnicalImplService technicalService;
 
-    @GetMapping("technicals/all")
-    public ResponseEntity<?> showAll(){
-        List<TechnicalDto> technicalDtos = technicalService.findAll();
-        if (technicalDtos.isEmpty()) {
-            return new ResponseEntity<>(
-                MessageResponse.builder()
-                    .message("No hay registros.")
-                    .body(null)
-                    .build()
-                , HttpStatus.OK
-            );
-        }
-
+    @GetMapping("technicals")
+    public ResponseEntity<?> showAll(
+        @RequestParam Map<String, String> filters
+        ){
+        List<TechnicalDto> technicalDtos = technicalService.findByFilters(filters);
         return new ResponseEntity<>(
             MessageResponse.builder()
                 .message("")
@@ -44,30 +38,6 @@ public class TechnicalController {
         );
     }
 
-    @GetMapping("technicals/filter")
-    public ResponseEntity<?> showAllProfessionAndAvailability(
-        @RequestParam Integer professionId,
-        @RequestParam Integer availabilityId
-    ){
-        List<TechnicalDto> technicalDtos = technicalService.findByProfessionIdAndAvailabilityId(professionId, availabilityId);
-        if (technicalDtos.isEmpty()) {
-            return new ResponseEntity<>(
-                MessageResponse.builder()
-                    .message("No hay registros.")
-                    .body(null)
-                    .build()
-                , HttpStatus.OK
-            );
-        }
-
-        return new ResponseEntity<>(
-            MessageResponse.builder()
-                .message("")
-                .body(technicalDtos)
-                .build()
-            , HttpStatus.OK
-        );
-    }
 
     @GetMapping("technical/{id}")
     public ResponseEntity<?> show(@PathVariable Integer id) {

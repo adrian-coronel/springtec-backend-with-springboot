@@ -36,15 +36,5 @@ public class ClientDto implements ITypeUserDTO{
       this.dni = client.getDni();
       this.birthDate = client.getBirthDate();
    }
-   /*
-   * return ClientDto.builder()
-                  .dni(client.getDni())
-                  .name(client.getName())
-                  .lastname(client.getLastname())
-                  .motherLastname(client.getMotherLastname())
-                  .birthDate(client.getBirthDate())
-                  .id(client.getId())
-                  .user(clientDto.getUser())
-                  .build();
-                  * */
+
 }

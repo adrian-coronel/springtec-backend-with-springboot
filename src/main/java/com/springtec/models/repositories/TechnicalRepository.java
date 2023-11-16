@@ -1,5 +1,6 @@
 package com.springtec.models.repositories;
 
+import com.springtec.models.entity.Availability;
 import com.springtec.models.entity.Technical;
 import com.springtec.models.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,7 @@ public interface TechnicalRepository extends JpaRepository<Technical, Integer> {
     boolean existsByIdAndUserState(Integer id, char user_state);
     List<Technical> findAllByUserState(char user_state);
     Technical findByIdAndUserState(Integer id, char user_state);
+    List<Technical> findAllByAvailabilityIdAndUserState(Integer availability_id, char user_state);
 
     Technical findByUser(User user);
 
