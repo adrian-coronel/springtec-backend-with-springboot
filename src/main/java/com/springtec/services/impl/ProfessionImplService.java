@@ -1,5 +1,6 @@
 package com.springtec.services.impl;
 
+import com.springtec.models.dto.ProfessionDto;
 import com.springtec.models.entity.Profession;
 import com.springtec.models.repositories.ProfessionRepository;
 import com.springtec.services.IProfessionService;
@@ -16,8 +17,11 @@ public class ProfessionImplService implements IProfessionService {
     private final ProfessionRepository professionRepository;
 
     @Override
-    public List<Profession> findAll() {
-        return professionRepository.findAll();
+    public List<ProfessionDto> findAll() {
+        return professionRepository.findAll()
+            .stream()
+            .map(profession -> new ProfessionDto(profession.getId(), profession.getName()))
+            .toList();
     }
 
     @Override
