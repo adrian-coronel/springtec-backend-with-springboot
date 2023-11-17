@@ -29,7 +29,6 @@ public class ServiceDto {
    private String name;
    private double price;
    private String urlImage;
-   private char state;
 
    public ServiceDto(Services service) {
       this.id = service.getId();
