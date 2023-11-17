@@ -24,6 +24,8 @@ public class TechnicalController {
 
     private final TechnicalImplService technicalService;
 
+    @CrossOrigin(origins = {"http://localhost:5173/"})
+
     @GetMapping("technicals")
     public ResponseEntity<?> showAll(
         @RequestParam Map<String, String> filters
