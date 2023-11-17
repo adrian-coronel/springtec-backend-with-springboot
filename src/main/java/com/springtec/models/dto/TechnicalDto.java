@@ -1,5 +1,6 @@
 package com.springtec.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.springtec.models.entity.Availability;
 import com.springtec.models.entity.Profession;
 import com.springtec.models.entity.Technical;
@@ -27,6 +28,7 @@ public class TechnicalDto implements ITypeUserDTO{
     private String latitude;
     private String longitude;
     private Date birthDate;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private User user;
     private Set<ProfessionDto> professions;
     private Availability availability;
