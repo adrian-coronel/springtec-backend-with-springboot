@@ -25,7 +25,7 @@ public class ServiceDto {
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private Integer categoryServieId;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private CategoryServiceDto categoryServiceDto;
+   private CategoryServiceDTO categoryServiceDto;
    private String name;
    private double price;
    private String urlImage;

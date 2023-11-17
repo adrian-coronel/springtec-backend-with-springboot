@@ -1,9 +1,6 @@
 package com.springtec.config.data;
 
-import com.springtec.models.entity.Availability;
-import com.springtec.models.entity.Experience;
-import com.springtec.models.entity.Profession;
-import com.springtec.models.entity.Role;
+import com.springtec.models.entity.*;
 import com.springtec.models.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +15,7 @@ public class DataInitializer implements CommandLineRunner {
     private final ProfessionRepository professionRepository;
     private final RoleRepository roleRepository;
     private final ExperienceRepository experienceRepository;
-
+    private  final CategoryServiceRepository categoryServiceRepository;
     @Override
     public void run(String... args) throws Exception {
         // Código para cargar datos de prueba
@@ -34,10 +31,14 @@ public class DataInitializer implements CommandLineRunner {
 
         roleRepository.save(new Role("CLIENT"));
         roleRepository.save(new Role("TECHNICAL"));
+        roleRepository.save(new Role("HELPDESK"));
 
         experienceRepository.save(new Experience("Estudiante Universitario"));
         experienceRepository.save(new Experience("No titulado"));
         experienceRepository.save(new Experience("Técnico"));
-        experienceRepository.save(new Experience("Ingeniero"));*/
+        experienceRepository.save(new Experience("Ingeniero"));
+
+        categoryServiceRepository.save(new CategoryService("Limpieza"));*/
+
     }
 }

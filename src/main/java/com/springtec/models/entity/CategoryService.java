@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "category_services")
 public class CategoryService {
+
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +20,9 @@ public class CategoryService {
    private String name;
    @Column(name="state",columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
    private char state;
+
+    public CategoryService(String name){
+        this.name=name;
+    }
 
 }
