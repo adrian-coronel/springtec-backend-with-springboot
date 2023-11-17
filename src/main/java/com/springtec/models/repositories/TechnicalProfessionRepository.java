@@ -19,4 +19,6 @@ public interface TechnicalProfessionRepository
 
    List<TechnicalProfession> findAllByProfessionIdAndTechnicalUserState(Integer profession_id, char technical_user_state);
 
+   TechnicalProfession findByTechnicalIdAndProfessionId(Integer technical_id, Integer profession_id);
+
 }

@@ -1,7 +1,7 @@
 package com.springtec.controllers;
 
 
-import com.springtec.models.dto.CategoryServiceDTO;
+import com.springtec.models.dto.CategoryServiceDto;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.services.ICategoryService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class CategoryServiceController {
     private final ICategoryService categoryService;
     @GetMapping("categorieService")
     public ResponseEntity<?> findAll(){
-        List<CategoryServiceDTO> categorias= categoryService.getAll();
+        List<CategoryServiceDto> categorias= categoryService.getAll();
         if(categorias.isEmpty()) {
             return new ResponseEntity<>(
                     MessageResponse.builder()

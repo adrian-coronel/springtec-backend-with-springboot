@@ -1,10 +1,9 @@
 package com.springtec.services;
 
-import com.springtec.models.dto.CategoryServiceDTO;
-import com.springtec.models.dto.ProfessionDto;
+import com.springtec.models.dto.CategoryServiceDto;
 
 import java.util.List;
 
 public interface ICategoryService {
-    List<CategoryServiceDTO> getAll();
+    List<CategoryServiceDto> getAll();
 }

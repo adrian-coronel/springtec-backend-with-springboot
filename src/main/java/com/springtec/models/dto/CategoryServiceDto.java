@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryServiceDTO {
+public class CategoryServiceDto {
 
     private Integer id;
     private String name;
     private char state;
 
-    public  CategoryServiceDTO(CategoryService categoryService){
+    public CategoryServiceDto(CategoryService categoryService){
         this.id = categoryService.getId();
         this.name = categoryService.getName();
         this.state =categoryService.getState();

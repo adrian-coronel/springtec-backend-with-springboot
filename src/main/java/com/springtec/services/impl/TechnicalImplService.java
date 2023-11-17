@@ -201,6 +201,7 @@ public class TechnicalImplService implements ITechnicalService {
             technicalRepository.findAllNeabyByProfessionIdAndAvailabilityId(
                 latitude, longitude, distance, professionId, avalabilityId
             )
+            , professionId
         );
     }
 
@@ -222,6 +223,22 @@ public class TechnicalImplService implements ITechnicalService {
             .map(technical -> new TechnicalDto(technical, findAllProfessionDtoByTechnical(technical)))
             .toList();
     }
+
+    private List<TechnicalDto> technicalListToTechnicalDtoList(List<Technical> technicals, Integer professionId){
+
+        return technicals
+            .stream()
+            .map(technical -> {
+
+                ProfessionDto professionDto = mapTechnicalProfessionToProfessionDto(
+                    technicalProfessionRepository
+                        .findByTechnicalIdAndProfessionId(technical.getId(), professionId)
+                );
+                return new TechnicalDto(technical, professionDto);
+            })
+            .toList();
+    }
+
 
     private List<TechnicalDto> technicalProfessionToTechnicalDtos(List<TechnicalProfession> technicalProfessionList) {
         return technicalProfessionList.stream()

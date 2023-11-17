@@ -30,6 +30,9 @@ public class TechnicalDto implements ITypeUserDTO{
     private Date birthDate;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private User user;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private ProfessionDto profession;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<ProfessionDto> professions;
     private Availability availability;
 
@@ -56,6 +59,20 @@ public class TechnicalDto implements ITypeUserDTO{
         this.longitude = technical.getLongitude();
         this.user = technical.getUser();
         this.professions = professions;
+        this.availability = technical.getAvailability();
+    }
+
+    public TechnicalDto(Technical technical, ProfessionDto profession) {
+        this.id = technical.getId();
+        this.name = technical.getName();
+        this.lastname = technical.getLastname();
+        this.motherLastname = technical.getMotherLastname();
+        this.dni = technical.getDni();
+        this.birthDate = technical.getBirthDate();
+        this.latitude = technical.getLatitude();
+        this.longitude = technical.getLongitude();
+        this.user = technical.getUser();
+        this.profession = profession;
         this.availability = technical.getAvailability();
     }
 
