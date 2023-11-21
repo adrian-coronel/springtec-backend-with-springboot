@@ -23,9 +23,9 @@ public class ServiceDto {
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private ProfessionDto professionDto;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private Integer categoryServieId;
+   private Integer categoryServiceId;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private CategoryServiceDTO categoryServiceDto;
+   private Integer currencyTypeDto;
    private String name;
    private double price;
    private String urlImage;
@@ -34,7 +34,8 @@ public class ServiceDto {
       this.id = service.getId();
       this.technicalId = service.getTechnical().getId();
       this.professionId = service.getProfession().getId();
-      this.categoryServieId = service.getCategoryService().getId();
+      this.categoryServiceId = service.getCategoryService().getId();
+      this.currencyTypeDto = service.getCurrencyType().getId();
       this.name = service.getName();
       this.price = service.getPrice();
       this.urlImage = service.getUrlImage();

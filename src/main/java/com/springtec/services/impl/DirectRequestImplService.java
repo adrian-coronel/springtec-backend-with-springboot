@@ -77,15 +77,3 @@ public class DirectRequestImplService implements IDirectRequestService {
 
    }
 }
-/*
-* private Integer id;
-   private TechnicalDto technicalDto;
-   private ClientDto clientDto;
-   private ServiceDto serviceDto;
-   private Double latitude;
-   private Double longitude;
-   private String title;
-   private String description;
-   private String urlImage;
-   private char state;
-* */

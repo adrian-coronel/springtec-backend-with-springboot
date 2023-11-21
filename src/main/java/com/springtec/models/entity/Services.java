@@ -26,7 +26,11 @@ public class Services {
     @ManyToOne
     @JoinColumn(name = "category_services_id")
     private CategoryService categoryService;
+    @ManyToOne
+    @JoinColumn(name = "currency_type_id")
+    private CurrencyType currencyType;
     private String name;
+    private String description;
     private double price;
     private String urlImage;
     @Column(name="state",columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
