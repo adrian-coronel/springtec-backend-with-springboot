@@ -1,6 +1,7 @@
 package com.springtec.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.springtec.models.entity.DetailsTechnical;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +28,14 @@ public class DetailsTechnicalDto {
    private ExperienceDto experience;
    private String latitude;
    private String longitude;
+
+   public DetailsTechnicalDto(DetailsTechnical detailsTechnical){
+      this.id = detailsTechnical.getId();
+      this.profession = new ProfessionDto(detailsTechnical.getProfession());
+      this.availability = new AvailabilityDto(detailsTechnical.getAvailability());
+      this.experience = new ExperienceDto(detailsTechnical.getExperience());
+      this.latitude = detailsTechnical.getLatitude();
+      this.longitude = detailsTechnical.getLongitude();
+   }
 
 }

@@ -13,8 +13,7 @@ import java.util.List;
 @Repository
 public interface DetailsTechnicalRepository extends JpaRepository<DetailsTechnical, Integer> {
 
-   //@Procedure(procedureName = "ExistsDetailsTechnical")
-   //String ExistsDetailsTechnical(@Param("p_availability_id") int availabilityId, @Param("p_profession_id") int professionId, @Param("p_experience_id") int experienceId);
+   List<DetailsTechnical> findAllByTechnicalIdAndState(Integer technical_id, char state);
 
    @Query(nativeQuery = true, value = "CALL ExistsDetailsTechnical(:pAvailabilityId, :pProfessionId, :pExperienceId)")
    String existsDetailsTechnical(
