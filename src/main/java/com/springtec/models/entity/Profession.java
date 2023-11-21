@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,15 +23,11 @@ public class Profession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonIgnore
-    @ManyToMany(
-            mappedBy = "professions" // nombre del campo que asigna la relacion
-    )
-    private Set<Technical> technicals;
     private String  name;
 
     @Column(columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
     private char state = '1';
+
 
     public Profession(String name) {
         this.name = name;

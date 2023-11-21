@@ -19,11 +19,6 @@ public class TechnicalRequest {
    private String name;
    private String lastname;
    private String motherLastname;
-   private String dni;
-   private String latitude;
-   private String longitude;
    private Date birthDate;
-   private List<TechnicalProfessionRequest> professions;
-   private Integer availabilityId;
 
 }

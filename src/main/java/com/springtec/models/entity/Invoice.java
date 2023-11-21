@@ -12,8 +12,8 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "free")
-public class Fee {
+@Table(name = "invoice")
+public class Invoice {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)

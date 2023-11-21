@@ -7,13 +7,17 @@ import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
 import com.springtec.models.enums.UserType;
 import com.springtec.models.repositories.AvailabilityRepository;
-import com.springtec.models.repositories.TechnicalProfessionRepository;
+import com.springtec.models.repositories.DetailsTechnicalRepository;
 import com.springtec.models.repositories.UserRepository;
 import com.springtec.services.impl.ProfessionImplService;
 import com.springtec.services.impl.TechnicalImplService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -24,9 +28,7 @@ public class TechnicalIUser implements IUser<Technical> {
    private final UserRepository userRepository;
    private final PasswordEncoder passwordEncoder;
    private final TechnicalImplService technicalService;
-   private final AvailabilityRepository availabilityRepository;
-   private final ProfessionImplService professionService;
-   private final TechnicalProfessionRepository technicalProfessionRepository;
+   private final DetailsTechnicalRepository detailsTechnicalRepository;
 
    @Override
    public UserType getType() {
@@ -52,34 +54,24 @@ public class TechnicalIUser implements IUser<Technical> {
           .lastname(request.getLastname())
           .motherLastname(request.getMotherLastname())
           .dni(request.getDni())
-          .latitude(request.getLatitude())
-          .longitude(request.getLongitude())
           .birthDate(request.getBirthDate())
-          .availability(Availability.builder().id(request.getAvailabilityId()).build())
           .build();
       technicalService.save(technical);
 
-      for (var professionDto : request.getProfessions()) {
-         // SI EL ID DE LA PROFESSION NO SE ENCUETRA EN LA BD
-         if (!professionService.existsById(professionDto.getProfessionId()))
-            throw new ElementNotExistInDBException("La profesion no existe con Id -> "+ professionDto.getProfessionId());
-
-         technicalProfessionRepository.save(
-             TechnicalProfession.builder()
-                 .technical(technical)
-                 .profession(
-                     Profession.builder()
-                         .id(professionDto.getProfessionId())
-                         .build()
-                 )
-                 .experience(
-                     Experience.builder()
-                         .id(professionDto.getExperienceId())
-                         .build()
-                 )
-                 .build()
+      // GUARDAMOS TOD0S LOS DETALLES DE UN TECNICO
+      request.getDetails().forEach( detail -> {
+         detailsTechnicalRepository.save(
+             new DetailsTechnical(
+                 technical,
+                 Availability.builder().id(detail.getAvailabilityId()).build(),
+                 Profession.builder().id(detail.getAvailabilityId()).build(),
+                 Experience.builder().id(detail.getExperienceId()).build(),
+                 detail.getLatitude(),
+                 detail.getLongitude(),
+                 State.ACTIVE
+             )
          );
-      }
+      });
 
       return userSaved;
    }
@@ -92,10 +84,28 @@ public class TechnicalIUser implements IUser<Technical> {
       if(technicalService.existsByDni(request.getDni()))
          throw new DuplicateEmailException("El dni ingresado ya existe");
 
-      // BUSCA EL ELEMENTO Y SI NO EXISTE ARROJA NUESTRA EXCEPTION PERSONALIZADA
-      if (!availabilityRepository.existsById(request.getAvailabilityId()))
-         throw new ElementNotExistInDBException("El elemento avaiability con id="+request.getAvailabilityId()+" no existe");
+      //VERIFICAMOS SI LOS DETALLES(llaves foraneas) EXISTEN
+      List<String> errorsMessageList = new ArrayList<>();
 
+      request.getDetails().forEach(detail -> {
+         if (detail.getLatitude() == null)
+            throw new IllegalArgumentException("La latitud no puede ser nula");
+         if (detail.getLongitude() == null)
+            throw new IllegalArgumentException("La longitud no puede ser nula");
+
+         String messageErrors = detailsTechnicalRepository.existsDetailsTechnical(
+             detail.getAvailabilityId(), detail.getProfessionId(), detail.getExperienceId()
+         );
+
+         if (!messageErrors.isEmpty()){ // Si hay mensajes de error
+            // Divide los mensajes en un array
+            String[] messageArray = messageErrors.split("; ");
+            errorsMessageList.addAll(List.of(messageArray));
+         }
+      });
+      // Si hay mensajes de error
+      if (!errorsMessageList.isEmpty())
+         throw new ElementNotExistInDBException(errorsMessageList.toString());
    }
 
 }

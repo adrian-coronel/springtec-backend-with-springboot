@@ -1,10 +1,7 @@
 package com.springtec.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.springtec.models.entity.Availability;
-import com.springtec.models.entity.Profession;
-import com.springtec.models.entity.Technical;
-import com.springtec.models.entity.User;
+import com.springtec.models.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,13 +22,12 @@ public class TechnicalDto implements ITypeUserDTO{
     private String lastname;
     private String motherLastname;
     private String dni;
-    private String latitude;
-    private String longitude;
+
     private Date birthDate;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private User user;
-    private Set<ProfessionDto> professions;
-    private Availability availability;
+    private UserDto user;
+    //todo ENVIAR ESTRUCTURA DE DATAILS TECHNICAL
+    private List<DetailsTechnicalDto> details;
 
     public TechnicalDto(Technical technical) {
         this.id = technical.getId();
@@ -40,24 +36,28 @@ public class TechnicalDto implements ITypeUserDTO{
         this.motherLastname = technical.getMotherLastname();
         this.dni = technical.getDni();
         this.birthDate = technical.getBirthDate();
-        this.latitude = technical.getLatitude();
-        this.longitude = technical.getLongitude();
-        this.user = technical.getUser();
+        this.user = new UserDto( technical.getUser() );
+        this.details = technical.getDetailsTechnicals()
+            .stream()
+            .map(detailsTechnical -> DetailsTechnicalDto
+                   .builder()
+                   .id( detailsTechnical.getId() )
+                   .profession(
+                       new ProfessionDto( detailsTechnical.getProfession() )
+                   )
+                   .availability(
+                       new AvailabilityDto( detailsTechnical.getAvailability() )
+                   )
+                   .experience(
+                       new ExperienceDto( detailsTechnical.getExperience() )
+                   )
+                   .longitude( detailsTechnical.getLongitude() )
+                   .latitude( detailsTechnical.getLatitude() )
+                   .build())
+            .toList();
     }
 
-    public TechnicalDto(Technical technical, Set<ProfessionDto> professions) {
-        this.id = technical.getId();
-        this.name = technical.getName();
-        this.lastname = technical.getLastname();
-        this.motherLastname = technical.getMotherLastname();
-        this.dni = technical.getDni();
-        this.birthDate = technical.getBirthDate();
-        this.latitude = technical.getLatitude();
-        this.longitude = technical.getLongitude();
-        this.user = technical.getUser();
-        this.professions = professions;
-        this.availability = technical.getAvailability();
-    }
+
 
 
 }

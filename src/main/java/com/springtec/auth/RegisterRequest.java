@@ -1,7 +1,6 @@
 package com.springtec.auth;
 
-import com.springtec.models.dto.TechnicalProfessionDto;
-import com.springtec.models.entity.*;
+import com.springtec.models.dto.DetailsTechnicalDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +34,5 @@ public class RegisterRequest {
 
 
     // Exclusive Technical
-    private List<TechnicalProfessionDto> professions;
-    private Integer availabilityId;
-
+    List<DetailsTechnicalDto> details;
 }
