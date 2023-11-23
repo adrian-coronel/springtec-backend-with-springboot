@@ -28,6 +28,8 @@ public class Technical {
     private String dni;
     @Column(name = "birth_date")
     private Date birthDate;
+    @Column(name="working_status",columnDefinition = "CHAR(1) NOT NULL DEFAULT '0'")
+    private char workingStatus = '0';
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)

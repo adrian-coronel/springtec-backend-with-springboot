@@ -26,7 +26,6 @@ public class TechnicalDto implements ITypeUserDTO{
     private Date birthDate;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserDto user;
-    //todo ENVIAR ESTRUCTURA DE DATAILS TECHNICAL
     private List<DetailsTechnicalDto> details;
 
     public TechnicalDto(Technical technical) {

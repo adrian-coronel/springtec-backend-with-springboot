@@ -85,7 +85,7 @@ public class TechnicalController {
                 MessageResponse.builder()
                     .message(e.getMessage())
                     .build()
-                , HttpStatus.OK
+                , HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
     }

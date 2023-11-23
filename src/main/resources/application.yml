@@ -11,5 +11,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          batch_size: 20
+        order_updates: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect

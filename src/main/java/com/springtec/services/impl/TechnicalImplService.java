@@ -65,17 +65,28 @@ public class TechnicalImplService implements ITechnicalService {
     public List<TechnicalDto> findByFilters(Map<String, String> filters) {
 
         if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
-            && filters.containsKey("professionId") && filters.containsKey("excludeAvailabilityId"))
+            && filters.containsKey("professionId") && filters.containsKey("availabilityId"))
         {
-            List<Technical> technicals = technicalRepository.findAllNeabyByProfessionIdAndAvailabilityId(
-                Double.parseDouble(filters.get("latitude")),
-                Double.parseDouble(filters.get("longitude")),
-                Double.parseDouble(filters.get("distance")),
-                Integer.parseInt(filters.get("professionId")),
-                Integer.parseInt(filters.get("excludeAvailabilityId"))
-            );
             return technicalListToTechnicalDtoList(
-              technicals
+                technicalRepository.findAllNeabyByProfessionIdAndAvailabilityId(
+                    Double.parseDouble(filters.get("latitude")),
+                    Double.parseDouble(filters.get("longitude")),
+                    Double.parseDouble(filters.get("distance")),
+                    Integer.parseInt(filters.get("professionId")),
+                    Integer.parseInt(filters.get("availabilityId"))
+                )
+            );
+        }
+        if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
+            && filters.containsKey("professionId"))
+        {
+            return technicalListToTechnicalDtoList(
+                technicalRepository.findAllNeabyByProfessionAndAllAvailability(
+                    Double.parseDouble(filters.get("latitude")),
+                    Double.parseDouble(filters.get("longitude")),
+                    Double.parseDouble(filters.get("distance")),
+                    Integer.parseInt(filters.get("professionId"))
+                )
             );
         }
         if (filters.containsKey("professionId") && filters.containsKey("excludeAvailabilityId")) {

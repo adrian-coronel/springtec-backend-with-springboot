@@ -12,7 +12,6 @@ import java.util.Map;
 
 public interface ITechnicalService {
 
-
     // Cuando se envia el ID en save() CrudRepository reconoce que
     // se quiere actualizar y lo hace por detrás
     Technical save(Technical technical);
@@ -22,5 +21,6 @@ public interface ITechnicalService {
     List<TechnicalDto> findByFilters(Map<String, String> filters);
     TechnicalDto delete(Integer technical) throws ElementNotExistInDBException;
     boolean existsByDni(String dni);
+    //todo CREAR METODO PARA ACTUALIZAR EL ESTADO DE TRABAJO
 
 }

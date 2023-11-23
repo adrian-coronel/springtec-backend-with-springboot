@@ -2,6 +2,7 @@ package com.springtec.models.repositories;
 
 import com.springtec.models.entity.DetailsTechnical;
 import com.springtec.models.entity.Technical;
+import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -15,6 +16,9 @@ public interface DetailsTechnicalRepository extends JpaRepository<DetailsTechnic
 
    List<DetailsTechnical> findAllByTechnicalIdAndState(Integer technical_id, char state);
 
+   DetailsTechnical findByIdAndTechnicalId(Integer id, Integer technical_id);
+   boolean existsById(@NonNull Integer id);
+
    @Query(nativeQuery = true, value = "CALL ExistsDetailsTechnical(:pAvailabilityId, :pProfessionId, :pExperienceId)")
    String existsDetailsTechnical(
        @Param("pAvailabilityId") int availabilityId,
@@ -23,4 +27,5 @@ public interface DetailsTechnicalRepository extends JpaRepository<DetailsTechnic
 
    @Procedure(procedureName = "UpdateDetailsTechnicalState")
    void updateDetailsTechnicalState(char new_state, Integer technical_id);
+
 }

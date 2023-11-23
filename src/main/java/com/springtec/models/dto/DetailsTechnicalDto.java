@@ -26,8 +26,8 @@ public class DetailsTechnicalDto {
    private Integer experienceId;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private ExperienceDto experience;
-   private String latitude;
-   private String longitude;
+   private Double latitude;
+   private Double longitude;
 
    public DetailsTechnicalDto(DetailsTechnical detailsTechnical){
       this.id = detailsTechnical.getId();

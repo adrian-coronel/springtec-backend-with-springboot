@@ -7,10 +7,7 @@ import com.springtec.services.IDetailsTechnicalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,10 +18,10 @@ public class DetailsTechnicalController {
 
    private final IDetailsTechnicalService detailsTechnicalService;
 
-   @GetMapping("technical-details/{id}")
-   public ResponseEntity<?> showAll(@PathVariable Integer id){
+   @GetMapping("technical/{technicalId}/details")
+   public ResponseEntity<?> showAll(@PathVariable Integer technicalId){
       try {
-         List<DetailsTechnicalDto> detailsTechnicalDtos = detailsTechnicalService.findAll(id);
+         List<DetailsTechnicalDto> detailsTechnicalDtos = detailsTechnicalService.findAll(technicalId);
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .message("")
@@ -44,5 +41,50 @@ public class DetailsTechnicalController {
       }
    }
 
+
+   @PutMapping("technical/{technicalId}/details/{id}")
+   public ResponseEntity<?> update(
+       @PathVariable Integer technicalId,
+       @PathVariable Integer id,
+       @RequestBody DetailsTechnicalDto request){
+      try {
+         DetailsTechnicalDto detailsTechnicalDto = detailsTechnicalService.update(technicalId, id, request);
+         return new ResponseEntity<>(
+              MessageResponse.builder()
+                  .body(detailsTechnicalDto)
+                  .build()
+             , HttpStatus.OK
+         );
+      } catch (ElementNotExistInDBException e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.INTERNAL_SERVER_ERROR
+         );
+      }
+   }
+
+   @PutMapping("technical/{technicalId}/details")
+   public ResponseEntity<?> update(
+       @PathVariable Integer technicalId,
+       @RequestBody List<DetailsTechnicalDto> request){
+      try {
+         List<DetailsTechnicalDto> detailsTechnicalDtoList = detailsTechnicalService.updateAll(technicalId, request);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .body(detailsTechnicalDtoList)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (ElementNotExistInDBException e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.INTERNAL_SERVER_ERROR
+         );
+      }
+   }
 
 }

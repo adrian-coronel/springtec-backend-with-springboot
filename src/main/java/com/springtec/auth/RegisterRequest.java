@@ -28,8 +28,8 @@ public class RegisterRequest {
     private String lastname;
     private String motherLastname;
     private String dni;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
     private Date birthDate;
 
 

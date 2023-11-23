@@ -24,7 +24,12 @@ public interface TechnicalRepository extends JpaRepository<Technical, Integer> {
 
     @Procedure(procedureName = "findNearbyTechnicals")
     List<Technical> findAllNeabyByProfessionIdAndAvailabilityId(
-        double input_latitude,double input_longitude,double max_distance,int profession_id,int exclude_availability_id
+        double input_latitude,double input_longitude,double max_distance,int profession_id,int availability_id
+    );
+
+    @Procedure(procedureName = "findNearbyTechnicalsAllAvailability")
+    List<Technical> findAllNeabyByProfessionAndAllAvailability(
+        double input_latitude,double input_longitude,double max_distance,int profession_id
     );
 
     @Query("SELECT t FROM Technical t " +

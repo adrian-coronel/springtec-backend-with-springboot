@@ -29,12 +29,12 @@ public class DetailsTechnical {
    @ManyToOne
    @JoinColumn(name = "experience_id", nullable = false)
    private Experience experience;
-   private String latitude;
-   private String longitude;
+   private Double latitude;
+   private Double longitude;
    @Column(name="state",columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
    private char state;
 
-   public DetailsTechnical(Technical technical, Availability availability, Profession profession, Experience experience, String latitude, String longitude, char state) {
+   public DetailsTechnical(Technical technical, Availability availability, Profession profession, Experience experience, Double latitude, Double longitude, char state) {
       this.technical = technical;
       this.availability = availability;
       this.profession = profession;
