@@ -23,9 +23,13 @@ public class DirectRequest {
    @ManyToOne
    @JoinColumn(name = "client_id")
    private Client client;
+
+
    @ManyToOne
-   @JoinColumn(name = "service_id")
-   private Services service;
+   @JoinColumn(name = "service_type_availability_id", nullable = false)
+   private ServiceTypeAvailability serviceTypeAvailability;
+
+
    private Double latitude;
    private Double longitude;
    private String title;
