@@ -1,7 +1,6 @@
 package com.springtec.models.dto;
 
-import com.springtec.models.entity.DirectRequest;
-import com.springtec.models.entity.ImgFirebase;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,12 +17,12 @@ public class DirectRequestDto {
    private Integer id;
    private TechnicalDto technicalDto;
    private ClientDto clientDto;
-   private ServiceDto serviceDto;
+   //todo TYPE_SERVICE_AVAILABILITY
    private Double latitude;
    private Double longitude;
    private String title;
    private String description;
-   private List<ImgFirebase> imageUrls;
+   //todo LISTA DE IMG UPLOADS
    private char state;
 
 

@@ -2,23 +2,23 @@ package com.springtec.models.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@Table(name = "profession_local")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
+@Table(name = "profession_local")
 public class ProfessionLocal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer id;
+    private Integer id;
 
-    @Column(name = "profession_availability_id")
+    @OneToOne
+    @ToString.Exclude
+    @JoinColumn(name = "profession_availability_id", nullable = false)
     private ProfessionAvailability professionAvailability;
 
     @Column(name = "lat")

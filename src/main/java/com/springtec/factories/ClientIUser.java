@@ -1,7 +1,7 @@
 package com.springtec.factories;
 
 import com.springtec.auth.RegisterRequest;
-import com.springtec.exceptions.DuplicateEmailException;
+import com.springtec.exceptions.DuplicateElementException;
 import com.springtec.models.entity.Client;
 import com.springtec.models.entity.Role;
 import com.springtec.models.entity.User;
@@ -58,10 +58,10 @@ public class ClientIUser implements IUser<Client> {
    private void filterException(RegisterRequest request) throws Exception{
       // en caso se ingrese un email existente, ARROJAMOS nuestro exception personalizado
       if (userRepository.existsByEmail(request.getEmail()))
-         throw new DuplicateEmailException("El email ingresado ya existe");
+         throw new DuplicateElementException("El email ingresado ya existe");
 
       if (clientRepository.existsByDni(request.getDni()))
-         throw new DuplicateEmailException("El dni ingresado ya existe");
+         throw new DuplicateElementException("El dni ingresado ya existe");
    }
 
 

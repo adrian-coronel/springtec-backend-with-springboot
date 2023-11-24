@@ -28,7 +28,6 @@ public class Profession {
     @Column(columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
     private char state = '1';
 
-
     public Profession(String name) {
         this.name = name;
     }

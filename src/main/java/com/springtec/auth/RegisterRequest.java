@@ -1,6 +1,6 @@
 package com.springtec.auth;
 
-import com.springtec.models.dto.DetailsTechnicalDto;
+import com.springtec.models.dto.ProfessionAvailabilityDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,11 +28,11 @@ public class RegisterRequest {
     private String lastname;
     private String motherLastname;
     private String dni;
-    private double latitude;
-    private double longitude;
     private Date birthDate;
 
 
     // Exclusive Technical
-    List<DetailsTechnicalDto> details;
+    private double latitude;
+    private double longitude;
+
 }

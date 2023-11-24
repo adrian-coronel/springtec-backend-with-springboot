@@ -1,6 +1,5 @@
 package com.springtec.services.impl;
 
-import com.springtec.models.dto.CategoryServiceDTO;
 import com.springtec.models.dto.CategoryServiceDto;
 import com.springtec.models.repositories.CategoryServiceRepository;
 import com.springtec.services.ICategoryService;

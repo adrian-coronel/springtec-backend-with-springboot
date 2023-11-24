@@ -28,6 +28,10 @@ public class Technical {
     private String dni;
     @Column(name = "birth_date")
     private Date birthDate;
+    @Column(name = "lat")
+    private Double latitude;
+    @Column(name = "lng")
+    private Double longitude;
     @Column(name="working_status",columnDefinition = "CHAR(1) NOT NULL DEFAULT '0'")
     private char workingStatus = '0';
 
@@ -40,6 +44,7 @@ public class Technical {
      * la Entidad DetailsTechnical tendrá también una relación hacia esta entidad
      * */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "technical")
-    private List<DetailsTechnical> detailsTechnicals;
+    private List<ProfessionAvailability> professionsAvailability;
+
 
 }

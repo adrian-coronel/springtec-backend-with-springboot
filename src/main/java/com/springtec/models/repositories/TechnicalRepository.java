@@ -22,32 +22,4 @@ public interface TechnicalRepository extends JpaRepository<Technical, Integer> {
     Technical findByUser(User user);
 
 
-    @Procedure(procedureName = "findNearbyTechnicals")
-    List<Technical> findAllNeabyByProfessionIdAndAvailabilityId(
-        double input_latitude,double input_longitude,double max_distance,int profession_id,int availability_id
-    );
-
-    @Procedure(procedureName = "findNearbyTechnicalsAllAvailability")
-    List<Technical> findAllNeabyByProfessionAndAllAvailability(
-        double input_latitude,double input_longitude,double max_distance,int profession_id
-    );
-
-    @Query("SELECT t FROM Technical t " +
-        "INNER JOIN DetailsTechnical dt ON t = dt.technical " +
-        "WHERE dt.profession.id = :professionId " +
-        "AND dt.availability.id != :excludeAvailabilityId")
-    List<Technical> findByProfessionAndExcludeAvailability(
-        @Param("professionId") int professionId,
-        @Param("excludeAvailabilityId") int excludeAvailabilityId
-    );
-
-    @Query("SELECT t FROM Technical t "+
-        "INNER JOIN DetailsTechnical dt ON t = dt.technical "+
-        "WHERE dt.profession.id = :professionId")
-    List<Technical> findAllByDetailsTechnicalsProfessionId(@Param("professionId") int professionId);
-
-    @Query("SELECT t FROM Technical t "+
-        "INNER JOIN DetailsTechnical dt ON t = dt.technical "+
-        "WHERE dt.availability.id != :excludeAvailabilityId")
-    List<Technical> findAllByDetailsTechnicalsExcludeAvailabilityId(@Param("excludeAvailabilityId") int excludeAvailabilityId);
 }

@@ -24,7 +24,6 @@ public class DirectRequestImplService implements IDirectRequestService {
    private final TechnicalRepository technicalRepository;
    private final ClientRepository clientRepository;
    private final ServiceRepository serviceRepository;
-   private final ImgFirebaseRepository imgFirebaseRepository;
 
    @Override
    public DirectRequestDto save(DirectRequestRequest directRequest) throws ElementNotExistInDBException {
@@ -46,7 +45,7 @@ public class DirectRequestImplService implements IDirectRequestService {
           DirectRequest.builder()
           .technical(technical)
           .client(client)
-          .service(service)
+              //todo GUARDAR EL TYPE_ SERVICIO DISPONIBLE
           .latitude(directRequest.getLatitude())
           .longitude(directRequest.getLongitude())
           .title(directRequest.getTitle())
@@ -54,25 +53,19 @@ public class DirectRequestImplService implements IDirectRequestService {
           .state(State.ACTIVE)
           .build()
       );
-      List<ImgFirebase> imgFirebaseList = new ArrayList<>();
-      directRequest.getImageUrls().forEach(url -> {
-         imgFirebaseList.add(imgFirebaseRepository.save(new ImgFirebase(directRequestSaved.getId(), url)));
-      });
+      //todo GUARDAR TODAS LAS IMAGENES UPLOADS
 
       directRequestSaved.getTechnical().setUser(null);
       return DirectRequestDto.builder()
           .id(directRequestSaved.getId())
           .technicalDto(new TechnicalDto(directRequestSaved.getTechnical()))
           .clientDto(new ClientDto(directRequestSaved.getClient()))
-          .serviceDto( directRequest.getServiceId() != null ?
-              new ServiceDto(directRequestSaved.getService())
-              : null
-          )
+           //TODO REETORNAR EL TYPO DE SERVICIO DISPONIBLE
           .latitude(directRequestSaved.getLatitude())
           .longitude(directRequestSaved.getLongitude())
           .title(directRequestSaved.getTitle())
           .description(directRequestSaved.getDescription())
-          .imageUrls(imgFirebaseList)
+          //todo ENVIAR LAS IMAGENES UPLOADS
           .build();
 
    }

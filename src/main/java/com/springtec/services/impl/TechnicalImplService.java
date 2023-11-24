@@ -21,8 +21,47 @@ public class TechnicalImplService implements ITechnicalService {
 
     private final TechnicalRepository technicalRepository;
     private final UserRepository userRepository;
-    private final DetailsTechnicalRepository detailsTechnicalRepository;
 
+    @Override
+    public TechnicalDto findById(Integer id) throws ElementNotExistInDBException {
+        if (!technicalRepository.existsByIdAndUserState(id, State.ACTIVE))
+            throw new ElementNotExistInDBException("Tenico no encontrado o se encuentra inactivo");
+        Technical technical = technicalRepository.findByIdAndUserState(id, State.ACTIVE);
+        return new TechnicalDto(technical);
+    }
+
+    @Override
+    public TechnicalDto findByUser(User user) {
+        Technical technical = technicalRepository.findByUser(user);
+        return new TechnicalDto(technical);
+    }
+
+    @Transactional
+    @Override
+    public List<TechnicalDto> findByFilters(Map<String, String> filters) {
+
+        if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
+            && filters.containsKey("professionId") && filters.containsKey("availabilityId"))
+        {
+            return null;
+        }
+        if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
+            && filters.containsKey("professionId"))
+        {
+            return null;
+        }
+        if (filters.containsKey("professionId") && filters.containsKey("excludeAvailabilityId")) {
+            return null;
+        }
+        if (filters.containsKey("professionId")) {
+            return null;
+        }
+        if (filters.containsKey("excludeAvailabilityId")) {
+            return null;
+        }
+
+        return findAllActiveTechnicalDtos();
+    }
 
     @Override
     public Technical save(Technical technical) {
@@ -46,77 +85,6 @@ public class TechnicalImplService implements ITechnicalService {
         return new TechnicalDto(technicalUpdate);
     }
 
-    @Override
-    public TechnicalDto findById(Integer id) throws ElementNotExistInDBException {
-        if (!technicalRepository.existsByIdAndUserState(id, State.ACTIVE))
-            throw new ElementNotExistInDBException("Tenico no encontrado o se encuentra inactivo");
-        Technical technical = technicalRepository.findByIdAndUserState(id, State.ACTIVE);
-        return new TechnicalDto(technical);
-    }
-
-    @Override
-    public TechnicalDto findByUser(User user) {
-        Technical technical = technicalRepository.findByUser(user);
-        return new TechnicalDto(technical);
-    }
-
-    @Transactional
-    @Override
-    public List<TechnicalDto> findByFilters(Map<String, String> filters) {
-
-        if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
-            && filters.containsKey("professionId") && filters.containsKey("availabilityId"))
-        {
-            return technicalListToTechnicalDtoList(
-                technicalRepository.findAllNeabyByProfessionIdAndAvailabilityId(
-                    Double.parseDouble(filters.get("latitude")),
-                    Double.parseDouble(filters.get("longitude")),
-                    Double.parseDouble(filters.get("distance")),
-                    Integer.parseInt(filters.get("professionId")),
-                    Integer.parseInt(filters.get("availabilityId"))
-                )
-            );
-        }
-        if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
-            && filters.containsKey("professionId"))
-        {
-            return technicalListToTechnicalDtoList(
-                technicalRepository.findAllNeabyByProfessionAndAllAvailability(
-                    Double.parseDouble(filters.get("latitude")),
-                    Double.parseDouble(filters.get("longitude")),
-                    Double.parseDouble(filters.get("distance")),
-                    Integer.parseInt(filters.get("professionId"))
-                )
-            );
-        }
-        if (filters.containsKey("professionId") && filters.containsKey("excludeAvailabilityId")) {
-            return technicalListToTechnicalDtoList(
-                technicalRepository.findByProfessionAndExcludeAvailability(
-                    Integer.parseInt(filters.get("professionId")),
-                    Integer.parseInt(filters.get("excludeAvailabilityId"))
-                )
-            );
-        }
-        if (filters.containsKey("professionId")) {
-            return technicalListToTechnicalDtoList(
-                technicalRepository.findAllByDetailsTechnicalsProfessionId(
-                    Integer.parseInt(filters.get("professionId"))
-                )
-            );
-        }
-        if (filters.containsKey("excludeAvailabilityId")) {
-            return technicalListToTechnicalDtoList(
-                technicalRepository.findAllByDetailsTechnicalsExcludeAvailabilityId(
-                    Integer.parseInt(filters.get("excludeAvailabilityId"))
-                )
-            );
-        }
-
-        return findAllActiveTechnicalDtos();
-    }
-
-
-
     @Transactional
     @Override
     public TechnicalDto delete(Integer id) throws ElementNotExistInDBException {
@@ -127,7 +95,7 @@ public class TechnicalImplService implements ITechnicalService {
         // CAMBIAMOS EL ESTADO DEL USUARIO
         userRepository.updateStateById(State.INACTIVE, technical.getUser().getId());
         // INABILITAMOS TODOS LOS DETALLES DEL TECHNICAL
-        detailsTechnicalRepository.updateDetailsTechnicalState(State.INACTIVE, technical.getId());
+        //todo DESHABILITAR LAS PROFESIONES DISPNIBLES
 
         return new TechnicalDto(technical);
     }
