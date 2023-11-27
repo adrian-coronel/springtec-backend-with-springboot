@@ -7,11 +7,12 @@ import com.springtec.models.payload.MessageResponse;
 import com.springtec.services.IDirectRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,11 +21,12 @@ public class DirectRequestController {
 
    private final IDirectRequestService directRequestService;
 
-   @PostMapping("directrequest")
+   @PostMapping(value = "directrequest",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    public ResponseEntity<?> save(
-       @RequestBody DirectRequestRequest directRequestRequest
-   ){
+       @ModelAttribute DirectRequestRequest directRequestRequest
+   ) {
       try {
+         System.out.println(directRequestRequest);
          DirectRequestDto directRequestDto = directRequestService.save(directRequestRequest);
          return new ResponseEntity<>(
              MessageResponse.builder()
@@ -42,5 +44,6 @@ public class DirectRequestController {
          );
       }
    }
+
 
 }

@@ -18,15 +18,15 @@ public class DirectRequest {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
    @ManyToOne
-   @JoinColumn(name = "technical_id")
-   private Technical technical;
+   @JoinColumn(name = "profession_availability_id")
+   private ProfessionAvailability professionAvailability;
    @ManyToOne
    @JoinColumn(name = "client_id")
    private Client client;
 
 
    @ManyToOne
-   @JoinColumn(name = "service_type_availability_id", nullable = false)
+   @JoinColumn(name = "service_type_availability_id", nullable = true)
    private ServiceTypeAvailability serviceTypeAvailability;
 
 

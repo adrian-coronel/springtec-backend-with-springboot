@@ -1,10 +1,7 @@
 package com.springtec.models.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
@@ -19,6 +16,7 @@ public class ImageUpload {
     private Long id;
 
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "direct_request_id", nullable = false)
     private DirectRequest directRequest;
 

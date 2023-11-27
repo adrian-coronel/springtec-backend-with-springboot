@@ -20,5 +20,9 @@ public class TechnicalRequest {
    private String lastname;
    private String motherLastname;
    private Date birthDate;
+   private Double latitude;
+   private Double longitude;
+   private String workingStatus;
+
 
 }

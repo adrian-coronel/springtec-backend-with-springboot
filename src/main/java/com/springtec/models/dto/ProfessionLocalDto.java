@@ -20,6 +20,8 @@ public class ProfessionLocalDto {
    private Integer professionAvailabilityId;
    private double longitude;
    private double latitude;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private char state;
 
    public ProfessionLocalDto(ProfessionLocal professionLocal){
       this.id = professionLocal.getId();

@@ -90,6 +90,56 @@ public class TechnicalController {
         }
     }
 
+
+    @PutMapping("technical/{id}/update-workingstatus")
+    public ResponseEntity<?> updateWorkingStatus(
+        @PathVariable Integer id,
+        @RequestBody TechnicalRequest technicalRequest
+        ){
+        try {
+            boolean isStatusWorkingActive = technicalService.updateWorkingStatus(id, technicalRequest.getWorkingStatus().charAt(0));
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message("Actualizado correctamente")
+                    .body(isStatusWorkingActive)
+                    .build()
+                , HttpStatus.OK
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message(e.getMessage())
+                    .build()
+                , HttpStatus.NOT_FOUND
+            );
+        }
+    }
+
+
+    @PutMapping("technical/{id}/update-location")
+    public ResponseEntity<?> updateLocation(
+        @PathVariable Integer id,
+        @RequestBody TechnicalRequest technicalRequest
+    ){
+        try {
+            technicalService.updateLocation(technicalRequest, id);
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message("Actualizado correctamente")
+                    .build()
+                , HttpStatus.OK
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                MessageResponse.builder()
+                    .message(e.getMessage())
+                    .build()
+                , HttpStatus.NOT_FOUND
+            );
+        }
+    }
+
+
     @DeleteMapping("technical/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id){
         try {

@@ -15,6 +15,8 @@ public interface ProfessionAvailabilityRepository extends JpaRepository<Professi
 
    Set<ProfessionAvailability> findAllByTechnicalId(Integer technical_id);
 
+   ProfessionAvailability findByTechnicalIdAndAvailabilityIdAndProfessionId(Integer technical_id, Integer availability_id, Integer profession_id);
+
    Optional<ProfessionAvailability> findById(Integer id);
 
    boolean existsByTechnicalIdAndAvailabilityIdAndProfessionIdAndExperienceId(

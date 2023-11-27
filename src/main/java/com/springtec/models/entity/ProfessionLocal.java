@@ -27,4 +27,7 @@ public class ProfessionLocal {
     @Column(name = "lng")
     private Double longitude;
 
+    @Column(name="state",columnDefinition = "CHAR(1) DEFAULT '1' NOT NULL")
+    private char state;
+
 }

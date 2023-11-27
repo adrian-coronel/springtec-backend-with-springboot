@@ -59,6 +59,22 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
    }
 
    @Override
+   public ProfessionAvailabilityDto findByTechnicalIdAndAvailabilityIdAndProfessionId(Integer technicalId, Integer availabilityId, Integer professionId) {
+      ProfessionAvailability professionAvailability = professionAvailabilityRepository
+          .findByTechnicalIdAndAvailabilityIdAndProfessionId(technicalId, availabilityId, professionId);
+
+      // Si la professionAvailability es TALLER busca en professionLocal
+      if (professionAvailability.getAvailability().getId() == AvailabilityType.EN_TALLER_ID){
+         ProfessionLocal professionLocal = professionLocalRepository.findByProfessionAvailabilityId(professionAvailability.getId());
+         return new ProfessionAvailabilityDto(
+             professionAvailability, professionLocal.getLatitude(), professionLocal.getLongitude()
+         );
+      }
+      return new ProfessionAvailabilityDto(professionAvailability);
+   }
+
+
+   @Override
    public ProfessionAvailabilityDto save(Integer technicalId, ProfessionAvailabilityDto professionAvailabilityDto) throws Exception {
       // CONDICIONES PARA MANEJAR ERRORES
       boolean availabilityIsLocal = Objects.equals(professionAvailabilityDto.getAvailabilityId(), AvailabilityType.EN_TALLER_ID);
@@ -94,6 +110,7 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
                 .professionAvailability(professionAvailabilitySaved)
                 .latitude(professionAvailabilityDto.getLatitude())
                 .longitude(professionAvailabilityDto.getLongitude())
+                .state(State.ACTIVE)
                 .build()
          );
       }
@@ -134,6 +151,7 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
                     .professionAvailability(professionAvailabilityFind)
                     .latitude(professionAvailabilityDto.getLatitude())
                     .longitude(professionAvailabilityDto.getLongitude())
+                    .state(State.INACTIVE)
                     .build()
             );
          } else {
@@ -196,7 +214,6 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
          throw new InvalidArgumentException("La disponiblidad ingresada no require de longitude y latitude");
       }
    }
-
 
 
    private boolean existsAlReadyProfessionAvailability(Integer technicalId, ProfessionAvailabilityDto professionAvailabilityDto){

@@ -22,4 +22,41 @@ public interface TechnicalRepository extends JpaRepository<Technical, Integer> {
     Technical findByUser(User user);
 
 
+    @Query(nativeQuery = true, value = "CALL UpdateTechnicalLocation(:pTechnicalId, :pLatitude, :pLongitude, :pWorkingStatus);")
+    String updateTechnicalLocation(
+        @Param("pTechnicalId") int technicalId,
+        @Param("pLatitude") double latitude,
+        @Param("pLongitude") double longitude,
+        @Param("pWorkingStatus") char workingStatus
+    );
+
+    @Query(nativeQuery = true, value = "CALL FilterTechnicalsAvailabilityNoInLocal(:pAvailabilityId,:pProfessionId, :pRango, :pLatitude, :pLongitude, :pWorkingStatus);")
+    List<Technical> filterTechnicalsAvailabilityNoInLocal(
+        @Param("pAvailabilityId") int availabilityId,
+        @Param("pProfessionId") int professionId,
+        @Param("pRango") int rango,
+        @Param("pLatitude") double latitude,
+        @Param("pLongitude") double longitude,
+        @Param("pWorkingStatus") char workingStatus
+    );
+
+    @Query(nativeQuery = true, value = "CALL FilterTechnicalsAvailabilityIsLocal(:pAvailabilityId, :pProfessionId, :pRango, :pLatitude, :pLongitude);")
+    List<Technical> filterTechnicalsAvailabilityIsLocal(
+        @Param("pAvailabilityId") int availabilityId,
+        @Param("pProfessionId") int professionId,
+        @Param("pRango") int rango,
+        @Param("pLatitude") double latitude,
+        @Param("pLongitude") double longitude
+    );
+
+    @Query(nativeQuery = true, value = "CALL FilterNearbyAllTechnicals(:pProfessionId, :pRango, :pLatitude, :pLongitude, :pWorkingStatus);")
+    List<Technical> FilterNearbyAllTechnicals(
+        @Param("pProfessionId") int professionId,
+        @Param("pRango") int rango,
+        @Param("pLatitude") double latitude,
+        @Param("pLongitude") double longitude,
+        @Param("pWorkingStatus") char workingStatus
+    );
+
+
 }

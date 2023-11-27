@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -21,11 +22,19 @@ public class TechnicalDto implements ITypeUserDTO{
     private String lastname;
     private String motherLastname;
     private String dni;
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double latitude;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double longitude;
     private Date birthDate;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserDto user;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     List<ProfessionAvailabilityDto> professionsAvailability;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    ProfessionAvailabilityDto professionAvailability;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String statusWorking;
 
     public TechnicalDto(Technical technical) {
         this.id = technical.getId();
@@ -35,6 +44,8 @@ public class TechnicalDto implements ITypeUserDTO{
         this.dni = technical.getDni();
         this.birthDate = technical.getBirthDate();
         this.user = new UserDto( technical.getUser() );
+        this.latitude = technical.getLatitude();
+        this.longitude = technical.getLongitude();
         this.professionsAvailability = technical.getProfessionsAvailability()
             .stream()
             .map( pA -> ProfessionAvailabilityDto
@@ -48,7 +59,18 @@ public class TechnicalDto implements ITypeUserDTO{
             .toList();
     }
 
-
+    public TechnicalDto(Technical technical, ProfessionAvailabilityDto professionAvailabilityDto) {
+        this.id = technical.getId();
+        this.name = technical.getName();
+        this.lastname = technical.getLastname();
+        this.motherLastname = technical.getMotherLastname();
+        this.dni = technical.getDni();
+        this.birthDate = technical.getBirthDate();
+        this.user = new UserDto( technical.getUser() );
+        this.latitude = technical.getLatitude();
+        this.longitude = technical.getLongitude();
+        this.professionAvailability = professionAvailabilityDto;
+    }
 
 
 }

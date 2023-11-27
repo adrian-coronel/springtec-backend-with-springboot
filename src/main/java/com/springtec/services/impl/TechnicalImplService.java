@@ -2,25 +2,35 @@ package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 
+import com.springtec.models.dto.ProfessionAvailabilityDto;
 import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.entity.*;
+import com.springtec.models.enums.AvailabilityType;
 import com.springtec.models.enums.State;
 import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.models.repositories.*;
+import com.springtec.services.IProfessionAvailabilityService;
 import com.springtec.services.ITechnicalService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class TechnicalImplService implements ITechnicalService {
 
     private final TechnicalRepository technicalRepository;
+    private final IProfessionAvailabilityService professionAvailabilityService;
+    private final ProfessionAvailabilityRepository professionAvailabilityRepository;
     private final UserRepository userRepository;
+
 
     @Override
     public TechnicalDto findById(Integer id) throws ElementNotExistInDBException {
@@ -43,24 +53,33 @@ public class TechnicalImplService implements ITechnicalService {
         if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
             && filters.containsKey("professionId") && filters.containsKey("availabilityId"))
         {
-            return null;
+            return getAllTehnicalsAndProfessionAvailabilityByAvailabilityId(
+                filters,
+                Integer.parseInt(filters.get("availabilityId"))
+            );
+
         }
         if (filters.containsKey("latitude") && filters.containsKey("longitude") && filters.containsKey("distance")
             && filters.containsKey("professionId"))
         {
-            return null;
-        }
-        if (filters.containsKey("professionId") && filters.containsKey("excludeAvailabilityId")) {
-            return null;
-        }
-        if (filters.containsKey("professionId")) {
-            return null;
-        }
-        if (filters.containsKey("excludeAvailabilityId")) {
-            return null;
+           List<TechnicalDto> technicalsHaveTaller = getAllTehnicalsAndProfessionAvailabilityByAvailabilityId(
+               filters,
+               AvailabilityType.EN_TALLER_ID
+           );
+           List<TechnicalDto> technicalsNoHaveTaller = getAllTehnicalsAndProfessionAvailabilityByAvailabilityId(
+               filters,
+               AvailabilityType.A_DOMICILIO_ID
+           );
+
+           List<TechnicalDto> listaUnida = new ArrayList<>(technicalsHaveTaller);
+           listaUnida.addAll(technicalsNoHaveTaller);
+
+           return listaUnida;
+
         }
 
-        return findAllActiveTechnicalDtos();
+
+        return null;
     }
 
     @Override
@@ -106,16 +125,66 @@ public class TechnicalImplService implements ITechnicalService {
         return technicalRepository.existsByDniAndUserState(dni, State.ACTIVE);
     }
 
-    private List<TechnicalDto> findAllActiveTechnicalDtos() {
+    @Override
+    public boolean updateWorkingStatus(Integer technicalId, char statusWorking) throws Exception {
+        // Si no se envia un valor para activar o desactivar
+        if(!(statusWorking == State.ACTIVE || statusWorking == State.INACTIVE))
+            throw new IllegalArgumentException("El estado solo de trabajo solo puede contener 0 o 1");
+        if (!technicalRepository.existsByIdAndUserState(technicalId, State.ACTIVE))
+            throw new ElementNotExistInDBException("Tenico no encontrado o ya se encuentra inactivo");
+
+        Technical technical = technicalRepository.findByIdAndUserState(technicalId, State.ACTIVE);
+        technical.setWorkingStatus(statusWorking);
+        technicalRepository.save(technical);
+        return statusWorking == State.ACTIVE;
+    }
+
+
+    @Override
+    public void updateLocation(TechnicalRequest technicalRequest, Integer technicalId) throws ElementNotExistInDBException {
+        String isUpdate = technicalRepository.updateTechnicalLocation(technicalId, technicalRequest.getLatitude(), technicalRequest.getLongitude(), State.ACTIVE);
+        if (isUpdate.contains("0"))
+            throw new ElementNotExistInDBException("Técnico con id " + technicalId + " no existe o su estado de trabajo no es activo.");
+    }
+
+
+    private List<TechnicalDto> getAllTehnicalsAndProfessionAvailabilityByAvailabilityId(Map<String, String> filters, Integer availabilityId){
+        if(availabilityId == AvailabilityType.EN_TALLER_ID)
+            return technicalListToTechnicalDtoList(
+                technicalRepository.filterTechnicalsAvailabilityIsLocal(
+                    availabilityId,
+                    Integer.parseInt(filters.get("professionId")),
+                    Integer.parseInt(filters.get("distance")),
+                    Double.parseDouble(filters.get("latitude")),
+                    Double.parseDouble(filters.get("longitude"))
+                )
+                , availabilityId
+                , Integer.parseInt(filters.get("professionId"))
+            );
         return technicalListToTechnicalDtoList(
-            technicalRepository.findAllByUserState(State.ACTIVE)
+            technicalRepository.filterTechnicalsAvailabilityNoInLocal(
+                availabilityId,
+                Integer.parseInt(filters.get("professionId")),
+                Integer.parseInt(filters.get("distance")),
+                Double.parseDouble(filters.get("latitude")),
+                Double.parseDouble(filters.get("longitude")),
+                State.ACTIVE
+            )
+            , availabilityId
+            , Integer.parseInt(filters.get("professionId"))
         );
     }
 
-    private List<TechnicalDto> technicalListToTechnicalDtoList(List<Technical> technicals){
+    private List<TechnicalDto> technicalListToTechnicalDtoList(List<Technical> technicals,Integer availabilityId, Integer professionId){
         return technicals
             .stream()
-            .map(TechnicalDto::new)
+            .map(technical ->
+                // Mapeamos al tecnico con la ProfessionAvailability y su professionAvailability
+                new TechnicalDto(
+                    technical,
+                    professionAvailabilityService.findByTechnicalIdAndAvailabilityIdAndProfessionId(
+                        technical.getId(), availabilityId, professionId)
+                ))
             .toList();
     }
 

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,12 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class DirectRequestRequest {
    private Integer id;
-   private Integer technicalId;
+   private Integer professionAvailabilityId;
    private Integer clientId;
-   private Integer serviceId;
+   private Integer serviceTypeAvailabilityId;
    private Double latitude;
    private Double longitude;
    private String title;
    private String description;
-   private List<String> imageUrls;
+   private List<MultipartFile> imageUrls;
 }

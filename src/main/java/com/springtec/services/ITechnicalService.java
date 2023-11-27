@@ -22,5 +22,6 @@ public interface ITechnicalService {
     TechnicalDto delete(Integer technical) throws ElementNotExistInDBException;
     boolean existsByDni(String dni);
     //todo CREAR METODO PARA ACTUALIZAR EL ESTADO DE TRABAJO
-
+    boolean updateWorkingStatus(Integer technicalId, char statusWorking) throws Exception;
+    void updateLocation(TechnicalRequest technicalRequest, Integer technicalId) throws ElementNotExistInDBException, IllegalAccessException;
 }

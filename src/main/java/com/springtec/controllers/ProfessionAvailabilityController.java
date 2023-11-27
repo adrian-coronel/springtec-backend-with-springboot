@@ -83,7 +83,7 @@ public class ProfessionAvailabilityController {
       }
    }
 
-   @PutMapping("technicals/{technicalId}/professions-availability/{professionAvailabilityId}")
+   @PutMapping("technical/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> update(
        @PathVariable Integer professionAvailabilityId,
        @RequestBody ProfessionAvailabilityDto professionAvailabilityDto

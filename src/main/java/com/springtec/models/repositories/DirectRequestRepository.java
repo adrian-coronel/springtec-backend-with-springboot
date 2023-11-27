@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DirectRequestRepository extends JpaRepository<DirectRequest, Integer> {
+
+   DirectRequest findByProfessionAvailabilityTechnicalId(Integer professionAvailability_technical_id);
+
 }

@@ -1,19 +1,17 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
-import com.springtec.models.dto.ClientDto;
 import com.springtec.models.dto.DirectRequestDto;
-import com.springtec.models.dto.ServiceDto;
-import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
 import com.springtec.models.payload.DirectRequestRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IDirectRequestService;
+import com.springtec.storage.FileEncryptor;
+import com.springtec.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,52 +19,91 @@ import java.util.List;
 public class DirectRequestImplService implements IDirectRequestService {
 
    private final DirectRequestRepository directRequestRepository;
-   private final TechnicalRepository technicalRepository;
+   private final ProfessionAvailabilityRepository professionAvailabilityRepository;
+   private final ServiceTypeAvailabilityRepository serviceTypeAvailabilityRepository;
+   private final ImageUploadRepository imageUploadRepository;
+   private final StorageService storageService;
    private final ClientRepository clientRepository;
-   private final ServiceRepository serviceRepository;
+
+
+   @Override
+   public List<DirectRequestDto> findAllByTechnical(Integer technicalId) {
+      return null;
+   }
+
+   @Override
+   public List<DirectRequestDto> findAllActivesByTechnicalId(Integer technicalId) {
+      // CARGAR LOS DIRECTREQUEST QUE PERTENECEN AL ID DEL  TECNICO
+
+      // Cargar las imagenes(recursos) que estan encriptados y enviarlo con su nombre y extensión original
+      return null;
+   }
+
+   @Override
+   public DirectRequestDto findById(Integer id) {
+
+      return null;
+   }
 
    @Override
    public DirectRequestDto save(DirectRequestRequest directRequest) throws ElementNotExistInDBException {
       System.out.println(directRequest);
-      Technical technical = technicalRepository.findById(directRequest.getTechnicalId())
-          .orElseThrow(()-> new ElementNotExistInDBException("Tecnico con id "+directRequest.getTechnicalId()+" no existe."));
+      ProfessionAvailability professionAvailability = professionAvailabilityRepository.findById(directRequest.getProfessionAvailabilityId())
+          .orElseThrow(()-> new ElementNotExistInDBException("ProfessionAvailability con id "+directRequest.getProfessionAvailabilityId()+" no existe."));
       Client client = clientRepository.findById(directRequest.getClientId())
           .orElseThrow(()-> new ElementNotExistInDBException("Cliente con id "+directRequest.getClientId()+" no existe."));
+      ServiceTypeAvailability serviceTypeAvailability = null;
+      // Verifica si el ID de serviceType no es null
+      if (directRequest.getServiceTypeAvailabilityId() != null)
+         serviceTypeAvailability = serviceTypeAvailabilityRepository.findById(directRequest.getServiceTypeAvailabilityId())
+             .orElseThrow(() -> new ElementNotExistInDBException("ServiceTypeAvailability con id "+directRequest.getServiceTypeAvailabilityId()+" no existe."));
 
-      Services service = null;
-      if (directRequest.getServiceId()!= null){
-         service = serviceRepository.findById(directRequest.getServiceId())
-             .orElseThrow(()-> new ElementNotExistInDBException("Servicio con id "+directRequest.getServiceId()+" no existe."));
-      }
-
-
-      // GUARDAMOS LOS DATOS DE LA SOLICITUD DIRECTA
       DirectRequest directRequestSaved = directRequestRepository.save(
           DirectRequest.builder()
-          .technical(technical)
-          .client(client)
-              //todo GUARDAR EL TYPE_ SERVICIO DISPONIBLE
-          .latitude(directRequest.getLatitude())
-          .longitude(directRequest.getLongitude())
-          .title(directRequest.getTitle())
-          .description(directRequest.getDescription())
-          .state(State.ACTIVE)
-          .build()
+              .professionAvailability(professionAvailability)
+              .serviceTypeAvailability(serviceTypeAvailability)
+              .client(client)
+              .latitude(directRequest.getLatitude())
+              .longitude(directRequest.getLongitude())
+              .title(directRequest.getTitle())
+              .description(directRequest.getDescription())
+              .state(State.ACTIVE)
+              .build()
       );
-      //todo GUARDAR TODAS LAS IMAGENES UPLOADS
 
-      directRequestSaved.getTechnical().setUser(null);
-      return DirectRequestDto.builder()
-          .id(directRequestSaved.getId())
-          .technicalDto(new TechnicalDto(directRequestSaved.getTechnical()))
-          .clientDto(new ClientDto(directRequestSaved.getClient()))
-           //TODO REETORNAR EL TYPO DE SERVICIO DISPONIBLE
-          .latitude(directRequestSaved.getLatitude())
-          .longitude(directRequestSaved.getLongitude())
-          .title(directRequestSaved.getTitle())
-          .description(directRequestSaved.getDescription())
-          //todo ENVIAR LAS IMAGENES UPLOADS
-          .build();
+      if (!directRequest.getImageUrls().isEmpty()) {
+         directRequest.getImageUrls().forEach(file -> {
+            String originalFileName = file.getOriginalFilename();
+            String fileNameEncryptedSaved = storageService.store(file);
 
+            imageUploadRepository.save(
+                ImageUpload.builder()
+                    .directRequest(directRequestSaved)
+                    .originalName( getFileName(originalFileName) )
+                    .extensionName( getFileExtension(originalFileName) )
+                    .fakeName( getFileName( fileNameEncryptedSaved ))
+                    .fakeExtensionName( getFileExtension( fileNameEncryptedSaved ) )
+                    .build()
+            );
+         });
+      }
+
+      return new DirectRequestDto(directRequestSaved);
+   }
+
+   private String getFileName(String fileName) {
+      int lastDotIndex = fileName.lastIndexOf(".");
+      if (lastDotIndex != -1) {
+         return fileName.substring(0, lastDotIndex);
+      }
+      return fileName; // No hay punto, devolver el nombre completo
+   }
+
+   private String getFileExtension(String fileName) {
+      int lastDotIndex = fileName.lastIndexOf(".");
+      if (lastDotIndex != -1) {
+         return fileName.substring(lastDotIndex + 1);
+      }
+      return ""; // No hay punto, devolver una cadena vacía
    }
 }

@@ -16,3 +16,7 @@ spring:
         order_updates: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
