@@ -40,13 +40,14 @@ public interface TechnicalRepository extends JpaRepository<Technical, Integer> {
         @Param("pWorkingStatus") char workingStatus
     );
 
-    @Query(nativeQuery = true, value = "CALL FilterTechnicalsAvailabilityIsLocal(:pAvailabilityId, :pProfessionId, :pRango, :pLatitude, :pLongitude);")
+    @Query(nativeQuery = true, value = "CALL FilterTechnicalsAvailabilityIsLocal(:pAvailabilityId, :pProfessionId, :pRango, :pLatitude, :pLongitude, :pWorkingStatus);")
     List<Technical> filterTechnicalsAvailabilityIsLocal(
         @Param("pAvailabilityId") int availabilityId,
         @Param("pProfessionId") int professionId,
         @Param("pRango") int rango,
         @Param("pLatitude") double latitude,
-        @Param("pLongitude") double longitude
+        @Param("pLongitude") double longitude,
+        @Param("pWorkingStatus") char workingStatus
     );
 
     @Query(nativeQuery = true, value = "CALL FilterNearbyAllTechnicals(:pProfessionId, :pRango, :pLatitude, :pLongitude, :pWorkingStatus);")

@@ -149,18 +149,20 @@ public class TechnicalImplService implements ITechnicalService {
 
 
     private List<TechnicalDto> getAllTehnicalsAndProfessionAvailabilityByAvailabilityId(Map<String, String> filters, Integer availabilityId){
-        if(availabilityId == AvailabilityType.EN_TALLER_ID)
+        if(availabilityId == AvailabilityType.EN_TALLER_ID) {
             return technicalListToTechnicalDtoList(
                 technicalRepository.filterTechnicalsAvailabilityIsLocal(
                     availabilityId,
                     Integer.parseInt(filters.get("professionId")),
                     Integer.parseInt(filters.get("distance")),
                     Double.parseDouble(filters.get("latitude")),
-                    Double.parseDouble(filters.get("longitude"))
+                    Double.parseDouble(filters.get("longitude")),
+                    State.ACTIVE
                 )
                 , availabilityId
                 , Integer.parseInt(filters.get("professionId"))
             );
+        }
         return technicalListToTechnicalDtoList(
             technicalRepository.filterTechnicalsAvailabilityNoInLocal(
                 availabilityId,
