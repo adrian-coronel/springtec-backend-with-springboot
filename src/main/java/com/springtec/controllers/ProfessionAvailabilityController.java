@@ -41,7 +41,7 @@ public class ProfessionAvailabilityController {
 
    }
 
-   @GetMapping("technicals/{technicalId}/professions-availability/{professionAvailabilityId}")
+   @GetMapping("technicals/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> show(@PathVariable Integer professionAvailabilityId){
       try {
          ProfessionAvailabilityDto professionAvailabilityDto = professionAvailabilityService.findById(professionAvailabilityId);
@@ -108,7 +108,7 @@ public class ProfessionAvailabilityController {
       }
    }
 
-   @DeleteMapping("technicals/{technicalId}/professions-availability/{professionAvailabilityId}")
+   @DeleteMapping("technical/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> delete(@PathVariable Integer professionAvailabilityId){
       try {
          professionAvailabilityService.delete(professionAvailabilityId);
