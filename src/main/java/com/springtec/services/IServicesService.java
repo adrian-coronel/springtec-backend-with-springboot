@@ -1,6 +1,8 @@
 package com.springtec.services;
 
+import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.ServiceDto;
+import com.springtec.models.payload.ServiceRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -8,5 +10,7 @@ import java.util.Map;
 public interface IServicesService {
 
    List<ServiceDto> findByFilters(Map<String, String> filters);
+
+   ServiceDto save(ServiceRequest serviceRequest) throws ElementNotExistInDBException;
 
 }

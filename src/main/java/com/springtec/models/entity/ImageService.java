@@ -18,7 +18,7 @@ public class ImageService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
 
     @ManyToOne
@@ -33,6 +33,8 @@ public class ImageService {
     @Column(name = "extension_name", nullable = false)
     private String extensionName;
 
+    @Column(name = "content_type", nullable = false)
+    private String contentType;
 
     @Column(name = "fake_name", nullable = false)
     private String fakeName;

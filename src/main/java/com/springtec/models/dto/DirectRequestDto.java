@@ -3,16 +3,11 @@ package com.springtec.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.springtec.models.entity.DirectRequest;
-import com.springtec.models.entity.ImageUpload;
-import com.springtec.storage.FileInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @Data

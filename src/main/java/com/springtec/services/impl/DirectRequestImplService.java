@@ -1,7 +1,6 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
-import com.springtec.exceptions.StorageException;
 import com.springtec.models.dto.DirectRequestDto;
 import com.springtec.models.dto.ImageUploadDto;
 import com.springtec.models.entity.*;
@@ -9,17 +8,11 @@ import com.springtec.models.enums.State;
 import com.springtec.models.payload.DirectRequestRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IDirectRequestService;
-import com.springtec.storage.FileEncryptor;
-import com.springtec.storage.FileInfo;
 import com.springtec.storage.StorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -116,11 +109,11 @@ public class DirectRequestImplService implements IDirectRequestService {
             imageUploadRepository.save(
                 ImageUpload.builder()
                     .directRequest(directRequestSaved)
-                    .originalName( getFileName(originalFileName) )
-                    .extensionName( getFileExtension(originalFileName) )
+                    .originalName( storageService.getFileName(originalFileName) )
+                    .extensionName( storageService.getFileExtension(originalFileName) )
                     .contentType( file.getContentType() )
-                    .fakeName( getFileName( fileNameEncryptedSaved ))
-                    .fakeExtensionName( getFileExtension( fileNameEncryptedSaved ) )
+                    .fakeName( storageService.getFileName( fileNameEncryptedSaved ))
+                    .fakeExtensionName( storageService.getFileExtension( fileNameEncryptedSaved ) )
                     .build()
             );
          });
@@ -129,19 +122,4 @@ public class DirectRequestImplService implements IDirectRequestService {
       return new DirectRequestDto(directRequestSaved);
    }
 
-   private String getFileName(String fileName) {
-      int lastDotIndex = fileName.lastIndexOf(".");
-      if (lastDotIndex != -1) {
-         return fileName.substring(0, lastDotIndex);
-      }
-      return fileName; // No hay punto, devolver el nombre completo
-   }
-
-   private String getFileExtension(String fileName) {
-      int lastDotIndex = fileName.lastIndexOf(".");
-      if (lastDotIndex != -1) {
-         return fileName.substring(lastDotIndex + 1);
-      }
-      return ""; // No hay punto, devolver una cadena vacía
-   }
 }

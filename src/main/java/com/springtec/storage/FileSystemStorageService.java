@@ -146,6 +146,24 @@ public class FileSystemStorageService implements StorageService {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
 
+	@Override
+	public String getFileName(String fileName) {
+		int lastDotIndex = fileName.lastIndexOf(".");
+		if (lastDotIndex != -1) {
+			return fileName.substring(0, lastDotIndex);
+		}
+		return fileName; // No hay punto, devolver el nombre completo
+	}
+
+	@Override
+	public String getFileExtension(String fileName) {
+		int lastDotIndex = fileName.lastIndexOf(".");
+		if (lastDotIndex != -1) {
+			return fileName.substring(lastDotIndex + 1);
+		}
+		return ""; // No hay punto, devolver una cadena vacía
+	}
+
 	/**
 	 * Se encarga de inicializar el servicio de almacenamiento.
 	 * Crea un directorio en la ruta especificada

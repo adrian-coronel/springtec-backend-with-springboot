@@ -61,7 +61,7 @@ public class DirectRequestController {
              MessageResponse.builder()
                  .message(e.getMessage())
                  .build()
-             , HttpStatus.CREATED
+             , HttpStatus.METHOD_NOT_ALLOWED
          );
       }
    }

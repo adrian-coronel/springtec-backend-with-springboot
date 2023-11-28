@@ -14,15 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ServiceTypeAvailability {
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "profession_availability_id")
-    private ProfessionAvailability professionAvailability;
 
     @ManyToOne
     @JoinColumn(name = "services_id")
     private Services services;
+
+    @ManyToOne
+    @JoinColumn(name = "profession_availability_id")
+    private ProfessionAvailability professionAvailability;
 
 }

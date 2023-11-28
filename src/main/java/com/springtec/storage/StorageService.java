@@ -33,4 +33,7 @@ public interface StorageService {
 
 	void deleteAll();
 
+	String getFileName(String fileName);
+
+	String getFileExtension(String fileName);
 }
