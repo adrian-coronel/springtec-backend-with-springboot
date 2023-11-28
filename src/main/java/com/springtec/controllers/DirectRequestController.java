@@ -21,6 +21,27 @@ public class DirectRequestController {
 
    private final IDirectRequestService directRequestService;
 
+
+   @GetMapping("directrequest/{id}")
+   public ResponseEntity<?> show(@PathVariable Integer id){
+      try {
+         DirectRequestDto directRequestDto = directRequestService.findById(id);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .body(directRequestDto)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (Exception e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.INTERNAL_SERVER_ERROR
+         );
+      }
+   }
+
    @PostMapping(value = "directrequest",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    public ResponseEntity<?> save(
        @ModelAttribute DirectRequestRequest directRequestRequest
@@ -44,6 +65,8 @@ public class DirectRequestController {
          );
       }
    }
+
+
 
 
 }

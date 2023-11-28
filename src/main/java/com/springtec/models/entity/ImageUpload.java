@@ -26,6 +26,9 @@ public class ImageUpload {
     @Column(name = "extension_name", nullable = false)
     private String extensionName;
 
+    @Column(name = "content_type", nullable = false)
+    private String contentType;
+
     @Column(name = "fake_name", nullable = false)
     private String fakeName;
 

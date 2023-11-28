@@ -8,9 +8,8 @@ import java.util.List;
 
 public interface IDirectRequestService {
 
-   List<DirectRequestDto> findAllByTechnical(Integer technicalId);
-   List<DirectRequestDto> findAllActivesByTechnicalId(Integer technicalId);
-   DirectRequestDto findById(Integer id);
+   List<DirectRequestDto> findAllActivesByTechnicalId(Integer technicalId) throws ElementNotExistInDBException;
+   DirectRequestDto findById(Integer id) throws Exception;
    DirectRequestDto save(DirectRequestRequest directRequest) throws ElementNotExistInDBException;
 
 }

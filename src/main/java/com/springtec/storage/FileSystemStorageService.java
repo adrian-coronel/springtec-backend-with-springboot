@@ -122,6 +122,22 @@ public class FileSystemStorageService implements StorageService {
 		}
 	}
 
+	/*@Override
+	public Resource loadAsDecryptedFile(String encryptedFileName,String originalFileName) throws IOException {
+		// Renombramos el recurso existente
+		renameResource(encryptedFileName, originalFileName);
+
+		// Cargamos le recurso con actualizado
+		Path imagePath = load(originalFileName);
+		Resource uri
+
+		// Volvemos a encryptar el recurso
+		renameResource(originalFileName, encryptedFileName);
+
+		// Retornamos el recurso con el nombre y la extensión correcta
+		return imageBytes;
+	}*/
+
 	/**
 	 * Elimina todos los archivos y directorios almacenados
 	 * en la ubicación raíz (rootLocation
@@ -145,6 +161,16 @@ public class FileSystemStorageService implements StorageService {
 		} catch (IOException e) {
 			throw new StorageException("Could not initialize storage", e);
 		}
+	}
+
+	private void renameResource(String fileName, String newFileName) throws IOException {
+		Path fileNameSaved = load(fileName);
+
+		// Construimos la nueva ruta con el nombre original y la extensión original
+		Path renamedFilePath = fileNameSaved.resolveSibling(newFileName);
+
+		// Renombramos el archivo encriptado con el nombre y la extensión originales
+		Files.move(fileNameSaved, renamedFilePath, StandardCopyOption.REPLACE_EXISTING);
 	}
 
 }

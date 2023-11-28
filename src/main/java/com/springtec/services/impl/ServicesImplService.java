@@ -18,16 +18,7 @@ public class ServicesImplService implements IServicesService {
 
    @Override
    public List<ServiceDto> findByFilters(Map<String, String> filters) {
-      if(filters.containsKey("technicalId") && filters.containsKey("categoryServiceId") && filters.containsKey("professionId")) {
-         return mapServiceToServiceDto(
-             serviceRepository.findAllByTechnicalIdAndCategoryServiceIdAndProfessionId(
-               Integer.parseInt(filters.get("technicalId")),
-               Integer.parseInt(filters.get("categoryServiceId")),
-               Integer.parseInt(filters.get("professionId"))
-             )
-         );
-      }
-      return mapServiceToServiceDto(serviceRepository.findAll());
+      return null;
    }
 
    private List<ServiceDto> mapServiceToServiceDto(List<Services> servicesList){

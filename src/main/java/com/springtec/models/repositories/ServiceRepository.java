@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface ServiceRepository extends JpaRepository<Services, Integer> {
 
-   List<Services> findAllByTechnicalIdAndCategoryServiceIdAndProfessionId(Integer technical_id, Integer categoryService_id, Integer profession_id);
 
 }

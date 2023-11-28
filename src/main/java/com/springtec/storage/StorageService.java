@@ -3,6 +3,8 @@ package com.springtec.storage;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -26,6 +28,8 @@ public interface StorageService {
 
 	// Retorna un recurso (Resource) asociado al archivo con el nombre especificado.
 	Resource loadAsResource(String filename);
+
+	//Resource loadAsDecryptedFile(String encryptedFileName, String originalFileName) throws IOException;
 
 	void deleteAll();
 

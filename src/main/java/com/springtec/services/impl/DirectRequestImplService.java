@@ -1,17 +1,25 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.exceptions.StorageException;
 import com.springtec.models.dto.DirectRequestDto;
+import com.springtec.models.dto.ImageUploadDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
 import com.springtec.models.payload.DirectRequestRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IDirectRequestService;
 import com.springtec.storage.FileEncryptor;
+import com.springtec.storage.FileInfo;
 import com.springtec.storage.StorageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,27 +30,50 @@ public class DirectRequestImplService implements IDirectRequestService {
    private final ProfessionAvailabilityRepository professionAvailabilityRepository;
    private final ServiceTypeAvailabilityRepository serviceTypeAvailabilityRepository;
    private final ImageUploadRepository imageUploadRepository;
+   private final TechnicalRepository technicalRepository;
    private final StorageService storageService;
    private final ClientRepository clientRepository;
 
 
    @Override
-   public List<DirectRequestDto> findAllByTechnical(Integer technicalId) {
+   public List<DirectRequestDto> findAllActivesByTechnicalId(Integer technicalId) throws ElementNotExistInDBException {
+      if (technicalRepository.existsByIdAndUserState(technicalId, State.ACTIVE))
+         throw new ElementNotExistInDBException("El tecnico con el id "+technicalId+" no existe.");
+
+      // DEVOLVER LOS DATOS DE LA PROFESSION AVAILABILITY DTO SIN EL TECNICO
+      List<DirectRequest> allDirectRequestActives = directRequestRepository.findByProfessionAvailabilityTechnicalIdAndState(technicalId, State.ACTIVE);
+      // BUSCAR UN RECURSO CON EL FAKE FAILNAME DE LA BD
+      allDirectRequestActives.forEach(directRequest -> {
+         // Buscamos todos los registros de imagenes por directRequest
+         imageUploadRepository.findAllByDirectRequestId(directRequest.getId());
+      });
+      // CAMBIAR EL NOMBRE Y EXTENSION DEL FILE A SU ORIGINAL FILENAME
       return null;
    }
 
    @Override
-   public List<DirectRequestDto> findAllActivesByTechnicalId(Integer technicalId) {
-      // CARGAR LOS DIRECTREQUEST QUE PERTENECEN AL ID DEL  TECNICO
+   public DirectRequestDto findById(Integer id) throws Exception {
+      // Obtenemos el directRequest por su ID
+      DirectRequest directRequest = directRequestRepository.findById(id)
+          .orElseThrow(() -> new ElementNotExistInDBException("DirectRequest con id "+id+" no existe."));
 
-      // Cargar las imagenes(recursos) que estan encriptados y enviarlo con su nombre y extensión original
-      return null;
-   }
+      // Obtenemos todos los ImageUploads del DIRECT REQUEST
+      List<ImageUpload> imageUploadList = imageUploadRepository.findAllByDirectRequestId(directRequest.getId());
 
-   @Override
-   public DirectRequestDto findById(Integer id) {
+      // CARGAMOS TODOS LAS IMAGENES GUARDADOS POR DIRECT REQUEST
+      List<FileInfo> filesByDirectRequest = imageUploadList.stream().map(imageUpload ->{
+         String fakeFileName = imageUpload.getFakeName()+"."+imageUpload.getFakeExtensionName();
+         String originalFileName = imageUpload.getOriginalName()+"."+imageUpload.getExtensionName();
 
-      return null;
+         Resource resourceSaved = storageService.loadAsResource(fakeFileName);
+         Path path = storageService.load(fakeFileName);
+         System.out.println(resourceSaved);
+         System.out.println(path);
+         // Devolvemos el recurso solicitado
+         return new FileInfo(originalFileName, resourceSaved);
+      }).toList();
+
+      return new DirectRequestDto(directRequest, filesByDirectRequest);
    }
 
    @Override
@@ -81,6 +112,7 @@ public class DirectRequestImplService implements IDirectRequestService {
                     .directRequest(directRequestSaved)
                     .originalName( getFileName(originalFileName) )
                     .extensionName( getFileExtension(originalFileName) )
+                    .contentType( file.getContentType() )
                     .fakeName( getFileName( fileNameEncryptedSaved ))
                     .fakeExtensionName( getFileExtension( fileNameEncryptedSaved ) )
                     .build()
