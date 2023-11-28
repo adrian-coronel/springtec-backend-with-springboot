@@ -18,6 +18,6 @@ public class ImageUploadDto {
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private String contentType;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private ByteArrayResource file;
+   private byte[] file;
 
 }

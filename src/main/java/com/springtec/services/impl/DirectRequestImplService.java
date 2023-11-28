@@ -61,16 +61,21 @@ public class DirectRequestImplService implements IDirectRequestService {
       List<ImageUpload> imageUploadList = imageUploadRepository.findAllByDirectRequestId(directRequest.getId());
 
       // CARGAMOS TODOS LAS IMAGENES GUARDADOS POR DIRECT REQUEST
-      List<FileInfo> filesByDirectRequest = imageUploadList.stream().map(imageUpload ->{
+      List<ImageUploadDto> filesByDirectRequest = imageUploadList.stream().map(imageUpload ->{
          String fakeFileName = imageUpload.getFakeName()+"."+imageUpload.getFakeExtensionName();
          String originalFileName = imageUpload.getOriginalName()+"."+imageUpload.getExtensionName();
 
-         Resource resourceSaved = storageService.loadAsResource(fakeFileName);
-         Path path = storageService.load(fakeFileName);
-         System.out.println(resourceSaved);
-         System.out.println(path);
-         // Devolvemos el recurso solicitado
-         return new FileInfo(originalFileName, resourceSaved);
+         //todo RETORNAR EL ARCHIVO EN BYTES
+         try {
+            byte[] imageInBytes = storageService.loadAsDecryptedFile(fakeFileName, originalFileName);
+            return ImageUploadDto.builder()
+                .fileName(originalFileName)
+                .contentType(imageUpload.getContentType())
+                .file(imageInBytes)
+                .build();
+         } catch (IOException e) {
+            throw new RuntimeException(e);
+         }
       }).toList();
 
       return new DirectRequestDto(directRequest, filesByDirectRequest);

@@ -29,7 +29,7 @@ public interface StorageService {
 	// Retorna un recurso (Resource) asociado al archivo con el nombre especificado.
 	Resource loadAsResource(String filename);
 
-	//Resource loadAsDecryptedFile(String encryptedFileName, String originalFileName) throws IOException;
+	byte[] loadAsDecryptedFile(String encryptedFileName, String originalFileName) throws IOException;
 
 	void deleteAll();
 

@@ -22,7 +22,7 @@ public class DirectRequestController {
    private final IDirectRequestService directRequestService;
 
 
-   @GetMapping("directrequest/{id}")
+   @GetMapping(value="directrequest/{id}")
    public ResponseEntity<?> show(@PathVariable Integer id){
       try {
          DirectRequestDto directRequestDto = directRequestService.findById(id);

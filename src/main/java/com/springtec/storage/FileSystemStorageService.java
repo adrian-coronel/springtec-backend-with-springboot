@@ -41,7 +41,7 @@ public class FileSystemStorageService implements StorageService {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
 			}
-			String originalFileNameEncrypted = FileEncryptor.encryptFileName(file.getOriginalFilename());
+			String originalFileNameEncrypted = FileEncryptor.getEncryptFileName();
 			// Resuelve la ruta del archivo de destino
 			Path destinationFile = this.rootLocation.resolve(
 					Paths.get(originalFileNameEncrypted))
@@ -122,21 +122,21 @@ public class FileSystemStorageService implements StorageService {
 		}
 	}
 
-	/*@Override
-	public Resource loadAsDecryptedFile(String encryptedFileName,String originalFileName) throws IOException {
+	@Override
+	public byte[] loadAsDecryptedFile(String encryptedFileName,String originalFileName) throws IOException {
 		// Renombramos el recurso existente
 		renameResource(encryptedFileName, originalFileName);
 
 		// Cargamos le recurso con actualizado
 		Path imagePath = load(originalFileName);
-		Resource uri
+		byte[] imageBytes = Files.readAllBytes(imagePath);
 
 		// Volvemos a encryptar el recurso
 		renameResource(originalFileName, encryptedFileName);
 
 		// Retornamos el recurso con el nombre y la extensión correcta
 		return imageBytes;
-	}*/
+	}
 
 	/**
 	 * Elimina todos los archivos y directorios almacenados

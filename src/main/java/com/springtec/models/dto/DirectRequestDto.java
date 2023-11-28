@@ -35,7 +35,7 @@ public class DirectRequestDto {
    private String title;
    private String description;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private List<FileInfo> imageUrls;
+   private List<ImageUploadDto> files;
    private char state;
 
    public DirectRequestDto(DirectRequest directRequest){
@@ -49,7 +49,7 @@ public class DirectRequestDto {
       this.description = directRequest.getDescription();
    }
 
-   public DirectRequestDto(DirectRequest directRequest, List<FileInfo> files){
+   public DirectRequestDto(DirectRequest directRequest, List<ImageUploadDto> files){
       this.id = directRequest.getId();
       this.clientId = directRequest.getId();
       this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
@@ -58,6 +58,6 @@ public class DirectRequestDto {
       this.longitude = directRequest.getLongitude();
       this.title = directRequest.getTitle();
       this.description = directRequest.getDescription();
-      this.imageUrls = files;
+      this.files = files;
    }
 }
