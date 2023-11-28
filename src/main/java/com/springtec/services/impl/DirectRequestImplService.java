@@ -88,6 +88,7 @@ public class DirectRequestImplService implements IDirectRequestService {
           .orElseThrow(()-> new ElementNotExistInDBException("ProfessionAvailability con id "+directRequest.getProfessionAvailabilityId()+" no existe."));
       Client client = clientRepository.findById(directRequest.getClientId())
           .orElseThrow(()-> new ElementNotExistInDBException("Cliente con id "+directRequest.getClientId()+" no existe."));
+
       ServiceTypeAvailability serviceTypeAvailability = null;
       // Verifica si el ID de serviceType no es null
       if (directRequest.getServiceTypeAvailabilityId() != null)
