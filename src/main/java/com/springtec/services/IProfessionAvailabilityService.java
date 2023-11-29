@@ -15,5 +15,8 @@ public interface IProfessionAvailabilityService {
    ProfessionAvailabilityDto save(Integer technicalId, ProfessionAvailabilityDto professionAvailabilityDto) throws Exception;
    ProfessionAvailabilityDto update(Integer professionAvailabilityId, ProfessionAvailabilityDto professionAvailabilityDto) throws Exception ;
 
+   Set<ProfessionAvailabilityDto> findAllByTechnicalAndProfessionId(Integer technicalId,Integer professionId);
+
+
    void delete(Integer professionAvailabilityId) throws ElementNotExistInDBException;
 }

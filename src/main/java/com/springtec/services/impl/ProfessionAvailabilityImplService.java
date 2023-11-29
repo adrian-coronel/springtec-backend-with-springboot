@@ -16,6 +16,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -130,6 +131,7 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
          if (availabilityIsLocal) {
             // CREAR REGISTRO EN ProfessionLocal
             professionLocalRepository.save(
+                //Tabla para almacenar la ubicacion del local
                 ProfessionLocal.builder()
                     .professionAvailability(professionAvailabilityFind)
                     .latitude(professionAvailabilityDto.getLatitude())
@@ -154,6 +156,7 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
          professionLocalFindAndUpdated.setLongitude(professionAvailabilityDto.getLongitude());
          professionLocalRepository.save(professionLocalFindAndUpdated);
       }
+
       //ACTUALIZAMOS PROFESSION AVAILABILITY
       professionAvailabilityFind.setProfession(
           Profession.builder().id( professionAvailabilityDto.getProfessionId() ).build());
@@ -165,6 +168,20 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
           professionAvailabilityUpdated,
           professionAvailabilityDto.getLatitude(),
           professionAvailabilityDto.getLongitude());
+   }
+
+   @Override
+   public Set<ProfessionAvailabilityDto> findAllByTechnicalAndProfessionId(Integer technicalId, Integer professionId) {
+      Set<ProfessionAvailability> professionAvailabilities = professionAvailabilityRepository.findAllByTechnicalIdAndProfessionId(technicalId,professionId);
+       return professionAvailabilities.stream()
+              .map(e->{
+                 if(Objects.equals(e.getAvailability().getId(), AvailabilityType.EN_TALLER_ID)){
+                    ProfessionLocal a = professionLocalRepository.findByProfessionAvailabilityId(e.getId());
+                    return new ProfessionAvailabilityDto(e,a.getLatitude(),a.getLongitude());
+                 }
+                 return new ProfessionAvailabilityDto(e);
+              })
+              .collect(Collectors.toSet());
    }
 
    @Override

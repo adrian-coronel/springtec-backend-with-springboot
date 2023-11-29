@@ -41,7 +41,24 @@ public class ProfessionAvailabilityController {
 
    }
 
-   @GetMapping("technicals/{technicalId}/professions-availability/{professionAvailabilityId}")
+
+
+   @GetMapping("technical/professions-availability/{TechnicalId}/{ProfessionId}")
+   public ResponseEntity<?> showAllProfessionsAvailabilityByProfession (
+           @PathVariable Integer TechnicalId,@PathVariable Integer ProfessionId
+   ){
+      Set<ProfessionAvailabilityDto> professionAvailabilityDtos = professionAvailabilityService.findAllByTechnicalAndProfessionId(TechnicalId,ProfessionId);
+      return new ResponseEntity<>(
+              MessageResponse.builder()
+                      .body(professionAvailabilityDtos)
+                      .build()
+              , HttpStatus.OK
+      );
+   }
+
+
+
+   @GetMapping("technical/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> show(@PathVariable Integer professionAvailabilityId){
       try {
          ProfessionAvailabilityDto professionAvailabilityDto = professionAvailabilityService.findById(professionAvailabilityId);
@@ -83,7 +100,7 @@ public class ProfessionAvailabilityController {
       }
    }
 
-   @PutMapping("technicals/{technicalId}/professions-availability/{professionAvailabilityId}")
+   @PutMapping("technical/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> update(
        @PathVariable Integer professionAvailabilityId,
        @RequestBody ProfessionAvailabilityDto professionAvailabilityDto
@@ -108,7 +125,7 @@ public class ProfessionAvailabilityController {
       }
    }
 
-   @DeleteMapping("technicals/{technicalId}/professions-availability/{professionAvailabilityId}")
+   @DeleteMapping("technical/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> delete(@PathVariable Integer professionAvailabilityId){
       try {
          professionAvailabilityService.delete(professionAvailabilityId);
