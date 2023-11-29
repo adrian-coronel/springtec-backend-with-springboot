@@ -10,7 +10,7 @@ import java.util.Map;
 public interface IServicesService {
 
    List<ServiceDto> findByFilters(Map<String, String> filters);
-
+   ServiceDto findById(Integer id) throws ElementNotExistInDBException;
    ServiceDto save(ServiceRequest serviceRequest) throws ElementNotExistInDBException;
 
 }

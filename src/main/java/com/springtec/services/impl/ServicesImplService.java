@@ -1,6 +1,7 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.models.dto.ImageUploadDto;
 import com.springtec.models.dto.ServiceDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
@@ -11,6 +12,7 @@ import com.springtec.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,36 @@ public class ServicesImplService implements IServicesService {
    @Override
    public List<ServiceDto> findByFilters(Map<String, String> filters) {
       return null;
+   }
+
+   @Override
+   public ServiceDto findById(Integer id) throws ElementNotExistInDBException {
+      Services service = serviceRepository.findById(id)
+          .orElseThrow(() -> new ElementNotExistInDBException("Service con id "+id+" no existe"));
+
+      ImageService imageService = imageServiceRepository.findById(service.getId()).orElse(null);
+
+      ImageUploadDto imageUploadDto;
+
+      if (imageService != null){
+         String fakeFileName = imageService.getFakeName()+"."+imageService.getFakeExtensionName();
+         String originalFileName = imageService.getOriginalName()+"."+imageService.getExtensionName();
+
+         try {
+            imageUploadDto = ImageUploadDto.builder()
+                    .fileName(originalFileName)
+                    .contentType(imageService.getContentType())
+                    .file(storageService.loadAsDecryptedFile(fakeFileName, originalFileName))
+                    .build();
+            // Enviamos el servicio con el file guardado
+            return new ServiceDto(service, imageUploadDto);
+
+         } catch (IOException e) {
+            throw new RuntimeException(e);
+         }
+      }
+      // Si el file no existe enviamos solo el service
+      return new ServiceDto(service);
    }
 
    @Override
