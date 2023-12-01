@@ -345,6 +345,19 @@ CREATE TABLE IF NOT EXISTS db_springtec.service_type_availability (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table db_springtec.state_direct_request
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS db_springtec.state_direct_request ;
+
+CREATE TABLE IF NOT EXISTS db_springtec.state_direct_request (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(45) NOT NULL,
+  PRIMARY KEY (id))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
 
 -- -----------------------------------------------------
 -- Table db_springtec.direct_request
@@ -356,15 +369,19 @@ CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
   profession_availability_id INT UNSIGNED NOT NULL,
   client_id INT UNSIGNED NOT NULL,
   service_type_availability_id INT UNSIGNED NULL,
+  state_direct_request_id INT UNSIGNED NOT NULL,
   latitude DOUBLE NOT NULL,
   longitude DOUBLE NOT NULL,
   title VARCHAR(80) NOT NULL,
   description VARCHAR(255) NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- CURENT_... cuando no se pase, se establecera en la hora actual
+  answered_at TIMESTAMP NULL,
+  resolved_at TIMESTAMP NULL,
   PRIMARY KEY (id),
   INDEX fk_direct_request_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
   INDEX fk_direct_request_client1_idx (client_id ASC) VISIBLE,
   INDEX fk_direct_request_service_type_availability1_idx (service_type_availability_id ASC) VISIBLE,
+  INDEX fk_direct_request_state_direct_request1_idx (state_direct_request_id ASC) VISIBLE,
   CONSTRAINT fk_direct_request_client1
     FOREIGN KEY (client_id)
     REFERENCES db_springtec.client (id),
@@ -373,7 +390,10 @@ CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
     REFERENCES db_springtec.profession_availability (id),
   CONSTRAINT fk_direct_request_service_type_availability1
     FOREIGN KEY (service_type_availability_id)
-    REFERENCES db_springtec.service_type_availability (id)
+    REFERENCES db_springtec.service_type_availability (id),
+  CONSTRAINT fk_direct_request_state_direct_request_1
+    FOREIGN KEY (state_direct_request_id)
+    REFERENCES db_springtec.state_direct_request (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -481,6 +501,14 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+
+
+-- ------- AVAILABILITY ----------- --
+-- -------------------------------- --
+
+INSERT INTO state_direct_request(name) VALUES ('Pendiente');
+INSERT INTO state_direct_request(name) VALUES ('En proceso');
+INSERT INTO state_direct_request(name) VALUES ('Cerrado');
 
 
 -- ------- AVAILABILITY ----------- --

@@ -22,4 +22,5 @@ public class DirectRequestRequest {
    private String title;
    private String description;
    private List<MultipartFile> imageUrls;
+   private Integer stateId;
 }

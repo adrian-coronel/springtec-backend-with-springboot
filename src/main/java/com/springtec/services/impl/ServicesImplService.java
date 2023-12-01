@@ -31,6 +31,8 @@ public class ServicesImplService implements IServicesService {
 
    @Override
    public List<ServiceDto> findByFilters(Map<String, String> filters) {
+      // Filtrar por tecnico
+
       return null;
    }
 

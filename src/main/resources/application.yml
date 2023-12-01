@@ -21,3 +21,13 @@ spring:
       max-file-size: 5MB
       max-request-size: 10MB
 
+# Habilitar/desabilitar api-docs swagger-ui
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    # Permitir la ruta de swagger-ui http://localhost:8080/doc/swagger-ui/index.html#/
+    path: /doc/swagger-ui.html
+  # Paquetes o clases a excanear
+  paths-to-match: /api/v1/**

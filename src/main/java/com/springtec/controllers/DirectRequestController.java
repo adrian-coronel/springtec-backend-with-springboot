@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +21,26 @@ import java.util.List;
 public class DirectRequestController {
 
    private final IDirectRequestService directRequestService;
-
+   @GetMapping(value="directrequest")
+   public ResponseEntity<?> showAll(@RequestParam Map<String, String> filters){
+      try {
+         List<DirectRequestDto> directRequestDtos = directRequestService.findAllFiltersByTechnical(filters);
+         System.out.println(directRequestDtos.size());
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .body(directRequestDtos)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (Exception e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.INTERNAL_SERVER_ERROR
+         );
+      }
+   }
 
    @GetMapping(value="directrequest/{id}")
    public ResponseEntity<?> show(@PathVariable Integer id){
@@ -41,6 +61,7 @@ public class DirectRequestController {
          );
       }
    }
+
 
    @PostMapping(value = "directrequest",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    public ResponseEntity<?> save(
@@ -67,6 +88,30 @@ public class DirectRequestController {
    }
 
 
+   @PutMapping("directrequest/{id}")
+   public ResponseEntity<?> changeUpdate(
+       @PathVariable Integer id,
+       @RequestBody DirectRequestRequest directRequestRequest
+   ) {
+      try {
+         System.out.println(directRequestRequest);
+         DirectRequestDto directRequestDto = directRequestService.changeState(id, directRequestRequest);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message("Actualizado correctamente")
+                 .body(directRequestDto)
+                 .build()
+             , HttpStatus.CREATED
+         );
+      } catch (ElementNotExistInDBException e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.METHOD_NOT_ALLOWED
+         );
+      }
+   }
 
 
 }

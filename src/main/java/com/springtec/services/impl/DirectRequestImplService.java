@@ -1,19 +1,24 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.exceptions.InvalidArgumentException;
 import com.springtec.models.dto.DirectRequestDto;
 import com.springtec.models.dto.ImageUploadDto;
+import com.springtec.models.dto.ProfessionAvailabilityDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
 import com.springtec.models.payload.DirectRequestRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IDirectRequestService;
+import com.springtec.services.IProfessionAvailabilityService;
 import com.springtec.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +26,9 @@ public class DirectRequestImplService implements IDirectRequestService {
 
    private final DirectRequestRepository directRequestRepository;
    private final ProfessionAvailabilityRepository professionAvailabilityRepository;
+   private final IProfessionAvailabilityService professionAvailabilityService;
    private final ServiceTypeAvailabilityRepository serviceTypeAvailabilityRepository;
+   private final StateDirectRequestRepository stateDirectRequestRepository;
    private final ImageUploadRepository imageUploadRepository;
    private final TechnicalRepository technicalRepository;
    private final StorageService storageService;
@@ -29,19 +36,38 @@ public class DirectRequestImplService implements IDirectRequestService {
 
 
    @Override
-   public List<DirectRequestDto> findAllActivesByTechnicalId(Integer technicalId) throws ElementNotExistInDBException {
-      if (technicalRepository.existsByIdAndUserState(technicalId, State.ACTIVE))
-         throw new ElementNotExistInDBException("El tecnico con el id "+technicalId+" no existe.");
+   public List<DirectRequestDto> findAllFiltersByTechnical(Map<String, String> filters) throws Exception {
+      //todo OPTIMIZAR
+      filterExceptions(filters);
 
-      // DEVOLVER LOS DATOS DE LA PROFESSION AVAILABILITY DTO SIN EL TECNICO
-      List<DirectRequest> allDirectRequestActives = directRequestRepository.findByProfessionAvailabilityTechnicalIdAndState(technicalId, State.ACTIVE);
-      // BUSCAR UN RECURSO CON EL FAKE FAILNAME DE LA BD
-      allDirectRequestActives.forEach(directRequest -> {
-         // Buscamos todos los registros de imagenes por directRequest
-         imageUploadRepository.findAllByDirectRequestId(directRequest.getId());
-      });
-      // CAMBIAR EL NOMBRE Y EXTENSION DEL FILE A SU ORIGINAL FILENAME
-      return null;
+      int technicalId = Integer.parseInt(filters.get("technicalId"));
+      List<DirectRequest> directRequestList = new ArrayList<>();
+      //technicalRepository.findByIdAndUserState(technicalId, State.ACTIVE);
+      if (filters.containsKey("technicalId") && filters.containsKey("state")){
+         directRequestList = directRequestRepository.findAllByTechnicalIdAndState(technicalId, Integer.parseInt(filters.get("state")));
+      }
+      else if (filters.containsKey("technicalId")) {
+         directRequestList = directRequestRepository.findAllByTechnicalIdAndDistintState(technicalId, State.CANCELED);
+      }
+
+      // Retornamos la lista de DirectRequest mapeada a DTO y con sus respectivas imagenes
+      return directRequestList.stream().map(directRequest -> {
+         List<ImageUploadDto> filesByDirectRequest = getFilesByDirectRequest(directRequest);
+         try {
+            ProfessionAvailabilityDto professionAvailabilityDto = professionAvailabilityService.findById(directRequest.getProfessionAvailability().getId());
+            return new DirectRequestDto(directRequest, filesByDirectRequest, professionAvailabilityDto);
+         } catch (ElementNotExistInDBException e) {
+            throw new RuntimeException(e);
+         }
+      }).toList();
+   }
+
+   private void filterExceptions(Map<String, String> filters) throws Exception {
+
+      if (!filters.containsKey("technicalId"))
+         throw new InvalidArgumentException("El id del tecnico es requerido o no existe");
+      if (!technicalRepository.existsByIdAndUserState(Integer.parseInt(filters.get("technicalId")),State.ACTIVE))
+         throw new ElementNotExistInDBException("El tecnico no existe o es inactivo");
    }
 
    @Override
@@ -50,28 +76,11 @@ public class DirectRequestImplService implements IDirectRequestService {
       DirectRequest directRequest = directRequestRepository.findById(id)
           .orElseThrow(() -> new ElementNotExistInDBException("DirectRequest con id "+id+" no existe."));
 
-      // Obtenemos todos los ImageUploads del DIRECT REQUEST
-      List<ImageUpload> imageUploadList = imageUploadRepository.findAllByDirectRequestId(directRequest.getId());
+      // Obtenemos todas las archivos de cada directrequest preparadas para ser enviados
+      List<ImageUploadDto> filesByDirectRequest = getFilesByDirectRequest(directRequest);
+      ProfessionAvailabilityDto professionAvailabilityDto = professionAvailabilityService.findById(directRequest.getProfessionAvailability().getId());
 
-      // CARGAMOS TODOS LAS IMAGENES GUARDADOS POR DIRECT REQUEST
-      List<ImageUploadDto> filesByDirectRequest = imageUploadList.stream().map(imageUpload ->{
-         String fakeFileName = imageUpload.getFakeName()+"."+imageUpload.getFakeExtensionName();
-         String originalFileName = imageUpload.getOriginalName()+"."+imageUpload.getExtensionName();
-
-         //todo RETORNAR EL ARCHIVO EN BYTES
-         try {
-            byte[] imageInBytes = storageService.loadAsDecryptedFile(fakeFileName, originalFileName);
-            return ImageUploadDto.builder()
-                .fileName(originalFileName)
-                .contentType(imageUpload.getContentType())
-                .file(imageInBytes)
-                .build();
-         } catch (IOException e) {
-            throw new RuntimeException(e);
-         }
-      }).toList();
-
-      return new DirectRequestDto(directRequest, filesByDirectRequest);
+      return new DirectRequestDto(directRequest, filesByDirectRequest, professionAvailabilityDto);
    }
 
    @Override
@@ -97,7 +106,11 @@ public class DirectRequestImplService implements IDirectRequestService {
               .longitude(directRequest.getLongitude())
               .title(directRequest.getTitle())
               .description(directRequest.getDescription())
-              .state(State.ACTIVE)
+              .stateDirectRequest(
+                  StateDirectRequest.builder()
+                      .id(State.PENDING)
+                      .build()
+              )
               .build()
       );
 
@@ -121,5 +134,46 @@ public class DirectRequestImplService implements IDirectRequestService {
 
       return new DirectRequestDto(directRequestSaved);
    }
+
+   @Override
+   public DirectRequestDto changeState(Integer id, DirectRequestRequest directRequestRequest) throws ElementNotExistInDBException {
+      DirectRequest directRequestRequestFind = directRequestRepository.findById(id)
+          .orElseThrow(() -> new ElementNotExistInDBException("DirectRequest con id "+id+" no existe."));
+      StateDirectRequest state = stateDirectRequestRepository.findById(directRequestRequest.getStateId())
+          .orElseThrow(() -> new ElementNotExistInDBException("StateDirectRequest con id "+id+" no existe."));
+
+      directRequestRequestFind.setStateDirectRequest(state);
+
+      return new DirectRequestDto(directRequestRepository.save(directRequestRequestFind));
+   }
+
+
+   /**
+    * Obtenemos todas los archivos en array de bytes para cada DirectRequest
+    * */
+   private List<ImageUploadDto> getFilesByDirectRequest(DirectRequest directRequest) {
+      return imageUploadRepository.findAllByDirectRequestId(directRequest.getId())
+          .stream()
+          .parallel()
+          .map(this::mapImageUploadToDto)
+          .toList();
+   }
+
+   private ImageUploadDto mapImageUploadToDto(ImageUpload imageUpload) {
+      String fakeFileName = imageUpload.getFakeName() + "." + imageUpload.getFakeExtensionName();
+      String originalFileName = imageUpload.getOriginalName() + "." + imageUpload.getExtensionName();
+
+      try {
+         byte[] imageInBytes = storageService.loadAsDecryptedFile(fakeFileName, originalFileName);
+         return ImageUploadDto.builder()
+             .fileName(originalFileName)
+             .contentType(imageUpload.getContentType())
+             .file(imageInBytes)
+             .build();
+      } catch (IOException e) {
+         throw new RuntimeException("Error al cargar el archivo", e);
+      }
+   }
+
 
 }

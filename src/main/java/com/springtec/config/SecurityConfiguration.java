@@ -34,7 +34,7 @@ public class SecurityConfiguration {
 
             // Autorizamos algunos puntos blancos que no requiren de token para accederlos(/login, /resgister...)
             .authorizeHttpRequests()
-            .requestMatchers("/api/v1/auth/**")
+            .requestMatchers("/api/v1/auth/**","/swagger-ui/**","/v3/api-docs/**","/doc/**")
             .permitAll()
             // Cualquier otra solicitud debe ser AUTENTIFICADA
             .anyRequest()
