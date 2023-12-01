@@ -16,9 +16,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
-
-
 /**
  * Esta clase conteendra todas las configuraciones de nuestra aplicacion,
  * como por ejemplo contenedores

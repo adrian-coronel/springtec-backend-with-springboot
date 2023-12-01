@@ -37,11 +37,11 @@ public class DirectRequestDto {
    private List<ImageUploadDto> files;
    private StateDirectRequest state;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private Timestamp created_at;
+   private Timestamp createdAt;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private Timestamp answered_at;
+   private Timestamp answeredAt;
    @JsonInclude(JsonInclude.Include.NON_NULL)
-   private Timestamp resolved_at;
+   private Timestamp resolvedAt;
 
 
    public DirectRequestDto(DirectRequest directRequest){
@@ -68,9 +68,9 @@ public class DirectRequestDto {
       this.description = directRequest.getDescription();
       this.state = directRequest.getStateDirectRequest();
       this.files = files;
-      this.created_at = directRequest.getCreated_at();
-      this.answered_at = directRequest.getAnswered_at();
-      this.resolved_at = directRequest.getResolved_at();
+      this.createdAt = directRequest.getCreatedAt();
+      this.answeredAt = directRequest.getAnsweredAt();
+      this.resolvedAt = directRequest.getResolvedAt();
    }
 
    public DirectRequestDto(DirectRequest directRequest, List<ImageUploadDto> files){
@@ -84,8 +84,8 @@ public class DirectRequestDto {
       this.description = directRequest.getDescription();
       this.state = directRequest.getStateDirectRequest();
       this.files = files;
-      this.created_at = directRequest.getCreated_at();
-      this.answered_at = directRequest.getAnswered_at();
-      this.resolved_at = directRequest.getResolved_at();
+      this.createdAt = directRequest.getCreatedAt();
+      this.answeredAt = directRequest.getAnsweredAt();
+      this.resolvedAt = directRequest.getResolvedAt();
    }
 }

@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ public class DirectRequestController {
    public ResponseEntity<?> showAll(@RequestParam Map<String, String> filters){
       try {
          List<DirectRequestDto> directRequestDtos = directRequestService.findAllFiltersByTechnical(filters);
-         System.out.println(directRequestDtos.size());
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .body(directRequestDtos)
@@ -68,7 +66,6 @@ public class DirectRequestController {
        @ModelAttribute DirectRequestRequest directRequestRequest
    ) {
       try {
-         System.out.println(directRequestRequest);
          DirectRequestDto directRequestDto = directRequestService.save(directRequestRequest);
          return new ResponseEntity<>(
              MessageResponse.builder()
@@ -94,7 +91,6 @@ public class DirectRequestController {
        @RequestBody DirectRequestRequest directRequestRequest
    ) {
       try {
-         System.out.println(directRequestRequest);
          DirectRequestDto directRequestDto = directRequestService.changeState(id, directRequestRequest);
          return new ResponseEntity<>(
              MessageResponse.builder()

@@ -33,6 +33,8 @@ public class ServicesImplService implements IServicesService {
    public List<ServiceDto> findByFilters(Map<String, String> filters) {
       // Filtrar por tecnico
 
+      // Traer el availability amarrado al servicio
+
       return null;
    }
 

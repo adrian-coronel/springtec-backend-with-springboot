@@ -42,7 +42,6 @@ public class DirectRequestImplService implements IDirectRequestService {
 
       int technicalId = Integer.parseInt(filters.get("technicalId"));
       List<DirectRequest> directRequestList = new ArrayList<>();
-      //technicalRepository.findByIdAndUserState(technicalId, State.ACTIVE);
       if (filters.containsKey("technicalId") && filters.containsKey("state")){
          directRequestList = directRequestRepository.findAllByTechnicalIdAndState(technicalId, Integer.parseInt(filters.get("state")));
       }
@@ -85,7 +84,6 @@ public class DirectRequestImplService implements IDirectRequestService {
 
    @Override
    public DirectRequestDto save(DirectRequestRequest directRequest) throws ElementNotExistInDBException {
-      System.out.println(directRequest);
       ProfessionAvailability professionAvailability = professionAvailabilityRepository.findById(directRequest.getProfessionAvailabilityId())
           .orElseThrow(()-> new ElementNotExistInDBException("ProfessionAvailability con id "+directRequest.getProfessionAvailabilityId()+" no existe."));
       Client client = clientRepository.findById(directRequest.getClientId())

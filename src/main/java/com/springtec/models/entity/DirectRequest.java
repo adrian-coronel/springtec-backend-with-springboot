@@ -36,9 +36,9 @@ public class DirectRequest {
    private String title;
    private String description;
    @Column(name = "created_at",insertable = false, columnDefinition = "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP")
-   private Timestamp created_at;
-   private Timestamp answered_at;
-   private Timestamp resolved_at;
+   private Timestamp createdAt;
+   private Timestamp answeredAt;
+   private Timestamp resolvedAt;
 
 
 }

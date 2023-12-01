@@ -2,10 +2,7 @@ package com.springtec.services;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.ProfessionAvailabilityDto;
-import com.springtec.models.entity.ProfessionAvailability;
-import com.springtec.models.entity.Technical;
 
-import java.util.List;
 import java.util.Set;
 
 public interface IProfessionAvailabilityService {
@@ -17,4 +14,5 @@ public interface IProfessionAvailabilityService {
    ProfessionAvailabilityDto update(Integer professionAvailabilityId, ProfessionAvailabilityDto professionAvailabilityDto) throws Exception ;
 
    void delete(Integer professionAvailabilityId) throws ElementNotExistInDBException;
+
 }

@@ -2,7 +2,6 @@ package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 
-import com.springtec.models.dto.ProfessionAvailabilityDto;
 import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.AvailabilityType;
@@ -11,8 +10,6 @@ import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IProfessionAvailabilityService;
 import com.springtec.services.ITechnicalService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

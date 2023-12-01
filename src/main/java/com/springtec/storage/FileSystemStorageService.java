@@ -83,7 +83,7 @@ public class FileSystemStorageService implements StorageService {
 			// todos los archivos en "rootLocation"
 			return Files.walk(this.rootLocation, 1) // maxDepth -> Niveles de directorios a explorar
 					.filter(path -> !path.equals(this.rootLocation)) // Evita que se incluya la RAIZ
-					.map(path -> this.rootLocation.relativize(path)); // La relativización se realiza para proporcionar rutas más concisas y legibles.
+					.map(this.rootLocation::relativize); // La relativización se realiza para proporcionar rutas más concisas y legibles.
 		} catch (IOException e) {
 			throw new StorageException("No se pudieron leer los archivos almacenados", e);
 		}

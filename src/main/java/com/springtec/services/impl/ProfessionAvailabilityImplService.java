@@ -12,7 +12,6 @@ import com.springtec.models.repositories.ProfessionLocalRepository;
 import com.springtec.models.repositories.TechnicalRepository;
 import com.springtec.services.IProfessionAvailabilityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

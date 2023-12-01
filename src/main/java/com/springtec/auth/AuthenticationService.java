@@ -7,15 +7,11 @@ import com.springtec.models.entity.Role;
 import com.springtec.models.entity.User;
 import com.springtec.models.enums.UserType;
 import com.springtec.models.repositories.*;
-import com.springtec.services.impl.ProfessionImplService;
-import com.springtec.services.impl.TechnicalImplService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,7 +47,6 @@ public class AuthenticationService {
      * @return token
      * */
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws ElementNotExistInDBException {
-        System.out.println(request);
         // Buscamos al usuario para generar un token con sus detalles
         User user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new ElementNotExistInDBException("Credenciales incorrectas"));

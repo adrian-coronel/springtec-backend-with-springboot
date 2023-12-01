@@ -3,7 +3,6 @@ package com.springtec.auth;
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.payload.MessageResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,6 @@ public class AuthenticationController {
    public ResponseEntity<?> register(
            @RequestBody RegisterRequest request
    ) {
-        System.out.println(request);
         try {
             var token = authService.register(request);
             return new ResponseEntity<>(

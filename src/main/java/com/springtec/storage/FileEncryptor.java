@@ -1,7 +1,5 @@
 package com.springtec.storage;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 public class FileEncryptor {

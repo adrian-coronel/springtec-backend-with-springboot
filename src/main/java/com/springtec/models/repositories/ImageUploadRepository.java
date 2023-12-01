@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ImageUploadRepository extends JpaRepository<ImageUpload, Integer> {
 
-   List<ImageUpload> findAllByDirectRequestId(Integer directRequest_id);
+   List<ImageUpload> findAllByDirectRequestId(Integer directRequestId);
 
 }

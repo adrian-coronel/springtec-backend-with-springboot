@@ -20,6 +20,10 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 10MB
+  devtools:
+    restart:
+      enabled: true
+      exclude: static/**
 
 # Habilitar/desabilitar api-docs swagger-ui
 springdoc:
