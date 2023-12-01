@@ -7,11 +7,13 @@ import com.springtec.models.payload.MessageResponse;
 import com.springtec.services.IDirectRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,12 +21,54 @@ import org.springframework.web.bind.annotation.RestController;
 public class DirectRequestController {
 
    private final IDirectRequestService directRequestService;
-
-   @PostMapping("directrequest")
-   public ResponseEntity<?> save(
-       @RequestBody DirectRequestRequest directRequestRequest
-   ){
+   @GetMapping(value="directrequest")
+   public ResponseEntity<?> showAll(@RequestParam Map<String, String> filters){
       try {
+         List<DirectRequestDto> directRequestDtos = directRequestService.findAllFiltersByTechnical(filters);
+         System.out.println(directRequestDtos.size());
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .body(directRequestDtos)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (Exception e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.INTERNAL_SERVER_ERROR
+         );
+      }
+   }
+
+   @GetMapping(value="directrequest/{id}")
+   public ResponseEntity<?> show(@PathVariable Integer id){
+      try {
+         DirectRequestDto directRequestDto = directRequestService.findById(id);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .body(directRequestDto)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (Exception e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.INTERNAL_SERVER_ERROR
+         );
+      }
+   }
+
+
+   @PostMapping(value = "directrequest",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+   public ResponseEntity<?> save(
+       @ModelAttribute DirectRequestRequest directRequestRequest
+   ) {
+      try {
+         System.out.println(directRequestRequest);
          DirectRequestDto directRequestDto = directRequestService.save(directRequestRequest);
          return new ResponseEntity<>(
              MessageResponse.builder()
@@ -38,9 +82,36 @@ public class DirectRequestController {
              MessageResponse.builder()
                  .message(e.getMessage())
                  .build()
-             , HttpStatus.CREATED
+             , HttpStatus.METHOD_NOT_ALLOWED
          );
       }
    }
+
+
+   @PutMapping("directrequest/{id}")
+   public ResponseEntity<?> changeUpdate(
+       @PathVariable Integer id,
+       @RequestBody DirectRequestRequest directRequestRequest
+   ) {
+      try {
+         System.out.println(directRequestRequest);
+         DirectRequestDto directRequestDto = directRequestService.changeState(id, directRequestRequest);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message("Actualizado correctamente")
+                 .body(directRequestDto)
+                 .build()
+             , HttpStatus.CREATED
+         );
+      } catch (ElementNotExistInDBException e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.METHOD_NOT_ALLOWED
+         );
+      }
+   }
+
 
 }

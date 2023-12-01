@@ -1,11 +1,15 @@
 package com.springtec.models.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.springtec.models.entity.DirectRequest;
+import com.springtec.models.entity.StateDirectRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -15,15 +19,73 @@ import java.util.List;
 public class DirectRequestDto {
 
    private Integer id;
-   private TechnicalDto technicalDto;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private Integer clientId;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
    private ClientDto clientDto;
-   //todo TYPE_SERVICE_AVAILABILITY
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private Integer serviceTypeAvailabilityId;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private ServiceTypeAvailabilityDto serviceTypeAvailabilityDto;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private ProfessionAvailabilityDto professionAvailability;
    private Double latitude;
    private Double longitude;
    private String title;
    private String description;
-   //todo LISTA DE IMG UPLOADS
-   private char state;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private List<ImageUploadDto> files;
+   private StateDirectRequest state;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private Timestamp created_at;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private Timestamp answered_at;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private Timestamp resolved_at;
 
 
+   public DirectRequestDto(DirectRequest directRequest){
+      this.id = directRequest.getId();
+      this.clientId = directRequest.getId();
+      this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
+          ? directRequest.getServiceTypeAvailability().getId() : null;
+      this.latitude = directRequest.getLatitude();
+      this.longitude = directRequest.getLongitude();
+      this.title = directRequest.getTitle();
+      this.description = directRequest.getDescription();
+      this.state = directRequest.getStateDirectRequest();
+   }
+
+   public DirectRequestDto(DirectRequest directRequest, List<ImageUploadDto> files, ProfessionAvailabilityDto professionAvailability){
+      this.id = directRequest.getId();
+      this.clientId = directRequest.getId();
+      this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
+          ? directRequest.getServiceTypeAvailability().getId() : null;
+      this.professionAvailability = professionAvailability;
+      this.latitude = directRequest.getLatitude();
+      this.longitude = directRequest.getLongitude();
+      this.title = directRequest.getTitle();
+      this.description = directRequest.getDescription();
+      this.state = directRequest.getStateDirectRequest();
+      this.files = files;
+      this.created_at = directRequest.getCreated_at();
+      this.answered_at = directRequest.getAnswered_at();
+      this.resolved_at = directRequest.getResolved_at();
+   }
+
+   public DirectRequestDto(DirectRequest directRequest, List<ImageUploadDto> files){
+      this.id = directRequest.getId();
+      this.clientId = directRequest.getId();
+      this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
+          ? directRequest.getServiceTypeAvailability().getId() : null;
+      this.latitude = directRequest.getLatitude();
+      this.longitude = directRequest.getLongitude();
+      this.title = directRequest.getTitle();
+      this.description = directRequest.getDescription();
+      this.state = directRequest.getStateDirectRequest();
+      this.files = files;
+      this.created_at = directRequest.getCreated_at();
+      this.answered_at = directRequest.getAnswered_at();
+      this.resolved_at = directRequest.getResolved_at();
+   }
 }
