@@ -1,0 +1,1132 @@
+{
+	"info": {
+		"_postman_id": "442403d1-b749-4803-b9ba-bcb3c4c5a7b3",
+		"name": "SPRINGTEC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24966362"
+	},
+	"item": [
+		{
+			"name": "springboot-api-restfull",
+			"item": [
+				{
+					"name": "technical",
+					"item": [
+						{
+							"name": "profesión availability",
+							"item": [
+								{
+									"name": "GUARDAR",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEiLCJpYXQiOjE3MDA5ODg5NDAsImV4cCI6MTcwMTA3NTM0MH0.Y4y98k-NgGoxpf_qpdulx8wZ5Bw3yJ7VP3ywUFDu520",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"professionId\": 2,\r\n    \"availabilityId\": 2,\r\n    \"experienceId\": 2,\r\n    \"latitude\": -11.8272853,\r\n    \"longitude\": -77.1450109\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/v1/technicals/1/professions-availability",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"technicals",
+												"1",
+												"professions-availability"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "OBTENER POR TECNICO",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjIiLCJpYXQiOjE3MDExNTY3MjUsImV4cCI6MTcwMTI0MzEyNX0.UHTQMBMJK6yFX9HCuOgOgmiVlvF_4bzGuNVKoMCe8LQ",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/api/v1/technicals/1/professions-availability",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"technicals",
+												"1",
+												"professions-availability"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UPDATE",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjUsInN1YiI6IjEiLCJpYXQiOjE3MDA4MzgzMjAsImV4cCI6MTcwMDkyNDcyMH0.HbrCzHYosu4IMfL6d55pwIEBMC6HDoSMFbXWQ9_pmek",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"professionId\": 8,\r\n    \"availabilityId\": 3,\r\n    \"experienceId\": 8\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/v1/technical/professions-availability/9",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"technical",
+												"professions-availability",
+												"9"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "OBTENER POR ID",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEiLCJpYXQiOjE3MDA4NjA5MTgsImV4cCI6MTcwMDk0NzMxOH0.z1fMXQJtHUvbBpUXZeItEO1mjpxgJslDDWxp68AvOVA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/api/v1/technical/professions-availability/1",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"technical",
+												"professions-availability",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEiLCJpYXQiOjE3MDA4NjA5MTgsImV4cCI6MTcwMDk0NzMxOH0.z1fMXQJtHUvbBpUXZeItEO1mjpxgJslDDWxp68AvOVA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/api/v1/technical/professions-availability/2",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"technical",
+												"professions-availability",
+												"2"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "profession local",
+							"item": [
+								{
+									"name": "UPDATE STATE",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEiLCJpYXQiOjE3MDA5Njg5MjAsImV4cCI6MTcwMTA1NTMyMH0.5AVdYHmKcPW_NOT_uA0pgo4d8UKbIDUxUZCMvxldlqA",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"state\":\"1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:8080/api/v1/professions-availability/1/update-localstate",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"api",
+												"v1",
+												"professions-availability",
+												"1",
+												"update-localstate"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "TECHNICALS",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEwIiwiaWF0IjoxNzAxMDU0NTU3LCJleHAiOjE3MDExNDA5NTd9.xdPoFPTalgug8lV7s44kw2-VDBK2ydHJ507-YVcji-I",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMUBlamVtcGxvLmNvbSIsImlhdCI6MTY5ODM3MjY4MCwiZXhwIjoxNjk4NDU5MDgwfQ.GttsThXgZV3-ghff82P8mOdbmM3jmEwZd9iEBDqNCyM",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/technicals?availabilityId=2&professionId=1&latitude=-12.0442274&longitude=-76.9504821&distance=10",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"technicals"
+									],
+									"query": [
+										{
+											"key": "availabilityId",
+											"value": "2"
+										},
+										{
+											"key": "professionId",
+											"value": "1"
+										},
+										{
+											"key": "latitude",
+											"value": "-12.0442274"
+										},
+										{
+											"key": "longitude",
+											"value": "-76.9504821"
+										},
+										{
+											"key": "distance",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TECHNICAL",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjUiLCJpYXQiOjE3MDA1NDcyMzEsImV4cCI6MTcwMDYzMzYzMX0.iGDx0agPTbSqlst6M0oRVS5hjYcWfMsNxnRK-5gYB8g",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/technical/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"technical",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjIiLCJpYXQiOjE3MDA1NjY4NzMsImV4cCI6MTcwMDY1MzI3M30.zf4fvcaX0Dllk22Gy20iN8gNEPW_4dtHmYQgOirJMy8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/technical/5",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"technical",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjUsInN1YiI6IjEiLCJpYXQiOjE3MDA4MzgzMjAsImV4cCI6MTcwMDkyNDcyMH0.HbrCzHYosu4IMfL6d55pwIEBMC6HDoSMFbXWQ9_pmek",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"OSCAR JUNIOR\",\r\n  \"lastname\": \"CORONEL\",\r\n  \"motherLastname\": \"MENDOZA\",\r\n  \"birthDate\": \"2003-06-15\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/technical/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"technical",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "FILTER TECHNICAL",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEiLCJpYXQiOjE3MDAxNDExMDEsImV4cCI6MTcwMDIyNzUwMX0.v65xHSTb2pjd1uh9JN9uABCYfMcrGQrTQSzJsquZCI0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/technicals?professionId=2&availabilityId=2&latitude=12.3456&longitude=-78.9012&distance=5",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"technicals"
+									],
+									"query": [
+										{
+											"key": "professionId",
+											"value": "2"
+										},
+										{
+											"key": "availabilityId",
+											"value": "2"
+										},
+										{
+											"key": "latitude",
+											"value": "12.3456"
+										},
+										{
+											"key": "longitude",
+											"value": "-78.9012"
+										},
+										{
+											"key": "distance",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "STATUS WORKING",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEwIiwiaWF0IjoxNzAxMDU0NTU3LCJleHAiOjE3MDExNDA5NTd9.xdPoFPTalgug8lV7s44kw2-VDBK2ydHJ507-YVcji-I",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"workingStatus\": \"1\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/technical/2/update-workingstatus",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"technical",
+										"2",
+										"update-workingstatus"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE LOCATION",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEwIiwiaWF0IjoxNzAxMDU0NTU3LCJleHAiOjE3MDExNDA5NTd9.xdPoFPTalgug8lV7s44kw2-VDBK2ydHJ507-YVcji-I",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"latitude\": -12.0437274, \"longitude\": -76.9509821 }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/technical/10/update-location",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"technical",
+										"10",
+										"update-location"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "USER",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjMiLCJpYXQiOjE3MDA1MzkwODUsImV4cCI6MTcwMDYyNTQ4NX0.6Xs3J4jcr30blzmyh5b1-r9Boa2uVNmbaDoEA50s3Rk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/user/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UPDATE",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvc2NhckB0ZWNzdXAuZWR1LnBlIiwiaWF0IjoxNjk5NDU4MjM4LCJleHAiOjE2OTk1NDQ2Mzh9.Ltw0Ue1g9IefcCBX9YExMPqNM41kSfpK99IZNob3WJM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"oscar@tecsup.edu.pe\",\r\n    \"password\": \"oscar1234\",\r\n    \"roleId\": 2,\r\n    \"state\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/user/8",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"user",
+										"8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "REGISTER",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"email\": \"test10@ejemplo.com\",\r\n    \"password\": \"contraseña\",\r\n    \"roleId\": 2,\r\n    \"name\": \"test\",\r\n    \"lastname\": \"test\",\r\n    \"motherLastname\": \"test\",\r\n    \"dni\": \"10101010\",\r\n    \"birthDate\": \"1995-03-25\",\r\n    \"latitude\": -12.0437274,\r\n    \"longitude\": -76.9509821\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/auth/register",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AUTHENTICATE",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"test2@ejemplo.com\",\r\n  \"password\":\"contraseña\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/auth/authenticate",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "VERIFY TOKEN",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/auth/verifytoken",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"verifytoken"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Services",
+					"item": [
+						{
+							"name": "GUARDAR",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjMiLCJpYXQiOjE3MDExODk4NjEsImV4cCI6MTcwMTI3NjI2MX0.F029NW3dwwBvktYoJlmZ0Bx0N1OY1Y-1GI57YVGRtwg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "technicalId",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "availabilityId",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "professionId",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "categoryServiceId",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "currencyTypeId",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Revisión de motores",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Observa detenidamente el motor y sus alrededores, mira mangueras y correas. Fíjate si tienen rastros de algún líquido, lo que sería evidencia de fugas, lo ideal es que estén secas, pero tampoco resecas.",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "399.99",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/Imágenes/REVISION-WEB.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/services",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"services"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CLIENTS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvc2NhckB0ZWNzdXAuZWR1LnBlIiwiaWF0IjoxNjk5NDU4MjM4LCJleHAiOjE2OTk1NDQ2Mzh9.Ltw0Ue1g9IefcCBX9YExMPqNM41kSfpK99IZNob3WJM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/clients",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PROFESSIONS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEiLCJpYXQiOjE3MDAxNTA4MDIsImV4cCI6MTcwMDIzNzIwMn0.bBcUAqz4zEl9OIDcgJMdxJH4Oys06CkP8D8ecLeu0Ps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/professions",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"professions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AVAILABILITIES",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjEiLCJpYXQiOjE3MDAxNTA4MDIsImV4cCI6MTcwMDIzNzIwMn0.bBcUAqz4zEl9OIDcgJMdxJH4Oys06CkP8D8ecLeu0Ps",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/availabilities",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"availabilities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DIRECT REQUEST",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjIiLCJpYXQiOjE3MDExNDI5MjYsImV4cCI6MTcwMTIyOTMyNn0.oLri4jTwuuEMGv7xxJG6xPYSvskEba_v-u15tXQKtEQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "professionAvailabilityId",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "clientId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "latitude",
+									"value": "12.3456",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "-76.7890",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Mi titulo",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Nuestra misión es brindar una plataforma en línea que conecta a usuarios con técnicos confiables y calificados, simplificando la búsqueda y contratación de servicios técnicos.",
+									"type": "text"
+								},
+								{
+									"key": "imageUrls",
+									"type": "file",
+									"src": [
+										"/D:/Imágenes/Captura de pantalla 2023-02-16 095423.jpg",
+										"/D:/Imágenes/Captura de pantalla 2023-02-24 192353.jpg",
+										"/D:/Imágenes/fe y alegria.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/directrequest",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"directrequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SERVICES",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjIiLCJpYXQiOjE3MDA1NjY4NzMsImV4cCI6MTcwMDY1MzI3M30.zf4fvcaX0Dllk22Gy20iN8gNEPW_4dtHmYQgOirJMy8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/services?professionId=1&categoryServiceId=1&technicalId=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"services"
+							],
+							"query": [
+								{
+									"key": "professionId",
+									"value": "1"
+								},
+								{
+									"key": "categoryServiceId",
+									"value": "1"
+								},
+								{
+									"key": "technicalId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DIRECT REQUEST",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlSWQiOjIsInN1YiI6IjIiLCJpYXQiOjE3MDExNDI5MjYsImV4cCI6MTcwMTIyOTMyNn0.oLri4jTwuuEMGv7xxJG6xPYSvskEba_v-u15tXQKtEQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/directrequest/7",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"directrequest",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "django-api-restfull",
+			"item": [
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"helpdesk@gmail.com\",\r\n  \"password\": \"12345\",\r\n  \"roleId\": 3,\r\n  \"name\": \"test\",\r\n  \"father_lastname\": \"test\",\r\n  \"mother_lastname\": \"test\",\r\n  \"dni\": \"87354999\",\r\n  \"birth_date\": \"2004-01-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/admin/helpDesk/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"helpDesk",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AUTHENTICATE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"helpdesk@gmail.com\",\r\n  \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/admin/authenticate/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"admin",
+								"authenticate",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
