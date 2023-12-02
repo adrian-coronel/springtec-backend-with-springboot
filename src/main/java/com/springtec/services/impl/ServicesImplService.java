@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,10 +29,10 @@ public class ServicesImplService implements IServicesService {
    private final ServiceTypeAvailabilityRepository serviceTypeAvailabilityRepository;
    private final ProfessionAvailabilityRepository professionAvailabilityRepository;
 
-
    @Override
    public List<ServiceDto> findByFilters(Map<String, String> filters) {
-      // Filtrar por tecnico
+      // Filtrar por tecnico y profesion
+
 
       // Traer el availability amarrado al servicio
 
@@ -46,7 +47,6 @@ public class ServicesImplService implements IServicesService {
       ImageService imageService = imageServiceRepository.findById(service.getId()).orElse(null);
 
       ImageUploadDto imageUploadDto;
-
       if (imageService != null){
          String fakeFileName = imageService.getFakeName()+"."+imageService.getFakeExtensionName();
          String originalFileName = imageService.getOriginalName()+"."+imageService.getExtensionName();
@@ -84,17 +84,12 @@ public class ServicesImplService implements IServicesService {
           .price(serviceRequest.getPrice())
           .state(State.ACTIVE)
           .build();
-
       // GUARDAMOS EL SERVICIO
       serviceSaved = serviceRepository.save(serviceSaved);
 
       // Buscamos PROFESSION AVAILABILITY que el técnico selecciono
-      ProfessionAvailability professionAvailability = professionAvailabilityRepository.findByTechnicalIdAndAvailabilityIdAndProfessionId(
-                  serviceRequest.getTechnicalId(), serviceRequest.getAvailabilityId(), serviceRequest.getProfessionId() );
-
-      if (professionAvailability == null){
-         throw new ElementNotExistInDBException("ProfessionAvaialility no exisste, ");
-      }
+      ProfessionAvailability professionAvailability = professionAvailabilityRepository.findById(serviceRequest.getProfessionAvailabilityId())
+          .orElseThrow(() -> new ElementNotExistInDBException("La ProfessionAvailability con id"+serviceRequest.getProfessionAvailabilityId()+" no existe."));
 
       // GUARDAMOS LA RELACION ENTRE SERVICE - PROFESSION AVAILABILITY
       serviceTypeAvailabilityRepository.save(
@@ -126,13 +121,35 @@ public class ServicesImplService implements IServicesService {
       return new ServiceDto(serviceSaved);
    }
 
+   @Override
+   public ServiceDto udpate(Integer serviceId, ServiceRequest serviceRequest) throws ElementNotExistInDBException {
+      // BUSCAR EL SERVICIO A ACTUALIZAR
+      Services service = serviceRepository.findById(serviceId)
+          .orElseThrow(() -> new ElementNotExistInDBException("El service con id "+serviceId+" no existe."));
+
+      service.setName(serviceRequest.getName());
+      service.setDescription(serviceRequest.getDescription());
+      service.setPrice(serviceRequest.getPrice());
+      service.setCurrencyType(CurrencyType.builder().id(serviceRequest.getCurrencyTypeId()).build());
+      service.setCategoryService(CategoryService.builder().id(serviceRequest.getCategoryServiceId()).build());
+
+      // ACTUALIZAR LA IMAGEN SI ES QUE SE ENVIA
+      if (!serviceRequest.getFile().isEmpty()) {
+         ImageService imageService = imageServiceRepository.findByServiceId(service.getId());
+         String fakeFileName = imageService.getFakeName()+"."+imageService.getFakeExtensionName();
+         String originalFileName = imageService.getOriginalName()+"."+imageService.getExtensionName();
+         //todo CREAR METODO PARA ELIMINAR Y GUARDAR NUEVA IMAGEN
+         //storageService.
+      }
+      return null;
+   }
+
    private List<ServiceDto> mapServiceToServiceDto(List<Services> servicesList){
       return servicesList
           .stream()
           .map(ServiceDto::new)
           .toList();
    }
-
 
 
 }

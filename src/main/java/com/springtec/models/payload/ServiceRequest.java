@@ -18,9 +18,7 @@ public class ServiceRequest {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer technicalId;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer availabilityId;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer professionId;
+    private Integer professionAvailabilityId;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer categoryServiceId;
     @JsonInclude(JsonInclude.Include.NON_NULL)

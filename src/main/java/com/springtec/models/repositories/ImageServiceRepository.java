@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ImageServiceRepository extends JpaRepository<ImageService, Integer> {
+   ImageService findByServiceId(Integer serviceId);
 }

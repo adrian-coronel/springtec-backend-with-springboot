@@ -19,11 +19,12 @@ public class Profession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String  name;
+    private String name;
 
     @Column(columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
     private char state = '1';
 
+    public Profession(Integer id) {this.id = id;}
     public Profession(String name) {
         this.name = name;
     }
