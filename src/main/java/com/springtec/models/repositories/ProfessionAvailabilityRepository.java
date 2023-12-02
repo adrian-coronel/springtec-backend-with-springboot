@@ -14,8 +14,9 @@ import java.util.Set;
 public interface ProfessionAvailabilityRepository extends JpaRepository<ProfessionAvailability, Integer> {
 
    Set<ProfessionAvailability> findAllByTechnicalId(Integer technical_id);
-
    Set<ProfessionAvailability> findAllByTechnicalIdAndProfessionId(Integer technical_id,Integer profession_id);
+   ProfessionAvailability findByTechnicalIdAndAvailabilityIdAndProfessionId(Integer technical_id, Integer availability_id, Integer profession_id);
+
    Optional<ProfessionAvailability> findById(Integer id);
 
    boolean existsByTechnicalIdAndAvailabilityIdAndProfessionIdAndExperienceId(

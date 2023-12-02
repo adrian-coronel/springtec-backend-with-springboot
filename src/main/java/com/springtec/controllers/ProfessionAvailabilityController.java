@@ -58,7 +58,7 @@ public class ProfessionAvailabilityController {
 
 
 
-   @GetMapping("technical/professions-availability/{professionAvailabilityId}")
+   @GetMapping("technicals/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> show(@PathVariable Integer professionAvailabilityId){
       try {
          ProfessionAvailabilityDto professionAvailabilityDto = professionAvailabilityService.findById(professionAvailabilityId);
