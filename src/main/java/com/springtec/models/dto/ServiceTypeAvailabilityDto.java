@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ServiceTypeAvailabilityDto {
 
-   private Integer id;
-   private Integer serviceId;
-   private Integer professionAvailabilityId;
+    private Integer id;
+    private Integer serviceId;
+    private Integer professionAvailabilityId;
 
 }

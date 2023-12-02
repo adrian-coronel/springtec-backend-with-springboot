@@ -126,6 +126,20 @@ public class ProfessionAvailabilityImplService implements IProfessionAvailabilit
           professionAvailabilityDto.getLongitude());
    }
 
+   @Override
+   public Set<ProfessionAvailabilityDto> findAllByTechnicalAndProfessionId(Integer technicalId, Integer professionId) {
+      Set<ProfessionAvailability> professionAvailabilities = professionAvailabilityRepository.findAllByTechnicalIdAndProfessionId(technicalId,professionId);
+      return professionAvailabilities.stream()
+              .map(e->{
+                 if(Objects.equals(e.getAvailability().getId(), AvailabilityType.EN_TALLER_ID)){
+                    ProfessionLocal a = professionLocalRepository.findByProfessionAvailabilityId(e.getId());
+                    return new ProfessionAvailabilityDto(e,a.getLatitude(),a.getLongitude());
+                 }
+                 return new ProfessionAvailabilityDto(e);
+              })
+              .collect(Collectors.toSet());
+   }
+
    @Transactional
    @Override
    public ProfessionAvailabilityDto update(Integer professionAvailabilityId, ProfessionAvailabilityDto professionAvailabilityDto) throws Exception {

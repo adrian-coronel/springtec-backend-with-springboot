@@ -41,6 +41,23 @@ public class ProfessionAvailabilityController {
 
    }
 
+
+
+   @GetMapping("technical/professions-availability/{TechnicalId}/{ProfessionId}")
+   public ResponseEntity<?> showAllProfessionsAvailabilityByProfession (
+           @PathVariable Integer TechnicalId,@PathVariable Integer ProfessionId
+   ){
+      Set<ProfessionAvailabilityDto> professionAvailabilityDtos = professionAvailabilityService.findAllByTechnicalAndProfessionId(TechnicalId,ProfessionId);
+      return new ResponseEntity<>(
+              MessageResponse.builder()
+                      .body(professionAvailabilityDtos)
+                      .build()
+              , HttpStatus.OK
+      );
+   }
+
+
+
    @GetMapping("technicals/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> show(@PathVariable Integer professionAvailabilityId){
       try {

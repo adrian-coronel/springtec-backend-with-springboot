@@ -8,6 +8,7 @@ import java.util.Set;
 public interface IProfessionAvailabilityService {
 
    Set<ProfessionAvailabilityDto> findAllByTechnical(Integer technicalId) throws ElementNotExistInDBException;
+   Set<ProfessionAvailabilityDto> findAllByTechnicalAndProfessionId(Integer technicalId,Integer professionId);
    ProfessionAvailabilityDto findById(Integer professionAvailabilityId) throws ElementNotExistInDBException;
    ProfessionAvailabilityDto findByTechnicalIdAndAvailabilityIdAndProfessionId(Integer technicalId, Integer availabilityId, Integer professionId);
    ProfessionAvailabilityDto save(Integer technicalId, ProfessionAvailabilityDto professionAvailabilityDto) throws Exception;

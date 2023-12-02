@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImageUploadDto {
 
-   @JsonInclude(JsonInclude.Include.NON_NULL)
-   private String fileName;
-   @JsonInclude(JsonInclude.Include.NON_NULL)
-   private String contentType;
-   @JsonInclude(JsonInclude.Include.NON_NULL)
-   private byte[] file;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String fileName;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String contentType;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private byte[] file;
 
 }
