@@ -25,14 +25,23 @@ public class ServicesController {
    public ResponseEntity<?> showAll(
        @RequestParam Map<String, String> filters
    ){
-      List<ServiceDto> serviceDtos =servicesService.findByFilters(filters);
-      return new ResponseEntity<>(
-          MessageResponse.builder()
-              .message("")
-              .body(serviceDtos)
-              .build()
-          , HttpStatus.OK
-      );
+      try {
+         List<ServiceDto> serviceDtos = servicesService.findByFilters(filters);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message("")
+                 .body(serviceDtos)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (Exception e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.METHOD_NOT_ALLOWED
+         );
+      }
    }
 
    @GetMapping("services/{id}")
@@ -53,7 +62,7 @@ public class ServicesController {
              MessageResponse.builder()
                  .message(e.getMessage())
                  .build()
-             , HttpStatus.OK
+             , HttpStatus.METHOD_NOT_ALLOWED
          );
       }
 
