@@ -1,6 +1,7 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.exceptions.InvalidArgumentException;
 import com.springtec.models.dto.ImageUploadDto;
 import com.springtec.models.dto.ServiceDto;
 import com.springtec.models.entity.*;
@@ -22,6 +23,8 @@ import java.util.Set;
 public class ServicesImplService implements IServicesService {
 
    private final StorageService storageService;
+   private final TechnicalRepository technicalRepository;
+   private final ProfessionRepository professionRepository;
    private final ImageServiceRepository imageServiceRepository;
    private final ServiceRepository serviceRepository;
    private final CurrencyTypeRepository currencyTypeRepository;
@@ -30,14 +33,45 @@ public class ServicesImplService implements IServicesService {
    private final ProfessionAvailabilityRepository professionAvailabilityRepository;
 
    @Override
-   public List<ServiceDto> findByFilters(Map<String, String> filters) {
-      // Filtrar por tecnico y profesion
-
-
+   public List<ServiceDto> findByFilters(Map<String, String> filters) throws Exception {
+      filterException(filters);
+      List<Services> servicesList = null;
+      if (filters.containsKey("categoryId")  && filters.containsKey("technicalId") && filters.containsKey("professionId")){
+         servicesList = serviceRepository.findAllByTechnicalIdAndProfessionIdAndCategoryId(
+             Integer.parseInt(filters.get("technicalId")),
+             Integer.parseInt(filters.get("professionId")),
+             Integer.parseInt(filters.get("categoryId"))
+         );
+      } else {
+         throw new InvalidArgumentException("Filtro no soportado");
+      }
       // Traer el availability amarrado al servicio
 
-      return null;
+      return servicesList.stream()
+          .map(service -> {
+             try {
+                return findById(service.getId());
+             } catch (ElementNotExistInDBException e) {
+             }
+             return null;
+          })
+          .toList();
    }
+
+   private void filterException(Map<String, String> filters) throws ElementNotExistInDBException {
+      if (filters.containsKey("technicalId")
+          && !technicalRepository.existsByIdAndUserState(Integer.parseInt(filters.get("technicalId")),State.ACTIVE)
+      ){
+         throw new ElementNotExistInDBException("El technical con id "+filters.get("technicalId")+" no existe.");
+      }
+      if (filters.containsKey("categoryId") && !categoryServiceRepository.existsById(Integer.parseInt(filters.get("categoryId")))){
+         throw new ElementNotExistInDBException("La categoria con id "+filters.get("categoryId")+" no existe.");
+      }
+      if (filters.containsKey("professionId") && !professionRepository.existsById(Integer.parseInt(filters.get("professionId")))){
+         throw new ElementNotExistInDBException("La profesion con id "+filters.get("professionId")+" no existe.");
+      }
+   }
+
 
    @Override
    public ServiceDto findById(Integer id) throws ElementNotExistInDBException {

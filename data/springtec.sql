@@ -713,3 +713,72 @@ BEGIN
         ) <= p_rango;
 END //
 DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE findAllByTechnicalIdAndDistintStateId(
+    IN p_technical_id INT,
+    IN p_state_id INT
+)
+BEGIN
+	SELECT 
+		dr.id,
+        dr.profession_availability_id,
+        dr.client_id,
+		dr.service_type_availability_id,
+        dr.state_direct_request_id,
+        dr.latitude,
+        dr.longitude,
+        dr.title,
+        dr.description,
+        dr.created_at,
+        dr.answered_at,
+        dr.resolved_at
+    FROM direct_request dr
+	INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
+	WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id != p_state_id;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE findAllByTechnicalIdAndStateId(
+    IN p_technical_id INT,
+    IN p_state_id INT
+)
+BEGIN
+	SELECT 
+		dr.id,
+        dr.profession_availability_id,
+        dr.client_id,
+		dr.service_type_availability_id,
+        dr.state_direct_request_id,
+        dr.latitude,
+        dr.longitude,
+        dr.title,
+        dr.description,
+        dr.created_at,
+        dr.answered_at,
+        dr.resolved_at
+    FROM direct_request dr
+	INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
+	WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id = p_state_id;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE findAllByTechnicalIdAndProfessionIdAndCategoryId(
+    IN p_technical_id INT,
+    IN p_profession_id INT,
+    IN p_category_services_id INT
+)
+BEGIN
+	SELECT 
+		s.*
+	FROM services s 
+	INNER JOIN service_type_availability sta ON sta.services_id = s.id
+	INNER JOIN profession_availability pa ON sta.profession_availability_id = pa.id
+	WHERE pa.technical_id = p_technical_id AND pa.profession_id = p_profession_id AND s.category_services_id = p_category_services_id;
+END //
+DELIMITER ;
