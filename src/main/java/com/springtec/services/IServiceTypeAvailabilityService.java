@@ -1,4 +1,4 @@
-package com.springtec.services.impl;
+package com.springtec.services;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.ServiceTypeAvailabilityDto;

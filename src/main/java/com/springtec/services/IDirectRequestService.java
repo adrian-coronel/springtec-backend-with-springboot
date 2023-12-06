@@ -11,6 +11,6 @@ public interface IDirectRequestService {
 
    List<DirectRequestDto> findAllFiltersByTechnical(Map<String, String> filters) throws Exception;
    DirectRequestDto findById(Integer id) throws Exception;
-   DirectRequestDto save(DirectRequestRequest directRequest) throws ElementNotExistInDBException;
+   DirectRequestDto save(DirectRequestRequest directRequest) throws Exception;
    DirectRequestDto changeState(Integer id, DirectRequestRequest directRequestRequest) throws ElementNotExistInDBException;
 }

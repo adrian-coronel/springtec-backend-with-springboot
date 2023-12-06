@@ -31,6 +31,9 @@ public class DirectRequest {
    @ManyToOne
    @JoinColumn(name = "state_direct_request_id")
    private StateDirectRequest stateDirectRequest;
+   @ManyToOne
+   @JoinColumn(name = "category_services_id")
+   private CategoryService categoryService;
    private Double latitude;
    private Double longitude;
    private String title;

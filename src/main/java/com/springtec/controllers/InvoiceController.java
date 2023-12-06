@@ -1,43 +1,41 @@
 package com.springtec.controllers;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
-import com.springtec.models.dto.ServiceTypeAvailabilityDto;
+import com.springtec.models.dto.InvoiceDto;
+import com.springtec.models.payload.InvoiceRequest;
 import com.springtec.models.payload.MessageResponse;
-import com.springtec.services.IServiceTypeAvailabilityService;
+import com.springtec.services.IInvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
-public class ServiceTypeAvailabilityController {
+public class InvoiceController {
 
-   private final IServiceTypeAvailabilityService serviceTypeAvailabilityService;
+   private final IInvoiceService invoiceService;
 
-   @GetMapping("services-availability")
-   public ResponseEntity<?> showAllByFilters(@RequestParam Map<String, String> filters){
+   @PostMapping("invoice")
+   public ResponseEntity<?> save(@RequestBody InvoiceRequest invoiceRequest){
       try {
-         List<ServiceTypeAvailabilityDto> serviceTypeAvailabilityDtoList = serviceTypeAvailabilityService.findByFilters(filters);
+         InvoiceDto invoiceDto = invoiceService.save(invoiceRequest);
          return new ResponseEntity<>(
              MessageResponse.builder()
-                 .body(serviceTypeAvailabilityDtoList)
+                 .body(invoiceDto)
                  .build()
-             , HttpStatus.OK
+             , HttpStatus.CREATED
          );
       } catch (ElementNotExistInDBException e) {
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .message(e.getMessage())
                  .build()
-             , HttpStatus.METHOD_NOT_ALLOWED
+             , HttpStatus.BAD_REQUEST
          );
       }
    }

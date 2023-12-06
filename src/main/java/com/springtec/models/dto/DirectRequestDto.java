@@ -29,6 +29,8 @@ public class DirectRequestDto {
    private ServiceTypeAvailabilityDto serviceTypeAvailabilityDto;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private ProfessionAvailabilityDto professionAvailability;
+   @JsonInclude(JsonInclude.Include.NON_NULL)
+   private CategoryServiceDto categoryService;
    private Double latitude;
    private Double longitude;
    private String title;
@@ -49,6 +51,7 @@ public class DirectRequestDto {
       this.clientId = directRequest.getId();
       this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
           ? directRequest.getServiceTypeAvailability().getId() : null;
+      this.categoryService = new CategoryServiceDto(directRequest.getCategoryService());
       this.latitude = directRequest.getLatitude();
       this.longitude = directRequest.getLongitude();
       this.title = directRequest.getTitle();
@@ -62,6 +65,7 @@ public class DirectRequestDto {
       this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
           ? directRequest.getServiceTypeAvailability().getId() : null;
       this.professionAvailability = professionAvailability;
+      this.categoryService = new CategoryServiceDto(directRequest.getCategoryService());
       this.latitude = directRequest.getLatitude();
       this.longitude = directRequest.getLongitude();
       this.title = directRequest.getTitle();
@@ -78,6 +82,7 @@ public class DirectRequestDto {
       this.clientId = directRequest.getId();
       this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
           ? directRequest.getServiceTypeAvailability().getId() : null;
+      this.categoryService = new CategoryServiceDto(directRequest.getCategoryService());
       this.latitude = directRequest.getLatitude();
       this.longitude = directRequest.getLongitude();
       this.title = directRequest.getTitle();

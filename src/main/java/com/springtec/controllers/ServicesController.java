@@ -83,7 +83,7 @@ public class ServicesController {
                  .build()
              , HttpStatus.CREATED
          );
-      } catch (ElementNotExistInDBException e) {
+      } catch (Exception e) {
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .message(e.getMessage())

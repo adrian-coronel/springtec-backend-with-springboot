@@ -123,6 +123,8 @@ public class TechnicalImplService implements ITechnicalService {
 
     @Override
     public boolean updateWorkingStatus(Integer technicalId, char statusWorking) throws Exception {
+        //todo Cambiar, el endpoint ya solito cambia el estado
+
         // Si no se envia un valor para activar o desactivar
         if(!(statusWorking == State.ACTIVE || statusWorking == State.INACTIVE))
             throw new IllegalArgumentException("El estado solo de trabajo solo puede contener 0 o 1");

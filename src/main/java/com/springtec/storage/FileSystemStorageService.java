@@ -70,7 +70,6 @@ public class FileSystemStorageService implements StorageService {
 			return originalFileNameEncrypted;
 		}
 		catch (IOException e) {
-			//todo CONTROLAR LA CANTIDAD DE MB QUE UNA IMAGEN PUEDE TENER
 			throw new StorageException("Failed to store file.", e);
 		}
 	}

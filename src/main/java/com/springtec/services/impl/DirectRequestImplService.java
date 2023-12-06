@@ -14,6 +14,7 @@ import com.springtec.services.IProfessionAvailabilityService;
 import com.springtec.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class DirectRequestImplService implements IDirectRequestService {
    private final TechnicalRepository technicalRepository;
    private final StorageService storageService;
    private final ClientRepository clientRepository;
-
+   private final CategoryServiceRepository categoryServiceRepository;
 
    @Override
    public List<DirectRequestDto> findAllFiltersByTechnical(Map<String, String> filters) throws Exception {
@@ -83,11 +84,22 @@ public class DirectRequestImplService implements IDirectRequestService {
    }
 
    @Override
-   public DirectRequestDto save(DirectRequestRequest directRequest) throws ElementNotExistInDBException {
+   public DirectRequestDto save(DirectRequestRequest directRequest) throws Exception {
+
+      // LOS ARCHIVOS NO PUEDEN SER MAYORES A 1MB
+      if (!directRequest.getImageUrls().isEmpty()){
+         for (MultipartFile file : directRequest.getImageUrls()) {
+            if (file.getSize() > storageService.MAX_SIZE)
+               throw new InvalidArgumentException("El archivo '"+file.getOriginalFilename()+"' pesa "+file.getSize()+" Bytes, no puede exceder los "+storageService.MAX_SIZE+" Bytes");
+         }
+      }
+
       ProfessionAvailability professionAvailability = professionAvailabilityRepository.findById(directRequest.getProfessionAvailabilityId())
           .orElseThrow(()-> new ElementNotExistInDBException("ProfessionAvailability con id "+directRequest.getProfessionAvailabilityId()+" no existe."));
       Client client = clientRepository.findById(directRequest.getClientId())
           .orElseThrow(()-> new ElementNotExistInDBException("Cliente con id "+directRequest.getClientId()+" no existe."));
+      CategoryService categoryService = categoryServiceRepository.findById(directRequest.getCategoryServiceId())
+          .orElseThrow(() -> new ElementNotExistInDBException("El categoryService con id "+directRequest.getCategoryServiceId()+" no existe."));
 
       ServiceTypeAvailability serviceTypeAvailability = null;
       // Verifica si el ID de serviceType no es null
@@ -100,6 +112,7 @@ public class DirectRequestImplService implements IDirectRequestService {
               .professionAvailability(professionAvailability)
               .serviceTypeAvailability(serviceTypeAvailability)
               .client(client)
+              .categoryService(categoryService)
               .latitude(directRequest.getLatitude())
               .longitude(directRequest.getLongitude())
               .title(directRequest.getTitle())

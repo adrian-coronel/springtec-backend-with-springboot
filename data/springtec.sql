@@ -27,12 +27,12 @@ USE db_springtec ;
 DROP TABLE IF EXISTS db_springtec.role ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.role (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  PRIMARY KEY (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                 name VARCHAR(45) NOT NULL,
+    PRIMARY KEY (id))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -41,20 +41,20 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.user ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.user (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  role_id INT UNSIGNED NOT NULL,
-  email VARCHAR(45) NOT NULL,
-  password VARCHAR(240) NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  UNIQUE INDEX email_UNIQUE (email ASC) VISIBLE,
-  INDEX fk_User_Role1_idx (role_id ASC) VISIBLE,
-  CONSTRAINT fk_User_Role1
+                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                 role_id INT UNSIGNED NOT NULL,
+                                                 email VARCHAR(45) NOT NULL,
+    password VARCHAR(240) NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    UNIQUE INDEX email_UNIQUE (email ASC) VISIBLE,
+    INDEX fk_User_Role1_idx (role_id ASC) VISIBLE,
+    CONSTRAINT fk_User_Role1
     FOREIGN KEY (role_id)
     REFERENCES db_springtec.role (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -63,22 +63,22 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.help_desk ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.help_desk (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id INT UNSIGNED NOT NULL,
-  name VARCHAR(45) NOT NULL,
-  father_lastname VARCHAR(45) NOT NULL,
-  mother_lastname VARCHAR(45) NOT NULL,
-  dni CHAR(8) NOT NULL,
-  birth_date DATE NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE INDEX dni_UNIQUE (dni ASC) VISIBLE,
-  INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
-  CONSTRAINT fk_Tecnico_User1
+                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                      user_id INT UNSIGNED NOT NULL,
+                                                      name VARCHAR(45) NOT NULL,
+    father_lastname VARCHAR(45) NOT NULL,
+    mother_lastname VARCHAR(45) NOT NULL,
+    dni CHAR(8) NOT NULL,
+    birth_date DATE NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE INDEX dni_UNIQUE (dni ASC) VISIBLE,
+    INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
+    CONSTRAINT fk_Tecnico_User1
     FOREIGN KEY (user_id)
     REFERENCES db_springtec.user (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -87,22 +87,22 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.client ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.client (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id INT UNSIGNED NOT NULL,
-  name VARCHAR(45) NOT NULL,
-  father_lastname VARCHAR(45) NOT NULL,
-  mother_lastname VARCHAR(45) NOT NULL,
-  dni CHAR(8) NOT NULL,
-  birth_date DATE NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE INDEX dni_UNIQUE (dni ASC) VISIBLE,
-  INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
-  CONSTRAINT fk_Tecnico_User0
+                                                   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                   user_id INT UNSIGNED NOT NULL,
+                                                   name VARCHAR(45) NOT NULL,
+    father_lastname VARCHAR(45) NOT NULL,
+    mother_lastname VARCHAR(45) NOT NULL,
+    dni CHAR(8) NOT NULL,
+    birth_date DATE NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE INDEX dni_UNIQUE (dni ASC) VISIBLE,
+    INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
+    CONSTRAINT fk_Tecnico_User0
     FOREIGN KEY (user_id)
     REFERENCES db_springtec.user (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -111,20 +111,20 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.ticket_support ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.ticket_support (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  client_id INT UNSIGNED NOT NULL,
-  issue VARCHAR(45) NOT NULL,
-  description VARCHAR(300) NOT NULL,
-  date DATE NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  INDEX fk_Ticket_Soporte_Client1_idx (client_id ASC) VISIBLE,
-  CONSTRAINT fk_Ticket_Soporte_Client1
+                                                           id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                           client_id INT UNSIGNED NOT NULL,
+                                                           issue VARCHAR(45) NOT NULL,
+    description VARCHAR(300) NOT NULL,
+    date DATE NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    INDEX fk_Ticket_Soporte_Client1_idx (client_id ASC) VISIBLE,
+    CONSTRAINT fk_Ticket_Soporte_Client1
     FOREIGN KEY (client_id)
     REFERENCES db_springtec.client (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -133,24 +133,24 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.answer_support ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.answer_support (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  ticket_support_id INT UNSIGNED NOT NULL,
-  help_desk_id INT UNSIGNED NOT NULL,
-  title VARCHAR(45) NOT NULL,
-  answer VARCHAR(300) NOT NULL,
-  date DATE NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fk_answer_support_Ticket_Soporte1_idx (ticket_support_id ASC) VISIBLE,
-  INDEX fk_answer_support_Help_Desk1_idx (help_desk_id ASC) VISIBLE,
-  CONSTRAINT fk_answer_support_Help_Desk1
+                                                           id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                           ticket_support_id INT UNSIGNED NOT NULL,
+                                                           help_desk_id INT UNSIGNED NOT NULL,
+                                                           title VARCHAR(45) NOT NULL,
+    answer VARCHAR(300) NOT NULL,
+    date DATE NOT NULL,
+    PRIMARY KEY (id),
+    INDEX fk_answer_support_Ticket_Soporte1_idx (ticket_support_id ASC) VISIBLE,
+    INDEX fk_answer_support_Help_Desk1_idx (help_desk_id ASC) VISIBLE,
+    CONSTRAINT fk_answer_support_Help_Desk1
     FOREIGN KEY (help_desk_id)
     REFERENCES db_springtec.help_desk (id),
-  CONSTRAINT fk_answer_support_Ticket_Soporte1
+    CONSTRAINT fk_answer_support_Ticket_Soporte1
     FOREIGN KEY (ticket_support_id)
     REFERENCES db_springtec.ticket_support (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -159,14 +159,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.availability ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.availability (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+                                                         id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                         name VARCHAR(45) NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -175,14 +175,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.category_services ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.category_services (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+                                                              id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                              name VARCHAR(45) NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -191,14 +191,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.currency_type ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.currency_type (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  symbol CHAR(4) NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  UNIQUE INDEX symbol_UNIQUE (symbol ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+                                                          id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                          symbol CHAR(4) NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    UNIQUE INDEX symbol_UNIQUE (symbol ASC) VISIBLE)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -207,25 +207,25 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.technical ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.technical (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  user_id INT UNSIGNED NOT NULL,
-  name VARCHAR(45) NOT NULL,
-  father_lastname VARCHAR(45) NOT NULL,
-  mother_lastname VARCHAR(45) NOT NULL,
-  dni CHAR(8) NOT NULL,
-  birth_date DATE NOT NULL,
-  lat DOUBLE NULL,
-  lng DOUBLE NULL,
-  working_status CHAR(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (id),
-  UNIQUE INDEX dni_UNIQUE (dni ASC) VISIBLE,
-  INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
-  CONSTRAINT fk_Tecnico_User
+                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                      user_id INT UNSIGNED NOT NULL,
+                                                      name VARCHAR(45) NOT NULL,
+    father_lastname VARCHAR(45) NOT NULL,
+    mother_lastname VARCHAR(45) NOT NULL,
+    dni CHAR(8) NOT NULL,
+    birth_date DATE NOT NULL,
+    lat DOUBLE NULL,
+    lng DOUBLE NULL,
+    working_status CHAR(1) NOT NULL DEFAULT '0',
+    PRIMARY KEY (id),
+    UNIQUE INDEX dni_UNIQUE (dni ASC) VISIBLE,
+    INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
+    CONSTRAINT fk_Tecnico_User
     FOREIGN KEY (user_id)
     REFERENCES db_springtec.user (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -234,12 +234,12 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.experience ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.experience (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(60) NOT NULL,
-  PRIMARY KEY (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+                                                       id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                       name VARCHAR(60) NOT NULL,
+    PRIMARY KEY (id))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -248,13 +248,13 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.profession ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.profession (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+                                                       id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                       name VARCHAR(45) NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -263,33 +263,33 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.profession_availability ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.profession_availability (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  technical_id INT UNSIGNED NOT NULL,
-  profession_id INT UNSIGNED NOT NULL,
-  availability_id INT UNSIGNED NOT NULL,
-  experience_id INT UNSIGNED NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fk_technical_has_profession_profesion1_idx (profession_id ASC) VISIBLE,
-  INDEX fk_technical_has_profession_Tecnico1_idx (technical_id ASC) VISIBLE,
-  INDEX fk_technical_has_profession_Experience1_idx (experience_id ASC) VISIBLE,
-  INDEX fk_technical_has_profession_availability1_idx (availability_id ASC) VISIBLE,
-  CONSTRAINT fk_technical_has_profession_Experience1
+                                                                    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                                    technical_id INT UNSIGNED NOT NULL,
+                                                                    profession_id INT UNSIGNED NOT NULL,
+                                                                    availability_id INT UNSIGNED NOT NULL,
+                                                                    experience_id INT UNSIGNED NOT NULL,
+                                                                    PRIMARY KEY (id),
+    INDEX fk_technical_has_profession_profesion1_idx (profession_id ASC) VISIBLE,
+    INDEX fk_technical_has_profession_Tecnico1_idx (technical_id ASC) VISIBLE,
+    INDEX fk_technical_has_profession_Experience1_idx (experience_id ASC) VISIBLE,
+    INDEX fk_technical_has_profession_availability1_idx (availability_id ASC) VISIBLE,
+    CONSTRAINT fk_technical_has_profession_Experience1
     FOREIGN KEY (experience_id)
     REFERENCES db_springtec.experience (id),
-  CONSTRAINT fk_technical_has_profession_profesion1
+    CONSTRAINT fk_technical_has_profession_profesion1
     FOREIGN KEY (profession_id)
     REFERENCES db_springtec.profession (id),
-  CONSTRAINT fk_technical_has_profession_Tecnico1
+    CONSTRAINT fk_technical_has_profession_Tecnico1
     FOREIGN KEY (technical_id)
     REFERENCES db_springtec.technical (id),
-  CONSTRAINT fk_technical_has_profession_availability1
+    CONSTRAINT fk_technical_has_profession_availability1
     FOREIGN KEY (availability_id)
     REFERENCES db_springtec.availability (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 
@@ -300,25 +300,25 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.services ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.services (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  category_services_id INT UNSIGNED NOT NULL,
-  currency_type_id INT UNSIGNED NOT NULL,
-  name VARCHAR(45) NOT NULL,
-  description VARCHAR(255) NULL DEFAULT NULL,
-  price DOUBLE(10,2) UNSIGNED NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  INDEX fk_services_Category_services1_idx (category_services_id ASC) VISIBLE,
-  INDEX fk_services_currency_type_idx (currency_type_id ASC) VISIBLE,
-  CONSTRAINT fk_services_Category_services1
+                                                     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                     category_services_id INT UNSIGNED NOT NULL,
+                                                     currency_type_id INT UNSIGNED NOT NULL,
+                                                     name VARCHAR(45) NOT NULL,
+    description VARCHAR(255) NULL DEFAULT NULL,
+    price DOUBLE(10,2) UNSIGNED NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    INDEX fk_services_Category_services1_idx (category_services_id ASC) VISIBLE,
+    INDEX fk_services_currency_type_idx (currency_type_id ASC) VISIBLE,
+    CONSTRAINT fk_services_Category_services1
     FOREIGN KEY (category_services_id)
     REFERENCES db_springtec.category_services (id),
-  CONSTRAINT fk_services_currency_type1
+    CONSTRAINT fk_services_currency_type1
     FOREIGN KEY (currency_type_id)
     REFERENCES db_springtec.currency_type (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -327,23 +327,23 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.service_type_availability ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.service_type_availability (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  profession_availability_id INT UNSIGNED NOT NULL,
-  services_id INT UNSIGNED NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fk_service_type_availability_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
-  INDEX fk_service_type_availability_services1_idx (services_id ASC) VISIBLE,
-  CONSTRAINT fk_service_type_availability_profession_availability1
+                                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                                      profession_availability_id INT UNSIGNED NOT NULL,
+                                                                      services_id INT UNSIGNED NOT NULL,
+                                                                      PRIMARY KEY (id),
+    INDEX fk_service_type_availability_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
+    INDEX fk_service_type_availability_services1_idx (services_id ASC) VISIBLE,
+    CONSTRAINT fk_service_type_availability_profession_availability1
     FOREIGN KEY (profession_availability_id)
     REFERENCES db_springtec.profession_availability (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT fk_service_type_availability_services1
+    CONSTRAINT fk_service_type_availability_services1
     FOREIGN KEY (services_id)
     REFERENCES db_springtec.services (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table db_springtec.state_direct_request
@@ -351,12 +351,12 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS db_springtec.state_direct_request ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.state_direct_request (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NOT NULL,
-  PRIMARY KEY (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+                                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                                 name VARCHAR(45) NOT NULL,
+    PRIMARY KEY (id))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -365,40 +365,45 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.direct_request ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  profession_availability_id INT UNSIGNED NOT NULL,
-  client_id INT UNSIGNED NOT NULL,
-  service_type_availability_id INT UNSIGNED NULL,
-  state_direct_request_id INT UNSIGNED NOT NULL,
-  latitude DOUBLE NOT NULL,
-  longitude DOUBLE NOT NULL,
-  title VARCHAR(80) NOT NULL,
-  description VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- CURENT_... cuando no se pase, se establecera en la hora actual
-  answered_at TIMESTAMP NULL,
-  resolved_at TIMESTAMP NULL,
-  PRIMARY KEY (id),
-  INDEX fk_direct_request_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
-  INDEX fk_direct_request_client1_idx (client_id ASC) VISIBLE,
-  INDEX fk_direct_request_service_type_availability1_idx (service_type_availability_id ASC) VISIBLE,
-  INDEX fk_direct_request_state_direct_request1_idx (state_direct_request_id ASC) VISIBLE,
-  CONSTRAINT fk_direct_request_client1
+                                                           id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                           profession_availability_id INT UNSIGNED NOT NULL,
+                                                           client_id INT UNSIGNED NOT NULL,
+                                                           category_services_id INT UNSIGNED NOT NULL,
+                                                           service_type_availability_id INT UNSIGNED NULL,
+                                                           state_direct_request_id INT UNSIGNED NOT NULL,
+                                                           latitude DOUBLE NOT NULL,
+                                                           longitude DOUBLE NOT NULL,
+                                                           title VARCHAR(80) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- CURENT_... cuando no se pase, se establecera en la hora actual
+    answered_at TIMESTAMP NULL,
+    resolved_at TIMESTAMP NULL,
+    PRIMARY KEY (id),
+    INDEX fk_direct_request_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
+    INDEX fk_direct_request_client1_idx (client_id ASC) VISIBLE,
+    INDEX fk_direct_request_category_services1_idx (category_services_id ASC) VISIBLE,
+    INDEX fk_direct_request_service_type_availability1_idx (service_type_availability_id ASC) VISIBLE,
+    INDEX fk_direct_request_state_direct_request1_idx (state_direct_request_id ASC) VISIBLE,
+    CONSTRAINT fk_direct_request_client1
     FOREIGN KEY (client_id)
     REFERENCES db_springtec.client (id),
-  CONSTRAINT fk_direct_request_profession_availability1
-    FOREIGN KEY (profession_availability_id)
-    REFERENCES db_springtec.profession_availability (id),
-  CONSTRAINT fk_direct_request_service_type_availability1
+    CONSTRAINT fk_direct_request_category_services1
+    FOREIGN KEY (client_id)
+    REFERENCES db_springtec.client (id),
+    CONSTRAINT fk_direct_request_profession_availability1
+    FOREIGN KEY (category_services_id)
+    REFERENCES db_springtec.category_services (id),
+    CONSTRAINT fk_direct_request_service_type_availability1
     FOREIGN KEY (service_type_availability_id)
     REFERENCES db_springtec.service_type_availability (id),
-  CONSTRAINT fk_direct_request_state_direct_request_1
+    CONSTRAINT fk_direct_request_state_direct_request_1
     FOREIGN KEY (state_direct_request_id)
     REFERENCES db_springtec.state_direct_request (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -407,21 +412,21 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.image_upload ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.image_upload (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  direct_request_id INT UNSIGNED NOT NULL,
-  original_name VARCHAR(100) NOT NULL,
-  extension_name VARCHAR(20) NOT NULL,
-  content_type VARCHAR(20) NOT NULL,
-  fake_name VARCHAR(100) NOT NULL,
-  fake_extension_name VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fk_img_firebase_direct_request_id_idx (direct_request_id ASC) VISIBLE,
-  CONSTRAINT fk_img_firebase_direct_request_id1
+                                                         id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                         direct_request_id INT UNSIGNED NOT NULL,
+                                                         original_name VARCHAR(100) NOT NULL,
+    extension_name VARCHAR(20) NOT NULL,
+    content_type VARCHAR(20) NOT NULL,
+    fake_name VARCHAR(100) NOT NULL,
+    fake_extension_name VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id),
+    INDEX fk_img_firebase_direct_request_id_idx (direct_request_id ASC) VISIBLE,
+    CONSTRAINT fk_img_firebase_direct_request_id1
     FOREIGN KEY (direct_request_id)
     REFERENCES db_springtec.direct_request (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
@@ -430,23 +435,46 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.invoice ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.invoice (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  direct_request_id INT UNSIGNED NOT NULL,
-  task VARCHAR(100) NOT NULL,
-  description TEXT NOT NULL,
-  price DOUBLE(10,2) UNSIGNED NOT NULL,
-  date DATE NOT NULL,
-  hour TIME NOT NULL,
-  state CHAR(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (id),
-  INDEX fk_invoice_direct_request_id_idx (direct_request_id ASC) VISIBLE,
-  CONSTRAINT fk_invoice_direct_request_id1
+                                                    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                    direct_request_id INT UNSIGNED NOT NULL,
+                                                    task VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    price DOUBLE(10,2) UNSIGNED NOT NULL,
+    date DATE NOT NULL,
+    hour TIME NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    INDEX fk_invoice_direct_request_id_idx (direct_request_id ASC) VISIBLE,
+    CONSTRAINT fk_invoice_direct_request_id1
     FOREIGN KEY (direct_request_id)
     REFERENCES db_springtec.direct_request (id))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
+
+
+
+-- -----------------------------------------------------
+-- Table db_springtec.material
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS db_springtec.material ;
+
+CREATE TABLE IF NOT EXISTS db_springtec.material (
+                                                     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                     invoice_id INT UNSIGNED NOT NULL,
+                                                     name VARCHAR(100) NOT NULL,
+    price DOUBLE(10,2) UNSIGNED NOT NULL,
+    stock TINYINT UNSIGNED NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    INDEX fk_material_invoice_id_idx (invoice_id ASC) VISIBLE,
+    CONSTRAINT fk_material_invoice_id1
+    FOREIGN KEY (invoice_id)
+    REFERENCES db_springtec.invoice (id))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 
@@ -456,19 +484,19 @@ COLLATE = utf8mb4_0900_ai_ci;
 DROP TABLE IF EXISTS db_springtec.Profession_local ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.Profession_local (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  profession_availability_id INT UNSIGNED NOT NULL,
-  lat DOUBLE NULL,
-  lng DOUBLE NULL,
-  state CHAR(1) DEFAULT '1' NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fk_Profession_local_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
-  CONSTRAINT fk_Profession_local_profession_availability1
+                                                             id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                             profession_availability_id INT UNSIGNED NOT NULL,
+                                                             lat DOUBLE NULL,
+                                                             lng DOUBLE NULL,
+                                                             state CHAR(1) DEFAULT '1' NOT NULL,
+    PRIMARY KEY (id),
+    INDEX fk_Profession_local_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
+    CONSTRAINT fk_Profession_local_profession_availability1
     FOREIGN KEY (profession_availability_id)
     REFERENCES db_springtec.profession_availability (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -477,23 +505,23 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS db_springtec.image_service ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.image_service (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  services_id INT UNSIGNED NOT NULL,
-  original_name VARCHAR(100) NOT NULL,
-  extension_name VARCHAR(20) NOT NULL,
-  content_type VARCHAR(20) NOT NULL,
-  fake_name VARCHAR(100) NOT NULL,
-  fake_extension_name VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id),
-  INDEX fk_image_service_services1_idx (services_id ASC) VISIBLE,
-  CONSTRAINT fk_image_service_services1
+                                                          id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                          services_id INT UNSIGNED NOT NULL,
+                                                          original_name VARCHAR(100) NOT NULL,
+    extension_name VARCHAR(20) NOT NULL,
+    content_type VARCHAR(20) NOT NULL,
+    fake_name VARCHAR(100) NOT NULL,
+    fake_extension_name VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id),
+    INDEX fk_image_service_services1_idx (services_id ASC) VISIBLE,
+    CONSTRAINT fk_image_service_services1
     FOREIGN KEY (services_id)
     REFERENCES db_springtec.services (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
 
 
 
@@ -574,30 +602,30 @@ BEGIN
     DECLARE messages VARCHAR(255);
 	SET messages = '';
     IF (
-        SELECT COUNT(*)
-        FROM availability
-        WHERE id = p_availability_id
+SELECT COUNT(*)
+FROM availability
+WHERE id = p_availability_id
     ) = 0 THEN
-        SET messages = CONCAT(messages,'La disponibilidad con id = ', p_availability_id, ' no existe; ');
-    END IF;
+SET messages = CONCAT(messages,'La disponibilidad con id = ', p_availability_id, ' no existe; ');
+END IF;
 
     IF (
-        SELECT COUNT(*)
-        FROM profession
-        WHERE id = p_profession_id
+SELECT COUNT(*)
+FROM profession
+WHERE id = p_profession_id
     ) = 0 THEN
-        SET messages = CONCAT(messages, 'La profesión con id = ', p_profession_id, ' no existe; ');
-    END IF;
+SET messages = CONCAT(messages, 'La profesión con id = ', p_profession_id, ' no existe; ');
+END IF;
 
     IF (
-        SELECT COUNT(*)
-        FROM experience
-        WHERE id = p_experience_id
+SELECT COUNT(*)
+FROM experience
+WHERE id = p_experience_id
     ) = 0 THEN
-        SET messages = CONCAT(messages, 'La experiencia con id = ', p_experience_id, ' no existe; ');
-    END IF;
-    
-    SELECT messages AS result;
+SET messages = CONCAT(messages, 'La experiencia con id = ', p_experience_id, ' no existe; ');
+END IF;
+
+SELECT messages AS result;
 END //
 DELIMITER ;
 
@@ -611,11 +639,11 @@ CREATE PROCEDURE UpdateTechnicalLocation(
     IN p_workingStatus CHAR(1)
 )
 BEGIN
-    UPDATE technical
-    SET lat = p_latitude, lng = p_longitude
-    WHERE id = p_technicalId AND working_status = p_workingStatus;
-	
-    SELECT ROW_COUNT() AS isUpdated;
+UPDATE technical
+SET lat = p_latitude, lng = p_longitude
+WHERE id = p_technicalId AND working_status = p_workingStatus;
+
+SELECT ROW_COUNT() AS isUpdated;
 END //
 
 DELIMITER ;
@@ -624,36 +652,36 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE FilterTechnicalsAvailabilityNoInLocal(
     IN p_availabilityId INT,
-	IN p_professionId INT,
+    IN p_professionId INT,
     IN p_rango INT,
     IN p_latitude DECIMAL(10, 6),
     IN p_longitude DECIMAL(10, 6),
     IN p_workingStatus CHAR(1)
 )
 BEGIN
-    SELECT
-        t.*
-    FROM
-        technical t
-    INNER JOIN
-        profession_availability pa ON t.id = pa.technical_id
-    WHERE
+SELECT
+    t.*
+FROM
+    technical t
+        INNER JOIN
+    profession_availability pa ON t.id = pa.technical_id
+WHERE
         pa.availability_id = p_availabilityId
-        AND pa.profession_id = p_professionId
-        AND t.working_status = p_workingStatus  -- Consideramos solo técnicos activos
-        AND (
-            6371 * ACOS(
-                COS(RADIANS(p_latitude)) * COS(RADIANS(t.lat)) * COS(RADIANS(p_longitude) - RADIANS(t.lng))
-                + SIN(RADIANS(p_latitude)) * SIN(RADIANS(t.lat))
-            )
-        ) <= p_rango;
+  AND pa.profession_id = p_professionId
+  AND t.working_status = p_workingStatus  -- Consideramos solo técnicos activos
+  AND (
+              6371 * ACOS(
+                          COS(RADIANS(p_latitude)) * COS(RADIANS(t.lat)) * COS(RADIANS(p_longitude) - RADIANS(t.lng))
+                      + SIN(RADIANS(p_latitude)) * SIN(RADIANS(t.lat))
+                     )
+          ) <= p_rango;
 END //
 
 DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE FilterTechnicalsAvailabilityIsLocal(
-	IN p_availabilityId INT,
+    IN p_availabilityId INT,
     IN p_professionId INT,
     IN p_rango INT,
     IN p_latitude DECIMAL(10, 6),
@@ -662,24 +690,24 @@ CREATE PROCEDURE FilterTechnicalsAvailabilityIsLocal(
 )
 BEGIN
 
-    SELECT DISTINCT
-        t.*
-    FROM
-        technical t
-    INNER JOIN
-        profession_availability pa ON t.id = pa.technical_id
-    LEFT JOIN
-        profession_local pl ON pa.id = pl.profession_availability_id
-    WHERE
+SELECT DISTINCT
+    t.*
+FROM
+    technical t
+        INNER JOIN
+    profession_availability pa ON t.id = pa.technical_id
+        LEFT JOIN
+    profession_local pl ON pa.id = pl.profession_availability_id
+WHERE
         pa.profession_id = p_professionId
-        AND pa.availability_id = p_availabilityId
-        AND pl.state = p_state_local
-        AND (
-            6371 * ACOS(
-                COS(RADIANS(p_latitude)) * COS(RADIANS(COALESCE(pl.lat, t.lat))) * COS(RADIANS(p_longitude) - RADIANS(COALESCE(pl.lng, t.lng)))
-                + SIN(RADIANS(p_latitude)) * SIN(RADIANS(COALESCE(pl.lat, t.lat)))
-            )
-        ) <= p_rango;
+  AND pa.availability_id = p_availabilityId
+  AND pl.state = p_state_local
+  AND (
+              6371 * ACOS(
+                          COS(RADIANS(p_latitude)) * COS(RADIANS(COALESCE(pl.lat, t.lat))) * COS(RADIANS(p_longitude) - RADIANS(COALESCE(pl.lng, t.lng)))
+                      + SIN(RADIANS(p_latitude)) * SIN(RADIANS(COALESCE(pl.lat, t.lat)))
+                     )
+          ) <= p_rango;
 END //
 
 DELIMITER ;
@@ -694,23 +722,23 @@ CREATE PROCEDURE FilterNearbyAllTechnicals(
 )
 BEGIN
 
-    SELECT DISTINCT
-        t.*
-    FROM
-        technical t
-    INNER JOIN
-        profession_availability pa ON t.id = pa.technical_id
-    LEFT JOIN
-        profession_local pl ON pa.id = pl.profession_availability_id
-    WHERE
+SELECT DISTINCT
+    t.*
+FROM
+    technical t
+        INNER JOIN
+    profession_availability pa ON t.id = pa.technical_id
+        LEFT JOIN
+    profession_local pl ON pa.id = pl.profession_availability_id
+WHERE
         pa.profession_id = p_professionId
-        AND t.working_status = p_workingStatus
-        AND (
-            6371 * ACOS(
-                COS(RADIANS(p_latitude)) * COS(RADIANS(COALESCE(pl.lat, t.lat))) * COS(RADIANS(p_longitude) - RADIANS(COALESCE(pl.lng, t.lng)))
-                + SIN(RADIANS(p_latitude)) * SIN(RADIANS(COALESCE(pl.lat, t.lat)))
-            )
-        ) <= p_rango;
+  AND t.working_status = p_workingStatus
+  AND (
+              6371 * ACOS(
+                          COS(RADIANS(p_latitude)) * COS(RADIANS(COALESCE(pl.lat, t.lat))) * COS(RADIANS(p_longitude) - RADIANS(COALESCE(pl.lng, t.lng)))
+                      + SIN(RADIANS(p_latitude)) * SIN(RADIANS(COALESCE(pl.lat, t.lat)))
+                     )
+          ) <= p_rango;
 END //
 DELIMITER ;
 
@@ -721,22 +749,22 @@ CREATE PROCEDURE findAllByTechnicalIdAndDistintStateId(
     IN p_state_id INT
 )
 BEGIN
-	SELECT 
-		dr.id,
-        dr.profession_availability_id,
-        dr.client_id,
-		dr.service_type_availability_id,
-        dr.state_direct_request_id,
-        dr.latitude,
-        dr.longitude,
-        dr.title,
-        dr.description,
-        dr.created_at,
-        dr.answered_at,
-        dr.resolved_at
-    FROM direct_request dr
-	INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
-	WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id != p_state_id;
+SELECT
+    dr.id,
+    dr.profession_availability_id,
+    dr.client_id,
+    dr.service_type_availability_id,
+    dr.state_direct_request_id,
+    dr.latitude,
+    dr.longitude,
+    dr.title,
+    dr.description,
+    dr.created_at,
+    dr.answered_at,
+    dr.resolved_at
+FROM direct_request dr
+         INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
+WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id != p_state_id;
 END //
 DELIMITER ;
 
@@ -747,22 +775,22 @@ CREATE PROCEDURE findAllByTechnicalIdAndStateId(
     IN p_state_id INT
 )
 BEGIN
-	SELECT 
-		dr.id,
-        dr.profession_availability_id,
-        dr.client_id,
-		dr.service_type_availability_id,
-        dr.state_direct_request_id,
-        dr.latitude,
-        dr.longitude,
-        dr.title,
-        dr.description,
-        dr.created_at,
-        dr.answered_at,
-        dr.resolved_at
-    FROM direct_request dr
-	INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
-	WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id = p_state_id;
+SELECT
+    dr.id,
+    dr.profession_availability_id,
+    dr.client_id,
+    dr.service_type_availability_id,
+    dr.state_direct_request_id,
+    dr.latitude,
+    dr.longitude,
+    dr.title,
+    dr.description,
+    dr.created_at,
+    dr.answered_at,
+    dr.resolved_at
+FROM direct_request dr
+         INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
+WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id = p_state_id;
 END //
 DELIMITER ;
 
@@ -774,11 +802,11 @@ CREATE PROCEDURE findAllByTechnicalIdAndProfessionIdAndCategoryId(
     IN p_category_services_id INT
 )
 BEGIN
-	SELECT 
-		s.*
-	FROM services s 
-	INNER JOIN service_type_availability sta ON sta.services_id = s.id
-	INNER JOIN profession_availability pa ON sta.profession_availability_id = pa.id
-	WHERE pa.technical_id = p_technical_id AND pa.profession_id = p_profession_id AND s.category_services_id = p_category_services_id;
+SELECT
+    s.*
+FROM services s
+         INNER JOIN service_type_availability sta ON sta.services_id = s.id
+         INNER JOIN profession_availability pa ON sta.profession_availability_id = pa.id
+WHERE pa.technical_id = p_technical_id AND pa.profession_id = p_profession_id AND s.category_services_id = p_category_services_id;
 END //
 DELIMITER ;

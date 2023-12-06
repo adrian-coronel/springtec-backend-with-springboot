@@ -6,32 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
-import java.util.Date;
-
 @Data
+@Entity
+@Table(name = "material")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@Table(name = "invoice")
-public class Invoice {
+public class Material {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
-   @ManyToOne
-   @JoinColumn(name = "direct_request_id")
-   private DirectRequest directRequest;
-
-   @Column(length = 100)
-   private String task;
-   private String description;
+   @Column(name = "invoice_id")
+   private Integer invoice;
+   private String name;
    private Double price;
-   private Date date;
-   private Time hour;
+   private Integer stock;
    @Column(name="state",columnDefinition = "CHAR(1) NOT NULL DEFAULT '1'")
-   private char state;
-
+   private char state = '1';
 
 }

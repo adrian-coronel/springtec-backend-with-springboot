@@ -14,6 +14,8 @@ import java.util.stream.Stream;
  * */
 public interface StorageService {
 
+	long MAX_SIZE = 1000000;
+
 	// Inicializa el servicio de almacenamiento
 	void init();
 

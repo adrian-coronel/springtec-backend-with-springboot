@@ -17,6 +17,7 @@ public class DirectRequestRequest {
    private Integer professionAvailabilityId;
    private Integer clientId;
    private Integer serviceTypeAvailabilityId;
+   private Integer categoryServiceId;
    private Double latitude;
    private Double longitude;
    private String title;

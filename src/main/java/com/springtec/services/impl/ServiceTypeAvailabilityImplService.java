@@ -8,6 +8,7 @@ import com.springtec.models.repositories.ProfessionRepository;
 import com.springtec.models.repositories.ServiceTypeAvailabilityRepository;
 import com.springtec.models.repositories.TechnicalRepository;
 import com.springtec.services.IProfessionAvailabilityService;
+import com.springtec.services.IServiceTypeAvailabilityService;
 import com.springtec.services.IServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class ServiceTypeAvailabilityImplService implements IServiceTypeAvailabilityService{
+public class ServiceTypeAvailabilityImplService implements IServiceTypeAvailabilityService {
 
    private final TechnicalRepository technicalRepository;
    private final ProfessionRepository professionRepository;

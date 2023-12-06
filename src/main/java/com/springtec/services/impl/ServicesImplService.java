@@ -103,7 +103,12 @@ public class ServicesImplService implements IServicesService {
    }
 
    @Override
-   public ServiceDto save(ServiceRequest serviceRequest) throws ElementNotExistInDBException {
+   public ServiceDto save(ServiceRequest serviceRequest) throws Exception {
+      // El archivo no debe ser mayor a 1MB
+      if (!serviceRequest.getFile().isEmpty() && serviceRequest.getFile().getSize() > storageService.MAX_SIZE){
+         throw new InvalidArgumentException("El archivo pesa "+serviceRequest.getFile().getSize()+" Bytes, no puede exceder los "+storageService.MAX_SIZE+" Bytes");
+      }
+
       CategoryService categoryService = categoryServiceRepository.findById(serviceRequest.getCategoryServiceId())
           .orElseThrow(() -> new ElementNotExistInDBException("CategoryService con id "+serviceRequest.getCategoryServiceId()+" no existe."));
       CurrencyType currencyType = currencyTypeRepository.findById(serviceRequest.getCurrencyTypeId())
