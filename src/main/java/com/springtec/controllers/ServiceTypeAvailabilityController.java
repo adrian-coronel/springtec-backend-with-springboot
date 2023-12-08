@@ -22,7 +22,7 @@ public class ServiceTypeAvailabilityController {
 
    private final IServiceTypeAvailabilityService serviceTypeAvailabilityService;
 
-   @GetMapping("services-availability")
+      @GetMapping("services-availability")
    public ResponseEntity<?> showAllByFilters(@RequestParam Map<String, String> filters){
       try {
          List<ServiceTypeAvailabilityDto> serviceTypeAvailabilityDtoList = serviceTypeAvailabilityService.findByFilters(filters);

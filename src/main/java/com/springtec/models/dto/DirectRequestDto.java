@@ -63,7 +63,7 @@ public class DirectRequestDto {
 
    public DirectRequestDto(DirectRequest directRequest, List<ImageUploadDto> files, ProfessionAvailabilityDto professionAvailability){
       this.id = directRequest.getId();
-      this.clientId = directRequest.getId();
+      this.clientId = directRequest.getClient().getId();
       this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
           ? directRequest.getServiceTypeAvailability().getId() : null;
       this.professionAvailability = professionAvailability;
