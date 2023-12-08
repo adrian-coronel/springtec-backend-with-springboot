@@ -1,6 +1,7 @@
 package com.springtec.services.impl;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.models.dto.ProfessionAvailabilityDto;
 import com.springtec.models.dto.ServiceTypeAvailabilityDto;
 import com.springtec.models.entity.ServiceTypeAvailability;
 import com.springtec.models.enums.State;
@@ -29,8 +30,17 @@ public class ServiceTypeAvailabilityImplService implements IServiceTypeAvailabil
    @Override
    public List<ServiceTypeAvailabilityDto> findByFilters(Map<String, String> filters) throws ElementNotExistInDBException {
       filterException(filters);
-      
-      if(filters.containsKey("technicalId") && filters.containsKey("professionId")) {
+
+      if(filters.containsKey("technicalId") && filters.containsKey("professionId") && filters.containsKey("categoryId")) {
+         return mapServiceTypeAvailabilityToDto(
+            findBYTechnicalIdAndProfessionIdAndCategoryId(
+                Integer.parseInt(filters.get("technicalId")),
+                Integer.parseInt(filters.get("professionId")),
+                Integer.parseInt(filters.get("categoryId"))
+            )
+         );
+      }
+      else if(filters.containsKey("technicalId") && filters.containsKey("professionId")) {
          // VERIFICAR SI PROFESSION AVAILABILITY ES TIENE TALLER
           return mapServiceTypeAvailabilityToDto(
                findBYTechnicalIdAndProfessionId(
@@ -60,7 +70,7 @@ public class ServiceTypeAvailabilityImplService implements IServiceTypeAvailabil
              try {
                 return new ServiceTypeAvailabilityDto(
                     typeService.getId()
-                    , professionAvailabilityService.findById(typeService.getProfessionAvailability().getId())
+                    , new ProfessionAvailabilityDto(typeService.getProfessionAvailability())
                     , servicesService.findById(typeService.getServices().getId())
                 );
              } catch (ElementNotExistInDBException e) {
@@ -74,7 +84,13 @@ public class ServiceTypeAvailabilityImplService implements IServiceTypeAvailabil
     * Decorador para que sea más entendible la busqueda en ServiceTypeAvailability
     * */
    private List<ServiceTypeAvailability> findBYTechnicalIdAndProfessionId(Integer technicalId, Integer professionId) {
-      return serviceTypeAvailabilityRepository.findAllByProfessionAvailabilityTechnicalIdAndProfessionAvailabilityProfessionId(technicalId, professionId);
+      return serviceTypeAvailabilityRepository
+          .findAllByProfessionAvailabilityTechnicalIdAndProfessionAvailabilityProfessionId(technicalId, professionId);
+   }
+
+   private List<ServiceTypeAvailability> findBYTechnicalIdAndProfessionIdAndCategoryId(Integer technicalId, Integer professionId, Integer categoryId) {
+      return serviceTypeAvailabilityRepository
+          .findAllByProfessionAvailabilityTechnicalIdAndProfessionAvailabilityProfessionIdAndServicesCategoryServiceId(technicalId,professionId,categoryId);
    }
 
 }

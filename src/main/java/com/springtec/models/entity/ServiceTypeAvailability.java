@@ -22,7 +22,7 @@ public class ServiceTypeAvailability {
     @JoinColumn(name = "services_id")
     private Services services;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profession_availability_id")
     private ProfessionAvailability professionAvailability;
 

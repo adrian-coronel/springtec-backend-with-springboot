@@ -10,5 +10,6 @@ import java.util.List;
 public interface ServiceTypeAvailabilityRepository extends JpaRepository<ServiceTypeAvailability, Integer> {
 
    List<ServiceTypeAvailability> findAllByProfessionAvailabilityTechnicalIdAndProfessionAvailabilityProfessionId(Integer professionAvailability_technical_id, Integer professionAvailability_profession_id);
+   List<ServiceTypeAvailability> findAllByProfessionAvailabilityTechnicalIdAndProfessionAvailabilityProfessionIdAndServicesCategoryServiceId(Integer professionAvailability_technical_id, Integer professionAvailability_profession_id, Integer services_categoryService_id);
 
 }

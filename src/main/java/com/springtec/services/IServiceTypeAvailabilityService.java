@@ -10,4 +10,5 @@ public interface IServiceTypeAvailabilityService {
 
    List<ServiceTypeAvailabilityDto> findByFilters(Map<String, String> filters) throws ElementNotExistInDBException;
 
+
 }
