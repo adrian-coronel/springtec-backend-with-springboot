@@ -136,6 +136,16 @@ public class FileSystemStorageService implements StorageService {
 		return imageBytes;
 	}
 
+	@Override
+	public void delete(String fileName) {
+		Path imagePath = load(fileName);
+		try {
+			FileSystemUtils.deleteRecursively(imagePath);
+		} catch (IOException e) {
+			throw new RuntimeException("El archivo que se desea eliminar no existe",e);
+		}
+	}
+
 	/**
 	 * Elimina todos los archivos y directorios almacenados
 	 * en la ubicación raíz (rootLocation

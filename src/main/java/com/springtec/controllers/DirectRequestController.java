@@ -4,6 +4,7 @@ import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.DirectRequestDto;
 import com.springtec.models.payload.DirectRequestRequest;
 import com.springtec.models.payload.MessageResponse;
+import com.springtec.models.payload.StateRequest;
 import com.springtec.services.IDirectRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -88,10 +89,10 @@ public class DirectRequestController {
    @PutMapping("directrequest/{id}")
    public ResponseEntity<?> changeUpdate(
        @PathVariable Integer id,
-       @RequestBody DirectRequestRequest directRequestRequest
+       @RequestBody StateRequest stateRequest
    ) {
       try {
-         DirectRequestDto directRequestDto = directRequestService.changeState(id, directRequestRequest);
+         DirectRequestDto directRequestDto = directRequestService.changeState(id, stateRequest);
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .message("Actualizado correctamente")

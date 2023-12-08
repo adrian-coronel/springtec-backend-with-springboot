@@ -6,6 +6,7 @@ import com.springtec.models.payload.MessageResponse;
 import com.springtec.models.payload.ServiceRequest;
 import com.springtec.services.IServicesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +80,31 @@ public class ServicesController {
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .message("Guardado correctamente")
+                 .body(serviceDto)
+                 .build()
+             , HttpStatus.CREATED
+         );
+      } catch (Exception e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.METHOD_NOT_ALLOWED
+         );
+      }
+   }
+
+   @PutMapping(value = "services/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+   private ResponseEntity<?> update(
+       @PathVariable Integer id,
+       @ModelAttribute ServiceRequest serviceRequest
+   ){
+      //todo Sale un error si es que no se envia una imagen, tiene que ver con la serializacion
+      try {
+         ServiceDto serviceDto = servicesService.udpate(id, serviceRequest);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message("Actualizdo correctamente")
                  .body(serviceDto)
                  .build()
              , HttpStatus.CREATED

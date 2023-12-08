@@ -29,6 +29,7 @@ public class AuthenticationService {
      * Metodo para registrar un usuario
      * @return token
      * */
+
     public AuthenticationResponse register(RegisterRequest request) throws Exception {
 
         // Creamos un tipo de USERFACTORY dependiendo del ROL

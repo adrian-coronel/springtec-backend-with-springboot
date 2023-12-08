@@ -13,6 +13,6 @@ public interface IServicesService {
    List<ServiceDto> findByFilters(Map<String, String> filters) throws Exception;
    ServiceDto findById(Integer id) throws ElementNotExistInDBException;
    ServiceDto save(ServiceRequest serviceRequest) throws Exception;
-   ServiceDto udpate(Integer serviceId, ServiceRequest serviceRequest) throws ElementNotExistInDBException;
+   ServiceDto udpate(Integer serviceId, ServiceRequest serviceRequest) throws Exception;
 
 }

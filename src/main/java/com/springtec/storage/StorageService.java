@@ -33,6 +33,8 @@ public interface StorageService {
 
 	byte[] loadAsDecryptedFile(String encryptedFileName, String originalFileName) throws IOException;
 
+	void delete(String fileName);
+
 	void deleteAll();
 
 	String getFileName(String fileName);

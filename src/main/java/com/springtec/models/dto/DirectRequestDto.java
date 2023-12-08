@@ -31,6 +31,7 @@ public class DirectRequestDto {
    private ProfessionAvailabilityDto professionAvailability;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private CategoryServiceDto categoryService;
+   private char stateInvoice;
    private Double latitude;
    private Double longitude;
    private String title;
@@ -56,6 +57,7 @@ public class DirectRequestDto {
       this.longitude = directRequest.getLongitude();
       this.title = directRequest.getTitle();
       this.description = directRequest.getDescription();
+      this.stateInvoice = directRequest.getStateInvoice();
       this.state = directRequest.getStateDirectRequest();
    }
 
@@ -66,6 +68,7 @@ public class DirectRequestDto {
           ? directRequest.getServiceTypeAvailability().getId() : null;
       this.professionAvailability = professionAvailability;
       this.categoryService = new CategoryServiceDto(directRequest.getCategoryService());
+      this.stateInvoice = directRequest.getStateInvoice();
       this.latitude = directRequest.getLatitude();
       this.longitude = directRequest.getLongitude();
       this.title = directRequest.getTitle();
@@ -83,6 +86,7 @@ public class DirectRequestDto {
       this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
           ? directRequest.getServiceTypeAvailability().getId() : null;
       this.categoryService = new CategoryServiceDto(directRequest.getCategoryService());
+      this.stateInvoice = directRequest.getStateInvoice();
       this.latitude = directRequest.getLatitude();
       this.longitude = directRequest.getLongitude();
       this.title = directRequest.getTitle();

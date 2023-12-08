@@ -4,9 +4,12 @@ import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.InvoiceDto;
 import com.springtec.models.payload.InvoiceRequest;
 
+import java.util.List;
+import java.util.Map;
+
 public interface IInvoiceService {
 
-   InvoiceDto findByDirectRequest(Integer directRequestId) throws ElementNotExistInDBException;
-   InvoiceDto save(InvoiceRequest invoiceRequest) throws ElementNotExistInDBException;
+   List<InvoiceDto> findByFilters(Map<String, String> filters) throws ElementNotExistInDBException;
+   InvoiceDto save(InvoiceRequest invoiceRequest) throws Exception;
 
 }

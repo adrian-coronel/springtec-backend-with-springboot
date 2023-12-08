@@ -12,6 +12,7 @@ import com.springtec.services.impl.TechnicalImplService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class TechnicalIUser implements IUser<Technical> {
    public UserType getType() {
       return USER_TYPE;
    }
+
 
    @Override
    public User create(RegisterRequest request) throws Exception {

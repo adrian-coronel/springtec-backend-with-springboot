@@ -34,6 +34,8 @@ public class DirectRequest {
    @ManyToOne
    @JoinColumn(name = "category_services_id")
    private CategoryService categoryService;
+   @Column(name="state_invoice",columnDefinition = " CHAR(1) NULL DEFAULT '0'")
+   private char stateInvoice = '0';
    private Double latitude;
    private Double longitude;
    private String title;

@@ -8,10 +8,10 @@ import com.springtec.services.IInvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +19,26 @@ import org.springframework.web.bind.annotation.RestController;
 public class InvoiceController {
 
    private final IInvoiceService invoiceService;
+
+   @GetMapping("invoices")
+   public ResponseEntity<?> showByFilters(@RequestParam Map<String, String> filters){
+      try {
+         List<InvoiceDto> invoices = invoiceService.findByFilters(filters);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .body(invoices)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (ElementNotExistInDBException e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.BAD_REQUEST
+         );
+      }
+   }
 
    @PostMapping("invoice")
    public ResponseEntity<?> save(@RequestBody InvoiceRequest invoiceRequest){
@@ -30,7 +50,7 @@ public class InvoiceController {
                  .build()
              , HttpStatus.CREATED
          );
-      } catch (ElementNotExistInDBException e) {
+      } catch (Exception e) {
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .message(e.getMessage())

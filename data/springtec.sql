@@ -351,8 +351,8 @@ CREATE TABLE IF NOT EXISTS db_springtec.service_type_availability (
 DROP TABLE IF EXISTS db_springtec.state_direct_request ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.state_direct_request (
-                                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                                 name VARCHAR(45) NOT NULL,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
     PRIMARY KEY (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
@@ -365,16 +365,17 @@ CREATE TABLE IF NOT EXISTS db_springtec.state_direct_request (
 DROP TABLE IF EXISTS db_springtec.direct_request ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
-                                                           id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                           profession_availability_id INT UNSIGNED NOT NULL,
-                                                           client_id INT UNSIGNED NOT NULL,
-                                                           category_services_id INT UNSIGNED NOT NULL,
-                                                           service_type_availability_id INT UNSIGNED NULL,
-                                                           state_direct_request_id INT UNSIGNED NOT NULL,
-                                                           latitude DOUBLE NOT NULL,
-                                                           longitude DOUBLE NOT NULL,
-                                                           title VARCHAR(80) NOT NULL,
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    profession_availability_id INT UNSIGNED NOT NULL,
+    client_id INT UNSIGNED NOT NULL,
+    category_services_id INT UNSIGNED NOT NULL,
+    service_type_availability_id INT UNSIGNED NULL,
+    state_direct_request_id INT UNSIGNED NOT NULL,
+	latitude DOUBLE NOT NULL,
+    longitude DOUBLE NOT NULL,
+    title VARCHAR(80) NOT NULL,
     description VARCHAR(255) NOT NULL,
+    state_invoice CHAR(1) NULL DEFAULT '0',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- CURENT_... cuando no se pase, se establecera en la hora actual
     answered_at TIMESTAMP NULL,
     resolved_at TIMESTAMP NULL,
@@ -412,9 +413,9 @@ CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
 DROP TABLE IF EXISTS db_springtec.image_upload ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.image_upload (
-                                                         id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                         direct_request_id INT UNSIGNED NOT NULL,
-                                                         original_name VARCHAR(100) NOT NULL,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    direct_request_id INT UNSIGNED NOT NULL,
+    original_name VARCHAR(100) NOT NULL,
     extension_name VARCHAR(20) NOT NULL,
     content_type VARCHAR(20) NOT NULL,
     fake_name VARCHAR(100) NOT NULL,
@@ -435,9 +436,9 @@ CREATE TABLE IF NOT EXISTS db_springtec.image_upload (
 DROP TABLE IF EXISTS db_springtec.invoice ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.invoice (
-                                                    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                    direct_request_id INT UNSIGNED NOT NULL,
-                                                    task VARCHAR(100) NOT NULL,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    direct_request_id INT UNSIGNED NOT NULL,
+    task VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     price DOUBLE(10,2) UNSIGNED NOT NULL,
     date DATE NOT NULL,
@@ -461,9 +462,9 @@ CREATE TABLE IF NOT EXISTS db_springtec.invoice (
 DROP TABLE IF EXISTS db_springtec.material ;
 
 CREATE TABLE IF NOT EXISTS db_springtec.material (
-                                                     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                     invoice_id INT UNSIGNED NOT NULL,
-                                                     name VARCHAR(100) NOT NULL,
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    invoice_id INT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
     price DOUBLE(10,2) UNSIGNED NOT NULL,
     stock TINYINT UNSIGNED NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
@@ -776,18 +777,7 @@ CREATE PROCEDURE findAllByTechnicalIdAndStateId(
 )
 BEGIN
 SELECT
-    dr.id,
-    dr.profession_availability_id,
-    dr.client_id,
-    dr.service_type_availability_id,
-    dr.state_direct_request_id,
-    dr.latitude,
-    dr.longitude,
-    dr.title,
-    dr.description,
-    dr.created_at,
-    dr.answered_at,
-    dr.resolved_at
+    dr.*
 FROM direct_request dr
          INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
 WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id = p_state_id;

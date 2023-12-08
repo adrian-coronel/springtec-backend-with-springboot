@@ -161,7 +161,7 @@ public class ServicesImplService implements IServicesService {
    }
 
    @Override
-   public ServiceDto udpate(Integer serviceId, ServiceRequest serviceRequest) throws ElementNotExistInDBException {
+   public ServiceDto udpate(Integer serviceId, ServiceRequest serviceRequest) throws Exception {
       // BUSCAR EL SERVICIO A ACTUALIZAR
       Services service = serviceRepository.findById(serviceId)
           .orElseThrow(() -> new ElementNotExistInDBException("El service con id "+serviceId+" no existe."));
@@ -171,16 +171,31 @@ public class ServicesImplService implements IServicesService {
       service.setPrice(serviceRequest.getPrice());
       service.setCurrencyType(CurrencyType.builder().id(serviceRequest.getCurrencyTypeId()).build());
       service.setCategoryService(CategoryService.builder().id(serviceRequest.getCategoryServiceId()).build());
+      service = serviceRepository.save(service); // Guardamos las actualizaciones
 
+      ImageUploadDto imageUploadDto = null;
       // ACTUALIZAR LA IMAGEN SI ES QUE SE ENVIA
       if (!serviceRequest.getFile().isEmpty()) {
+         // Buscamos el registro en la BD
          ImageService imageService = imageServiceRepository.findByServiceId(service.getId());
          String fakeFileName = imageService.getFakeName()+"."+imageService.getFakeExtensionName();
-         String originalFileName = imageService.getOriginalName()+"."+imageService.getExtensionName();
-         //todo CREAR METODO PARA ELIMINAR Y GUARDAR NUEVA IMAGEN
-         //storageService.
+
+         // Eliminamos el file antiguo y lo cambiamos por el actual
+         storageService.delete(fakeFileName);
+         String fileNameEncryptedSaved = storageService.store(serviceRequest.getFile());
+         // Actualizamos los datos del file en la BD
+         imageService.setContentType(serviceRequest.getFile().getContentType());
+         imageService.setOriginalName(storageService.getFileName(serviceRequest.getFile().getOriginalFilename()));
+         imageService.setExtensionName(storageService.getFileExtension(serviceRequest.getFile().getOriginalFilename()));
+         imageService.setFakeName(storageService.getFileName(fileNameEncryptedSaved));
+         imageService.setFakeExtensionName(storageService.getFileExtension(fileNameEncryptedSaved));
+         imageService = imageServiceRepository.save(imageService); // Actualizamos
+
+         byte[] fileByes = storageService.loadAsDecryptedFile(fileNameEncryptedSaved, (serviceRequest.getFile().getOriginalFilename()));
+         imageUploadDto = new ImageUploadDto(serviceRequest.getFile().getOriginalFilename(), imageService.getContentType(), fileByes);
       }
-      return null;
+
+      return new ServiceDto(service, imageUploadDto);
    }
 
    private List<ServiceDto> mapServiceToServiceDto(List<Services> servicesList){

@@ -25,8 +25,6 @@ public class InvoiceDto {
    private Time hour;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private Integer directRequestId;
-   @JsonInclude(JsonInclude.Include.NON_NULL)
-   private DirectRequestDto directRequest;
    private List<MaterialDto> materiales;
 
 }

@@ -8,6 +8,7 @@ import com.springtec.models.dto.ProfessionAvailabilityDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
 import com.springtec.models.payload.DirectRequestRequest;
+import com.springtec.models.payload.StateRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IDirectRequestService;
 import com.springtec.services.IProfessionAvailabilityService;
@@ -87,7 +88,7 @@ public class DirectRequestImplService implements IDirectRequestService {
    public DirectRequestDto save(DirectRequestRequest directRequest) throws Exception {
 
       // LOS ARCHIVOS NO PUEDEN SER MAYORES A 1MB
-      if (!directRequest.getImageUrls().isEmpty()){
+      if (directRequest.getImageUrls() != null && !directRequest.getImageUrls().isEmpty()){
          for (MultipartFile file : directRequest.getImageUrls()) {
             if (file.getSize() > storageService.MAX_SIZE)
                throw new InvalidArgumentException("El archivo '"+file.getOriginalFilename()+"' pesa "+file.getSize()+" Bytes, no puede exceder los "+storageService.MAX_SIZE+" Bytes");
@@ -122,10 +123,11 @@ public class DirectRequestImplService implements IDirectRequestService {
                       .id(State.PENDING)
                       .build()
               )
+              .stateInvoice(State.INACTIVE)
               .build()
       );
 
-      if (!directRequest.getImageUrls().isEmpty()) {
+      if (directRequest.getImageUrls() != null && !directRequest.getImageUrls().isEmpty()) {
          directRequest.getImageUrls().forEach(file -> {
             String originalFileName = file.getOriginalFilename();
             String fileNameEncryptedSaved = storageService.store(file);
@@ -147,10 +149,10 @@ public class DirectRequestImplService implements IDirectRequestService {
    }
 
    @Override
-   public DirectRequestDto changeState(Integer id, DirectRequestRequest directRequestRequest) throws ElementNotExistInDBException {
+   public DirectRequestDto changeState(Integer id, StateRequest stateRequest) throws ElementNotExistInDBException {
       DirectRequest directRequestRequestFind = directRequestRepository.findById(id)
           .orElseThrow(() -> new ElementNotExistInDBException("DirectRequest con id "+id+" no existe."));
-      StateDirectRequest state = stateDirectRequestRepository.findById(directRequestRequest.getStateId())
+      StateDirectRequest state = stateDirectRequestRepository.findById(stateRequest.getStateId())
           .orElseThrow(() -> new ElementNotExistInDBException("StateDirectRequest con id "+id+" no existe."));
 
       directRequestRequestFind.setStateDirectRequest(state);

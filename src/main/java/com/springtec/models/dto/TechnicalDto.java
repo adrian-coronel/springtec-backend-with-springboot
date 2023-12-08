@@ -46,6 +46,7 @@ public class TechnicalDto implements ITypeUserDTO{
         this.user = new UserDto( technical.getUser() );
         this.latitude = technical.getLatitude();
         this.longitude = technical.getLongitude();
+        this.statusWorking = String.valueOf(technical.getWorkingStatus());
         this.professionsAvailability = technical.getProfessionsAvailability()
             .stream()
             .map( pA -> ProfessionAvailabilityDto
@@ -69,6 +70,7 @@ public class TechnicalDto implements ITypeUserDTO{
         this.user = new UserDto( technical.getUser() );
         this.latitude = technical.getLatitude();
         this.longitude = technical.getLongitude();
+        this.statusWorking = String.valueOf(technical.getWorkingStatus());
         this.professionAvailability = professionAvailabilityDto;
     }
 

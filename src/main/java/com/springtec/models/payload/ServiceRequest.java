@@ -1,6 +1,7 @@
 package com.springtec.models.payload;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class ServiceRequest {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double price;
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Nullable
     private MultipartFile file;
 
 }

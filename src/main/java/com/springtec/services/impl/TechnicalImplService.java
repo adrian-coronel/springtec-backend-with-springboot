@@ -24,7 +24,6 @@ public class TechnicalImplService implements ITechnicalService {
 
     private final TechnicalRepository technicalRepository;
     private final IProfessionAvailabilityService professionAvailabilityService;
-    private final ProfessionAvailabilityRepository professionAvailabilityRepository;
     private final UserRepository userRepository;
 
 
