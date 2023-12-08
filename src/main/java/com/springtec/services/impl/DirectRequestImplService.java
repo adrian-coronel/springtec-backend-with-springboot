@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,12 +45,21 @@ public class DirectRequestImplService implements IDirectRequestService {
       //todo OPTIMIZAR
       filterExceptions(filters);
 
-      int technicalId = Integer.parseInt(filters.get("technicalId"));
       List<DirectRequest> directRequestList = new ArrayList<>();
-      if (filters.containsKey("technicalId") && filters.containsKey("state")){
+      if (filters.containsKey("clientId") && filters.containsKey("state")){
+         int clientId = Integer.parseInt(filters.get("clientId"));
+         int state = Integer.parseInt(filters.get("state"));
+         // Obtenemos la fecha y hora de AYER
+         Timestamp oneDaysAgo = Timestamp.valueOf(LocalDateTime.now().minus(Duration.ofDays(1)));
+         // Obtenemos los directRequest por estado y que tengan un plazo maximo de un DÍA
+         directRequestList = directRequestRepository.findAllByClientIdAndCreatedAtGreaterThanEqualAndStateDirectRequestId(clientId, oneDaysAgo, state);
+      }
+      else if (filters.containsKey("technicalId") && filters.containsKey("state")){
+         int technicalId = Integer.parseInt(filters.get("technicalId"));
          directRequestList = directRequestRepository.findAllByTechnicalIdAndState(technicalId, Integer.parseInt(filters.get("state")));
       }
       else if (filters.containsKey("technicalId")) {
+         int technicalId = Integer.parseInt(filters.get("technicalId"));
          directRequestList = directRequestRepository.findAllByTechnicalIdAndDistintState(technicalId, State.CANCELED);
       }
 
@@ -65,10 +77,10 @@ public class DirectRequestImplService implements IDirectRequestService {
 
    private void filterExceptions(Map<String, String> filters) throws Exception {
 
-      if (!filters.containsKey("technicalId"))
-         throw new InvalidArgumentException("El id del tecnico es requerido o no existe");
-      if (!technicalRepository.existsByIdAndUserState(Integer.parseInt(filters.get("technicalId")),State.ACTIVE))
+      if (filters.containsKey("technicalId") && !technicalRepository.existsByIdAndUserState(Integer.parseInt(filters.get("technicalId")),State.ACTIVE))
          throw new ElementNotExistInDBException("El tecnico no existe o es inactivo");
+      if(filters.containsKey("clientId") && !clientRepository.existsByIdAndUserState(Integer.parseInt(filters.get("clientId")),State.ACTIVE))
+         throw new ElementNotExistInDBException("El cliente no existe o es inactivo");
    }
 
    @Override
