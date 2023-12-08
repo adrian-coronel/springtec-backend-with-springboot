@@ -49,10 +49,15 @@ public class DirectRequestImplService implements IDirectRequestService {
       if (filters.containsKey("clientId") && filters.containsKey("state")){
          int clientId = Integer.parseInt(filters.get("clientId"));
          int state = Integer.parseInt(filters.get("state"));
-         // Obtenemos la fecha y hora de AYER
-         Timestamp oneDaysAgo = Timestamp.valueOf(LocalDateTime.now().minus(Duration.ofDays(1)));
-         // Obtenemos los directRequest por estado y que tengan un plazo maximo de un DÍA
-         directRequestList = directRequestRepository.findAllByClientIdAndCreatedAtGreaterThanEqualAndStateDirectRequestId(clientId, oneDaysAgo, state);
+         if (state == State.PENDING){
+            // Obtenemos la fecha y hora de AYER
+            Timestamp oneDaysAgo = Timestamp.valueOf(LocalDateTime.now().minus(Duration.ofDays(1)));
+            // Obtenemos los directRequest por estado y que tengan un plazo maximo de un DÍA
+            directRequestList = directRequestRepository.findAllByClientIdAndCreatedAtGreaterThanEqualAndStateDirectRequestId(clientId, oneDaysAgo, state);
+         } else {
+            directRequestList = directRequestRepository.findAllByClientIdAndStateDirectRequestId(clientId, state);
+         }
+
       }
       else if (filters.containsKey("technicalId") && filters.containsKey("state")){
          int technicalId = Integer.parseInt(filters.get("technicalId"));
