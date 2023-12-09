@@ -1,5 +1,6 @@
 package com.springtec.auth;
 
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
+    @Email(message = "email debe no tiene el formato correcto")
     private String email;
     private String password;
     private String token; // Se utiliza para verificar

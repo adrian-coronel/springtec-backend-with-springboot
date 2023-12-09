@@ -4,6 +4,7 @@ import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.entity.Technical;
 import com.springtec.models.entity.User;
+import com.springtec.models.payload.LocationRequest;
 import com.springtec.models.payload.TechnicalRequest;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface ITechnicalService {
     TechnicalDto delete(Integer technical) throws ElementNotExistInDBException;
     boolean existsByDni(String dni);
     boolean updateWorkingStatus(Integer technicalId, char statusWorking) throws Exception;
-    void updateLocation(TechnicalRequest technicalRequest, Integer technicalId) throws ElementNotExistInDBException, IllegalAccessException;
+    void updateLocation(LocationRequest locationRequest, Integer technicalId) throws ElementNotExistInDBException, IllegalAccessException;
 }
