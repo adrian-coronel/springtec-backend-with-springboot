@@ -19,7 +19,11 @@ import com.springtec.services.IInvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -91,8 +95,8 @@ public class InvoiceImplService implements IInvoiceService {
           .directRequest(directRequest)
           .description(invoiceRequest.getDescription())
           .price(invoiceRequest.getPrice())
-          .date(invoiceRequest.getDate())
-          .hour(invoiceRequest.getHour())
+          .date(new Date()) // Obtener la fecha actual como un objeto Date
+          .hour(Time.valueOf(LocalTime.now())) // Obtener la hora actual como un objeto Time
           .state(State.ACTIVE)
           .build();
       // Guardamos el invoice y reescribimos la variable

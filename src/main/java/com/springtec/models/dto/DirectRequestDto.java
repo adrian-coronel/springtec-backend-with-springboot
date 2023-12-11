@@ -64,8 +64,8 @@ public class DirectRequestDto {
    public DirectRequestDto(DirectRequest directRequest, List<ImageUploadDto> files, ProfessionAvailabilityDto professionAvailability){
       this.id = directRequest.getId();
       this.clientId = directRequest.getClient().getId();
-      this.serviceTypeAvailabilityId = directRequest.getServiceTypeAvailability() != null
-          ? directRequest.getServiceTypeAvailability().getId() : null;
+      this.serviceTypeAvailabilityDto = directRequest.getServiceTypeAvailability() != null
+          ? new ServiceTypeAvailabilityDto(directRequest.getServiceTypeAvailability()) : null;
       this.professionAvailability = professionAvailability;
       this.categoryService = new CategoryServiceDto(directRequest.getCategoryService());
       this.stateInvoice = directRequest.getStateInvoice();
