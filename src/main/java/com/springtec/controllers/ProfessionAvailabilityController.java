@@ -5,11 +5,16 @@ import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.ProfessionAvailabilityDto;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.services.IProfessionAvailabilityService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -82,7 +87,7 @@ public class ProfessionAvailabilityController {
    @PostMapping("technicals/{technicalId}/professions-availability")
    public ResponseEntity<?> save(
        @PathVariable("technicalId") Integer technicalId,
-       @RequestBody ProfessionAvailabilityDto professionAvailabilityDto
+       @Valid @RequestBody ProfessionAvailabilityDto professionAvailabilityDto
    ){
       try {
          ProfessionAvailabilityDto professionAvailabilitySaved = professionAvailabilityService.save(technicalId, professionAvailabilityDto);
@@ -103,7 +108,7 @@ public class ProfessionAvailabilityController {
    @PutMapping("technical/professions-availability/{professionAvailabilityId}")
    public ResponseEntity<?> update(
        @PathVariable Integer professionAvailabilityId,
-       @RequestBody ProfessionAvailabilityDto professionAvailabilityDto
+       @Valid @RequestBody ProfessionAvailabilityDto professionAvailabilityDto
    ){
       try {
          ProfessionAvailabilityDto professionAvailabilityDtoUpdated = professionAvailabilityService
@@ -147,4 +152,23 @@ public class ProfessionAvailabilityController {
       }
    }
 
+
+   /**
+    *  Spring Boot llamará a este método cuando el objeto Usuario especificado no sea válido .
+    * @param ex
+    * @return
+    */
+   @ResponseStatus(HttpStatus.BAD_REQUEST)
+   @ExceptionHandler(MethodArgumentNotValidException.class) // Especificamos como se va a manejar esta excepcion
+   public Map<String, String> handleValidationExceptions(
+       MethodArgumentNotValidException ex) {
+      Map<String, String> errors = new HashMap<>();
+      ex.getBindingResult().getAllErrors().forEach((error) -> {
+         // Obtenemos el nombre y mensaje para enviarla
+         String fieldName = ((FieldError) error).getField();
+         String errorMessage = error.getDefaultMessage();
+         errors.put(fieldName, errorMessage);
+      });
+      return errors;
+   }
 }

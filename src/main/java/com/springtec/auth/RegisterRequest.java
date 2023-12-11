@@ -1,10 +1,6 @@
 package com.springtec.auth;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +24,7 @@ public class RegisterRequest {
     private String email;
     @NotBlank(message = "password es obligatorio")
     private String password;
-    @NotBlank(message = "roleId es obligatorio")
+    @NotNull(message = "roleId es obligatorio")
     private Integer roleId;
 
     // Atributos del cliente y tecnico
@@ -41,12 +37,14 @@ public class RegisterRequest {
     @NotBlank(message = "dni es obligatorio")
     @Size(message = "El campo debe tener 8 caracteres",min = 8, max = 8)
     private String dni;
-    @NotBlank(message = "birthDate es obligatorio")
+    @NotNull(message = "birthDate es obligatorio")
+    @Past(message = "birthDate debe ser una fecha pasada")
     private Date birthDate;
 
 
     // Exclusive Technical
     private double latitude;
     private double longitude;
+
 
 }

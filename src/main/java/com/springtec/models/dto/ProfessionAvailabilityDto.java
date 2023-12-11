@@ -3,6 +3,7 @@ package com.springtec.models.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.springtec.models.entity.ProfessionAvailability;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,19 +16,23 @@ import lombok.NoArgsConstructor;
 public class ProfessionAvailabilityDto {
 
    private Integer id;
+   @NotNull(message = "technicalId no puede ser nulo")
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private Integer technicalId;
    @JsonIgnore
    private TechnicalDto technical;
    @JsonInclude(JsonInclude.Include.NON_NULL)
+   @NotNull(message = "professionId no puede ser nulo")
    private Integer professionId;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private ProfessionDto profession;
    @JsonInclude(JsonInclude.Include.NON_NULL)
+   @NotNull(message = "availabilityId no puede ser nulo")
    private Integer availabilityId;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private AvailabilityDto availability;
    @JsonInclude(JsonInclude.Include.NON_NULL)
+   @NotNull(message = "experienceId no puede ser nulo")
    private Integer experienceId;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private ExperienceDto experience;

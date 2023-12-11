@@ -6,12 +6,16 @@ import com.springtec.models.payload.DirectRequestRequest;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.models.payload.StateRequest;
 import com.springtec.services.IDirectRequestService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,9 +68,10 @@ public class DirectRequestController {
 
    @PostMapping(value = "directrequest",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
    public ResponseEntity<?> save(
-       @ModelAttribute DirectRequestRequest directRequestRequest
+       @Valid @ModelAttribute DirectRequestRequest directRequestRequest
    ) {
       try {
+         System.out.println(directRequestRequest);
          DirectRequestDto directRequestDto = directRequestService.save(directRequestRequest);
          return new ResponseEntity<>(
              MessageResponse.builder()
@@ -110,5 +115,22 @@ public class DirectRequestController {
       }
    }
 
-
+   /**
+    *  Spring Boot llamará a este método cuando el objeto Usuario especificado no sea válido .
+    * @param ex
+    * @return
+    */
+   @ResponseStatus(HttpStatus.BAD_REQUEST)
+   @ExceptionHandler(MethodArgumentNotValidException.class) // Especificamos como se va a manejar esta excepcion
+   public Map<String, String> handleValidationExceptions(
+       MethodArgumentNotValidException ex) {
+      Map<String, String> errors = new HashMap<>();
+      ex.getBindingResult().getAllErrors().forEach((error) -> {
+         // Obtenemos el nombre y mensaje para enviarla
+         String fieldName = ((FieldError) error).getField();
+         String errorMessage = error.getDefaultMessage();
+         errors.put(fieldName, errorMessage);
+      });
+      return errors;
+   }
 }
