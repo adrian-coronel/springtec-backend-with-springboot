@@ -6,6 +6,7 @@ import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.AvailabilityType;
 import com.springtec.models.enums.State;
+import com.springtec.models.payload.LocationRequest;
 import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IProfessionAvailabilityService;
@@ -138,8 +139,8 @@ public class TechnicalImplService implements ITechnicalService {
 
 
     @Override
-    public void updateLocation(TechnicalRequest technicalRequest, Integer technicalId) throws ElementNotExistInDBException {
-        String isUpdate = technicalRepository.updateTechnicalLocation(technicalId, technicalRequest.getLatitude(), technicalRequest.getLongitude(), State.ACTIVE);
+    public void updateLocation(LocationRequest locationRequest, Integer technicalId) throws ElementNotExistInDBException {
+        String isUpdate = technicalRepository.updateTechnicalLocation(technicalId, locationRequest.getLatitude(), locationRequest.getLongitude(), State.ACTIVE);
         if (isUpdate.contains("0"))
             throw new ElementNotExistInDBException("Técnico con id " + technicalId + " no existe o su estado de trabajo no es activo.");
     }

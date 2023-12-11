@@ -3,10 +3,13 @@ package com.springtec.controllers;
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.TechnicalDto;
 import com.springtec.models.entity.Profession;
+import com.springtec.models.payload.LocationRequest;
 import com.springtec.models.payload.MessageResponse;
+import com.springtec.models.payload.StateRequest;
 import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.services.ITechnicalService;
 import com.springtec.services.impl.TechnicalImplService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +72,7 @@ public class TechnicalController {
     @PutMapping("technical/{id}")
     public ResponseEntity<?> update(
         @PathVariable Integer id,
-        @RequestBody TechnicalRequest technicalRequest
+        @Valid @RequestBody TechnicalRequest technicalRequest
     ){
         try {
             TechnicalDto technicalDto = technicalService.update(technicalRequest, id);
@@ -94,10 +97,10 @@ public class TechnicalController {
     @PutMapping("technical/{id}/update-workingstatus")
     public ResponseEntity<?> updateWorkingStatus(
         @PathVariable Integer id,
-        @RequestBody TechnicalRequest technicalRequest
+        @Valid @RequestBody StateRequest stateRequest
         ){
         try {
-            boolean isStatusWorkingActive = technicalService.updateWorkingStatus(id, technicalRequest.getWorkingStatus().charAt(0));
+            boolean isStatusWorkingActive = technicalService.updateWorkingStatus(id, stateRequest.getStateId().toString().charAt(0));
             return new ResponseEntity<>(
                 MessageResponse.builder()
                     .message("Actualizado correctamente")
@@ -119,10 +122,10 @@ public class TechnicalController {
     @PutMapping("technical/{id}/update-location")
     public ResponseEntity<?> updateLocation(
         @PathVariable Integer id,
-        @RequestBody TechnicalRequest technicalRequest
+        @Valid @RequestBody LocationRequest locationRequest
     ){
         try {
-            technicalService.updateLocation(technicalRequest, id);
+            technicalService.updateLocation(locationRequest, id);
             return new ResponseEntity<>(
                 MessageResponse.builder()
                     .message("Actualizado correctamente")
