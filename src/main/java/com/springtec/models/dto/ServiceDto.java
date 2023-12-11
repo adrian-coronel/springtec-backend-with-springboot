@@ -31,7 +31,7 @@ public class ServiceDto {
    public ServiceDto(Services service) {
       this.id = service.getId();
       this.categoryServiceId = service.getCategoryService().getId();
-      this.currencyTypeId = service.getCurrencyType().getId();
+      this.currencyType = new CurrencyTypeDto(service.getCurrencyType());
       this.name = service.getName();
       this.description = service.getDescription();
       this.price = service.getPrice();
