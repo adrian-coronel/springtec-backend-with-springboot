@@ -17,6 +17,6 @@ public interface DirectRequestRepository extends JpaRepository<DirectRequest, In
    @Query(nativeQuery = true, value = "CALL findAllByTechnicalIdAndDistintStateId(:ptechnicalId,:pstateId);")
    List<DirectRequest> findAllByTechnicalIdAndDistintState( @Param("ptechnicalId") int technicalId, @Param("pstateId") int stateId);
 
-   @Query(nativeQuery = true, value = "CALL findAllByTechnicalIdAndStateId(:ptechnicalId,:pstateId);")
-   List<DirectRequest> findAllByTechnicalIdAndState( @Param("ptechnicalId") int technicalId, @Param("pstateId") int stateId);
+   @Query(nativeQuery = true, value = "CALL findAllByTechnicalIdAndStateIdAndStateInvoiceId(:ptechnicalId,:pstateId,:pstateInvoiceId);")
+   List<DirectRequest> findAllByTechnicalIdAndStateAndStateInvoice( @Param("ptechnicalId") int technicalId, @Param("pstateId") int stateId, @Param("pstateInvoiceId") int stateInvoiceId);
 }

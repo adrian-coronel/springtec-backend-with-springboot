@@ -59,9 +59,9 @@ public class DirectRequestImplService implements IDirectRequestService {
          }
 
       }
-      else if (filters.containsKey("technicalId") && filters.containsKey("state")){
+      else if (filters.containsKey("technicalId") && filters.containsKey("state") && filters.containsKey("stateInvoice")){
          int technicalId = Integer.parseInt(filters.get("technicalId"));
-         directRequestList = directRequestRepository.findAllByTechnicalIdAndState(technicalId, Integer.parseInt(filters.get("state")));
+         directRequestList = directRequestRepository.findAllByTechnicalIdAndStateAndStateInvoice(technicalId, Integer.parseInt(filters.get("state")), Integer.parseInt(filters.get("stateInvoice")));
       }
       else if (filters.containsKey("technicalId")) {
          int technicalId = Integer.parseInt(filters.get("technicalId"));

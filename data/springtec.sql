@@ -751,18 +751,7 @@ CREATE PROCEDURE findAllByTechnicalIdAndDistintStateId(
 )
 BEGIN
 SELECT
-    dr.id,
-    dr.profession_availability_id,
-    dr.client_id,
-    dr.service_type_availability_id,
-    dr.state_direct_request_id,
-    dr.latitude,
-    dr.longitude,
-    dr.title,
-    dr.description,
-    dr.created_at,
-    dr.answered_at,
-    dr.resolved_at
+    dr.*
 FROM direct_request dr
          INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
 WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id != p_state_id;
@@ -771,16 +760,17 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE findAllByTechnicalIdAndStateId(
+CREATE PROCEDURE findAllByTechnicalIdAndStateIdAndStateInvoiceId(
     IN p_technical_id INT,
-    IN p_state_id INT
+    IN p_state_id INT,
+    IN p_state_invoice_id INT
 )
 BEGIN
 SELECT
     dr.*
 FROM direct_request dr
          INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
-WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id = p_state_id;
+WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id = p_state_id AND dr.state_invoice = p_state_invoice_id;
 END //
 DELIMITER ;
 
