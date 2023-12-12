@@ -538,6 +538,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 INSERT INTO state_direct_request(name) VALUES ('Pendiente');
 INSERT INTO state_direct_request(name) VALUES ('En proceso');
 INSERT INTO state_direct_request(name) VALUES ('Cerrado');
+INSERT INTO state_direct_request(name) VALUES ('Cancelado');
 
 
 -- ------- AVAILABILITY ----------- --
