@@ -3,11 +3,13 @@ package com.springtec.services.impl;
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.exceptions.InvalidArgumentException;
 import com.springtec.models.dto.DirectRequestDto;
+import com.springtec.models.dto.DirectRequestViewDto;
 import com.springtec.models.dto.ImageUploadDto;
 import com.springtec.models.dto.ProfessionAvailabilityDto;
 import com.springtec.models.entity.*;
 import com.springtec.models.enums.State;
 import com.springtec.models.payload.DirectRequestRequest;
+import com.springtec.models.payload.DirectRequestView;
 import com.springtec.models.payload.StateRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IDirectRequestService;
@@ -29,6 +31,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DirectRequestImplService implements IDirectRequestService {
 
+   private final DirectRequestViewRepository directRequestViewRepository;
    private final DirectRequestRepository directRequestRepository;
    private final ProfessionAvailabilityRepository professionAvailabilityRepository;
    private final IProfessionAvailabilityService professionAvailabilityService;
@@ -39,6 +42,23 @@ public class DirectRequestImplService implements IDirectRequestService {
    private final StorageService storageService;
    private final ClientRepository clientRepository;
    private final CategoryServiceRepository categoryServiceRepository;
+
+   @Override
+   public List<DirectRequestViewDto> findByFilters(Map<String, String> filters) {
+      List<DirectRequestViewDto> directRequestViewDtos = null;
+      if (filters.containsKey("technicalId") && filters.containsKey("state") && filters.containsKey("stateInvoice")){
+         List<DirectRequestView> directRequestViews = directRequestViewRepository.findAllByTIdAndSdrIdAndDrStateInvoice(
+             Integer.parseInt(filters.get("technicalId")),Integer.parseInt(filters.get("state")), filters.get("stateInvoice").charAt(0)
+         );
+         directRequestViewDtos = directRequestViews.stream()
+             .map(drView -> {
+                List<ImageUploadDto> filesByDirectRequest = getFilesByDirectRequestId(drView.getDrId());
+                return new DirectRequestViewDto(drView, filesByDirectRequest);
+             })
+             .toList();
+      }
+      return directRequestViewDtos;
+   }
 
    @Override
    public List<DirectRequestDto> findAllFiltersByTechnical(Map<String, String> filters) throws Exception {
@@ -70,7 +90,7 @@ public class DirectRequestImplService implements IDirectRequestService {
 
       // Retornamos la lista de DirectRequest mapeada a DTO y con sus respectivas imagenes
       return directRequestList.stream().map(directRequest -> {
-         List<ImageUploadDto> filesByDirectRequest = getFilesByDirectRequest(directRequest);
+         List<ImageUploadDto> filesByDirectRequest = getFilesByDirectRequestId(directRequest.getId());
          try {
             ProfessionAvailabilityDto professionAvailabilityDto = professionAvailabilityService.findById(directRequest.getProfessionAvailability().getId());
             return new DirectRequestDto(directRequest, filesByDirectRequest, professionAvailabilityDto);
@@ -90,12 +110,13 @@ public class DirectRequestImplService implements IDirectRequestService {
 
    @Override
    public DirectRequestDto findById(Integer id) throws Exception {
+
       // Obtenemos el directRequest por su ID
       DirectRequest directRequest = directRequestRepository.findById(id)
           .orElseThrow(() -> new ElementNotExistInDBException("DirectRequest con id "+id+" no existe."));
 
       // Obtenemos todas las archivos de cada directrequest preparadas para ser enviados
-      List<ImageUploadDto> filesByDirectRequest = getFilesByDirectRequest(directRequest);
+      List<ImageUploadDto> filesByDirectRequest = getFilesByDirectRequestId(directRequest.getId());
       ProfessionAvailabilityDto professionAvailabilityDto = professionAvailabilityService.findById(directRequest.getProfessionAvailability().getId());
 
       return new DirectRequestDto(directRequest, filesByDirectRequest, professionAvailabilityDto);
@@ -181,8 +202,8 @@ public class DirectRequestImplService implements IDirectRequestService {
    /**
     * Obtenemos todas los archivos en array de bytes para cada DirectRequest
     * */
-   private List<ImageUploadDto> getFilesByDirectRequest(DirectRequest directRequest) {
-      return imageUploadRepository.findAllByDirectRequestId(directRequest.getId())
+   private List<ImageUploadDto> getFilesByDirectRequestId(Integer directRequestId) {
+      return imageUploadRepository.findAllByDirectRequestId(directRequestId)
           .stream()
           .parallel()
           .map(this::mapImageUploadToDto)

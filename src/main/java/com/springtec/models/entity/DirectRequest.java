@@ -45,5 +45,4 @@ public class DirectRequest {
    private Timestamp answeredAt;
    private Timestamp resolvedAt;
 
-
 }

@@ -2,6 +2,7 @@ package com.springtec.controllers;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.DirectRequestDto;
+import com.springtec.models.dto.DirectRequestViewDto;
 import com.springtec.models.payload.DirectRequestRequest;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.models.payload.StateRequest;
@@ -25,7 +26,30 @@ import java.util.Map;
 public class DirectRequestController {
 
    private final IDirectRequestService directRequestService;
+
+
    @GetMapping(value="directrequest")
+   public ResponseEntity<?> showAllByFilters(@RequestParam Map<String, String> filters){
+      try {
+         List<DirectRequestViewDto> directRequestViewDtos = directRequestService.findByFilters(filters);
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .body(directRequestViewDtos)
+                 .build()
+             , HttpStatus.OK
+         );
+      } catch (Exception e) {
+         return new ResponseEntity<>(
+             MessageResponse.builder()
+                 .message(e.getMessage())
+                 .build()
+             , HttpStatus.INTERNAL_SERVER_ERROR
+         );
+      }
+   }
+
+
+   /*@GetMapping(value="directrequest")
    public ResponseEntity<?> showAll(@RequestParam Map<String, String> filters){
       try {
          List<DirectRequestDto> directRequestDtos = directRequestService.findAllFiltersByTechnical(filters);
@@ -43,7 +67,7 @@ public class DirectRequestController {
              , HttpStatus.INTERNAL_SERVER_ERROR
          );
       }
-   }
+   }*/
 
    @GetMapping(value="directrequest/{id}")
    public ResponseEntity<?> show(@PathVariable Integer id){
