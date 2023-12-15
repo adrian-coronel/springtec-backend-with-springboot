@@ -1,6 +1,7 @@
 package com.springtec.models.payload;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,11 +24,11 @@ public class TechnicalRequest {
    private String lastname;
    @NotBlank(message = "motherLastname es obligatorio")
    private String motherLastname;
-   @NotBlank(message = "birthDate es obligatorio")
+   @NotNull(message = "birthDate es obligatorio")
    private Date birthDate;
-   @NotBlank(message = "latitude es obligatorio")
+   @NotNull(message = "latitude es obligatorio")
    private Double latitude;
-   @NotBlank(message = "longitude es obligatorio")
+   @NotNull(message = "longitude es obligatorio")
    private Double longitude;
    private String workingStatus;
 

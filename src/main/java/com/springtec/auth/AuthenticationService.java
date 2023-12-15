@@ -2,6 +2,7 @@ package com.springtec.auth;
 
 import com.springtec.config.JwtService;
 import com.springtec.exceptions.ElementNotExistInDBException;
+import com.springtec.exceptions.ForbiddenException;
 import com.springtec.factories.*;
 import com.springtec.models.entity.Role;
 import com.springtec.models.entity.User;
@@ -51,7 +52,9 @@ public class AuthenticationService {
         // Buscamos al usuario para generar un token con sus detalles
         User user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new ElementNotExistInDBException("Credenciales incorrectas"));
-
+        if (user.getRole().getName().toUpperCase().equals(UserType.HELPDESK.name())){
+            throw new ForbiddenException("Usuario con rol HELPDESK no posee los permisos necesarios.");
+        }
         // Usamos el Administrador de Autentificacion para AUTENTICAR AL USUARIO
         authenticationManager.authenticate(
             //El administrador realiza tod0 el trabajo
