@@ -92,7 +92,7 @@ public class DirectRequestController {
 
 
    @PutMapping("directrequest/{id}")
-   public ResponseEntity<?> changeUpdate(
+   public ResponseEntity<?> changeState(
        @PathVariable Integer id,
        @RequestBody StateRequest stateRequest
    ) {
