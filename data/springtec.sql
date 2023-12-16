@@ -482,9 +482,9 @@ CREATE TABLE IF NOT EXISTS db_springtec.material (
 -- -----------------------------------------------------
 -- Table db_springtec.Profession_local
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.Profession_local ;
+DROP TABLE IF EXISTS db_springtec.profession_local ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.Profession_local (
+CREATE TABLE IF NOT EXISTS db_springtec.profession_local (
                                                              id INT UNSIGNED NOT NULL AUTO_INCREMENT,
                                                              profession_availability_id INT UNSIGNED NOT NULL,
                                                              lat DOUBLE NULL,
