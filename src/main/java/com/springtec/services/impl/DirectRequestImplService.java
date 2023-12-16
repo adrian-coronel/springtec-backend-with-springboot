@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -185,24 +186,30 @@ public class DirectRequestImplService implements IDirectRequestService {
       return imageUploadRepository.findAllByDirectRequestId(directRequest.getId())
           .stream()
           .parallel()
-          .map(this::mapImageUploadToDto)
+          .map(imageUpload -> {
+             try {
+                return mapImageUploadToDto(imageUpload);
+             } catch (IOException e) {
+                // Excluimos los archivos no encontrados
+                return null;
+             }
+          })
+          .filter(Objects::nonNull)
           .toList();
    }
 
-   private ImageUploadDto mapImageUploadToDto(ImageUpload imageUpload) {
+   private ImageUploadDto mapImageUploadToDto(ImageUpload imageUpload) throws IOException {
       String fakeFileName = imageUpload.getFakeName() + "." + imageUpload.getFakeExtensionName();
       String originalFileName = imageUpload.getOriginalName() + "." + imageUpload.getExtensionName();
 
-      try {
-         byte[] imageInBytes = storageService.loadAsDecryptedFile(fakeFileName, originalFileName);
-         return ImageUploadDto.builder()
-             .fileName(originalFileName)
-             .contentType(imageUpload.getContentType())
-             .file(imageInBytes)
-             .build();
-      } catch (IOException e) {
-         throw new RuntimeException("Error al cargar el archivo", e);
-      }
+      byte[] imageInBytes = storageService.loadAsDecryptedFile(fakeFileName, originalFileName);
+      return ImageUploadDto.builder()
+          .fileName(originalFileName)
+          .contentType(imageUpload.getContentType())
+          .file(imageInBytes)
+          .build();
+
+      //throw new RuntimeException("Error al cargar el archivo", e);
    }
 
 
