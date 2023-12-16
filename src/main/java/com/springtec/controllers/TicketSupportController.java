@@ -22,7 +22,7 @@ public class TicketSupportController {
 
     private final ITicketSupportService TicketSupportService;
     @CrossOrigin(origins = {"http://localhost:5173/"})
-    @GetMapping("TicketSuport")
+        @GetMapping("TicketSuport")
     public ResponseEntity<?> showAll(){
         List<TicketSupport> tickets = TicketSupportService.findAll();
         if (tickets.isEmpty()) {

@@ -23,11 +23,8 @@ public class TechnicalRequest {
    private String lastname;
    @NotBlank(message = "motherLastname es obligatorio")
    private String motherLastname;
-   @NotBlank(message = "birthDate es obligatorio")
    private Date birthDate;
-   @NotBlank(message = "latitude es obligatorio")
    private Double latitude;
-   @NotBlank(message = "longitude es obligatorio")
    private Double longitude;
    private String workingStatus;
 

@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationRequest {
-   @NotBlank(message = "latitude es obligatorio")
    private Double latitude;
-   @NotBlank(message = "longitude es obligatorio")
    private Double longitude;
 }
