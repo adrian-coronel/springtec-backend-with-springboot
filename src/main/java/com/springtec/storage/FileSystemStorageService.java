@@ -53,8 +53,7 @@ public class FileSystemStorageService implements StorageService {
 			// Realiza una verificación de seguridad: asegura que el archivo se almacene dentro del directorio actual
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
 				// Esto es una verificación de seguridad
-				throw new StorageException(
-					"Cannot store file outside current directory.");
+				throw new StorageException("No se puede almacenar el archivo fuera del directorio actual.");
 			}
 
 			// Abre un flujo de entrada desde el archivo MultipartFile
@@ -70,7 +69,7 @@ public class FileSystemStorageService implements StorageService {
 			return originalFileNameEncrypted;
 		}
 		catch (IOException e) {
-			throw new StorageException("Failed to store file.", e);
+			throw new StorageException("No se pudo almacenar el archivo.", e);
 		}
 	}
 

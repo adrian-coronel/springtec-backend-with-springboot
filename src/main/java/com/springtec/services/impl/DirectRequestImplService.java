@@ -144,7 +144,7 @@ public class DirectRequestImplService implements IDirectRequestService {
               .build()
       );
 
-      if (directRequest.getImageUrls() != null && !directRequest.getImageUrls().isEmpty()) {
+      if (!directRequest.getImageUrls().isEmpty()) {
          directRequest.getImageUrls().forEach(file -> {
             String originalFileName = file.getOriginalFilename();
             String fileNameEncryptedSaved = storageService.store(file);
