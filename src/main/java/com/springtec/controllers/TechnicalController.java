@@ -2,12 +2,10 @@ package com.springtec.controllers;
 
 import com.springtec.exceptions.ElementNotExistInDBException;
 import com.springtec.models.dto.TechnicalDto;
-import com.springtec.models.entity.Profession;
 import com.springtec.models.payload.LocationRequest;
 import com.springtec.models.payload.MessageResponse;
 import com.springtec.models.payload.StateRequest;
 import com.springtec.models.payload.TechnicalRequest;
-import com.springtec.services.ITechnicalService;
 import com.springtec.services.impl.TechnicalImplService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

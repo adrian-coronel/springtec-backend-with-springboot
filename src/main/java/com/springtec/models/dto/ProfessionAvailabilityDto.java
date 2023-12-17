@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class ProfessionAvailabilityDto {
 
    private Integer id;
-   @NotNull(message = "technicalId no puede ser nulo")
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private Integer technicalId;
    @JsonIgnore

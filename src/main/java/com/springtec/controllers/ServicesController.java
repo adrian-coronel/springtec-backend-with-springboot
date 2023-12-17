@@ -31,7 +31,7 @@ public class ServicesController {
        @RequestParam Map<String, String> filters
    ){
       try {
-         List<ServiceDto> serviceDtos = servicesService.findByFilters(filters);
+            List<ServiceDto> serviceDtos = servicesService.findByFilters(filters);
          return new ResponseEntity<>(
              MessageResponse.builder()
                  .message("")
