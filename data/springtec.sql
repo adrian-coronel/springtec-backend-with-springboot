@@ -11,24 +11,24 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema db_springtec
+-- Schema railway
 -- -----------------------------------------------------
--- DROP SCHEMA IF EXISTS db_springtec ;
+-- DROP SCHEMA IF EXISTS railway ;
 
 -- -----------------------------------------------------
--- Schema db_springtec
+-- Schema railway
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS db_springtec DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE db_springtec ;
+CREATE SCHEMA IF NOT EXISTS railway DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE railway ;
 
 -- -----------------------------------------------------
--- Table db_springtec.role
+-- Table railway.role
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.role ;
+DROP TABLE IF EXISTS railway.role ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.role (
-                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                 name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.role (
+                                            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            name VARCHAR(45) NOT NULL,
     PRIMARY KEY (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
@@ -36,14 +36,14 @@ CREATE TABLE IF NOT EXISTS db_springtec.role (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.user
+-- Table railway.user
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.user ;
+DROP TABLE IF EXISTS railway.user ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.user (
-                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                 role_id INT UNSIGNED NOT NULL,
-                                                 email VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.user (
+                                            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                            role_id INT UNSIGNED NOT NULL,
+                                            email VARCHAR(45) NOT NULL,
     password VARCHAR(240) NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (id),
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS db_springtec.user (
     INDEX fk_User_Role1_idx (role_id ASC) VISIBLE,
     CONSTRAINT fk_User_Role1
     FOREIGN KEY (role_id)
-    REFERENCES db_springtec.role (id))
+    REFERENCES railway.role (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
@@ -59,14 +59,14 @@ CREATE TABLE IF NOT EXISTS db_springtec.user (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.image_user
+-- Table railway.image_user
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.image_user ;
+DROP TABLE IF EXISTS railway.image_user ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.image_user (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    user_id INT UNSIGNED NOT NULL,
-	original_name VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.image_user (
+                                                  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                  user_id INT UNSIGNED NOT NULL,
+                                                  original_name VARCHAR(100) NOT NULL,
     extension_name VARCHAR(20) NOT NULL,
     content_type VARCHAR(20) NOT NULL,
     fake_name VARCHAR(100) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS db_springtec.image_user (
     INDEX fk_image_user_user1_idx (user_id ASC) VISIBLE,
     CONSTRAINT fk_image_user_user1
     FOREIGN KEY (user_id)
-    REFERENCES db_springtec.user (id)
+    REFERENCES railway.user (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -91,14 +91,14 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.help_desk
+-- Table railway.help_desk
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.help_desk ;
+DROP TABLE IF EXISTS railway.help_desk ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.help_desk (
-                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                      user_id INT UNSIGNED NOT NULL,
-                                                      name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.help_desk (
+                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                 user_id INT UNSIGNED NOT NULL,
+                                                 name VARCHAR(45) NOT NULL,
     father_lastname VARCHAR(45) NOT NULL,
     mother_lastname VARCHAR(45) NOT NULL,
     dni CHAR(8) NOT NULL,
@@ -108,21 +108,21 @@ CREATE TABLE IF NOT EXISTS db_springtec.help_desk (
     INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
     CONSTRAINT fk_Tecnico_User1
     FOREIGN KEY (user_id)
-    REFERENCES db_springtec.user (id))
+    REFERENCES railway.user (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.client
+-- Table railway.client
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.client ;
+DROP TABLE IF EXISTS railway.client ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.client (
-                                                   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                   user_id INT UNSIGNED NOT NULL,
-                                                   name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.client (
+                                              id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                              user_id INT UNSIGNED NOT NULL,
+                                              name VARCHAR(45) NOT NULL,
     father_lastname VARCHAR(45) NOT NULL,
     mother_lastname VARCHAR(45) NOT NULL,
     dni CHAR(8) NOT NULL,
@@ -132,21 +132,21 @@ CREATE TABLE IF NOT EXISTS db_springtec.client (
     INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
     CONSTRAINT fk_Tecnico_User0
     FOREIGN KEY (user_id)
-    REFERENCES db_springtec.user (id))
+    REFERENCES railway.user (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.ticket_support
+-- Table railway.ticket_support
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.ticket_support ;
+DROP TABLE IF EXISTS railway.ticket_support ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.ticket_support (
-                                                           id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                           client_id INT UNSIGNED NOT NULL,
-                                                           issue VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.ticket_support (
+                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                      client_id INT UNSIGNED NOT NULL,
+                                                      issue VARCHAR(45) NOT NULL,
     description VARCHAR(300) NOT NULL,
     date DATE NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
@@ -154,22 +154,22 @@ CREATE TABLE IF NOT EXISTS db_springtec.ticket_support (
     INDEX fk_Ticket_Soporte_Client1_idx (client_id ASC) VISIBLE,
     CONSTRAINT fk_Ticket_Soporte_Client1
     FOREIGN KEY (client_id)
-    REFERENCES db_springtec.client (id))
+    REFERENCES railway.client (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.answer_support
+-- Table railway.answer_support
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.answer_support ;
+DROP TABLE IF EXISTS railway.answer_support ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.answer_support (
-                                                           id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                           ticket_support_id INT UNSIGNED NOT NULL,
-                                                           help_desk_id INT UNSIGNED NOT NULL,
-                                                           title VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.answer_support (
+                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                      ticket_support_id INT UNSIGNED NOT NULL,
+                                                      help_desk_id INT UNSIGNED NOT NULL,
+                                                      title VARCHAR(45) NOT NULL,
     answer VARCHAR(300) NOT NULL,
     date DATE NOT NULL,
     PRIMARY KEY (id),
@@ -177,21 +177,37 @@ CREATE TABLE IF NOT EXISTS db_springtec.answer_support (
     INDEX fk_answer_support_Help_Desk1_idx (help_desk_id ASC) VISIBLE,
     CONSTRAINT fk_answer_support_Help_Desk1
     FOREIGN KEY (help_desk_id)
-    REFERENCES db_springtec.help_desk (id),
+    REFERENCES railway.help_desk (id),
     CONSTRAINT fk_answer_support_Ticket_Soporte1
     FOREIGN KEY (ticket_support_id)
-    REFERENCES db_springtec.ticket_support (id))
+    REFERENCES railway.ticket_support (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.availability
+-- Table railway.availability
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.availability ;
+DROP TABLE IF EXISTS railway.availability ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.availability (
+CREATE TABLE IF NOT EXISTS railway.availability (
+                                                    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                    name VARCHAR(45) NOT NULL,
+    state CHAR(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (id),
+    UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table railway.category_services
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS railway.category_services ;
+
+CREATE TABLE IF NOT EXISTS railway.category_services (
                                                          id INT UNSIGNED NOT NULL AUTO_INCREMENT,
                                                          name VARCHAR(45) NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
@@ -203,29 +219,13 @@ CREATE TABLE IF NOT EXISTS db_springtec.availability (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.category_services
+-- Table railway.currency_type
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.category_services ;
+DROP TABLE IF EXISTS railway.currency_type ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.category_services (
-                                                              id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                              name VARCHAR(45) NOT NULL,
-    state CHAR(1) NOT NULL DEFAULT '1',
-    PRIMARY KEY (id),
-    UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE)
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table db_springtec.currency_type
--- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.currency_type ;
-
-CREATE TABLE IF NOT EXISTS db_springtec.currency_type (
-                                                          id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                          symbol CHAR(4) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.currency_type (
+                                                     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                     symbol CHAR(4) NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (id),
     UNIQUE INDEX symbol_UNIQUE (symbol ASC) VISIBLE)
@@ -235,14 +235,14 @@ CREATE TABLE IF NOT EXISTS db_springtec.currency_type (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.technical
+-- Table railway.technical
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.technical ;
+DROP TABLE IF EXISTS railway.technical ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.technical (
-                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                      user_id INT UNSIGNED NOT NULL,
-                                                      name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.technical (
+                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                 user_id INT UNSIGNED NOT NULL,
+                                                 name VARCHAR(45) NOT NULL,
     father_lastname VARCHAR(45) NOT NULL,
     mother_lastname VARCHAR(45) NOT NULL,
     dni CHAR(8) NOT NULL,
@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS db_springtec.technical (
     INDEX fk_Tecnico_User_idx (user_id ASC) VISIBLE,
     CONSTRAINT fk_Tecnico_User
     FOREIGN KEY (user_id)
-    REFERENCES db_springtec.user (id))
+    REFERENCES railway.user (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
@@ -263,15 +263,15 @@ CREATE TABLE IF NOT EXISTS db_springtec.technical (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.review
+-- Table railway.review
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.review ;
+DROP TABLE IF EXISTS railway.review ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.review (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    technical_id INT UNSIGNED NOT NULL,
-    client_id INT UNSIGNED NOT NULL,
-    number_stars INT(5) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.review (
+                                              id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                              technical_id INT UNSIGNED NOT NULL,
+                                              client_id INT UNSIGNED NOT NULL,
+                                              number_stars INT(5) NOT NULL,
     title VARCHAR(100) NOT NULL,
     comment VARCHAR(250) NOT NULL,
     date DATE NOT NULL,
@@ -281,10 +281,10 @@ CREATE TABLE IF NOT EXISTS db_springtec.review (
     INDEX fk_review_client_id_idx (client_id ASC) VISIBLE,
     CONSTRAINT fk_review_techncial_id1
     FOREIGN KEY (technical_id)
-    REFERENCES db_springtec.technical (id),
+    REFERENCES railway.technical (id),
     CONSTRAINT fk_review_client_id1
     FOREIGN KEY (client_id)
-    REFERENCES db_springtec.client (id))
+    REFERENCES railway.client (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
@@ -292,13 +292,13 @@ CREATE TABLE IF NOT EXISTS db_springtec.review (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.experience
+-- Table railway.experience
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.experience ;
+DROP TABLE IF EXISTS railway.experience ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.experience (
-                                                       id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                       name VARCHAR(60) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.experience (
+                                                  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                  name VARCHAR(60) NOT NULL,
     PRIMARY KEY (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
@@ -306,13 +306,13 @@ CREATE TABLE IF NOT EXISTS db_springtec.experience (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.profession
+-- Table railway.profession
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.profession ;
+DROP TABLE IF EXISTS railway.profession ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.profession (
-                                                       id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                       name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.profession (
+                                                  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                  name VARCHAR(45) NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (id))
     ENGINE = InnoDB
@@ -321,33 +321,33 @@ CREATE TABLE IF NOT EXISTS db_springtec.profession (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.profession_availability
+-- Table railway.profession_availability
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.profession_availability ;
+DROP TABLE IF EXISTS railway.profession_availability ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.profession_availability (
-                                                                    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                                    technical_id INT UNSIGNED NOT NULL,
-                                                                    profession_id INT UNSIGNED NOT NULL,
-                                                                    availability_id INT UNSIGNED NOT NULL,
-                                                                    experience_id INT UNSIGNED NOT NULL,
-                                                                    PRIMARY KEY (id),
+CREATE TABLE IF NOT EXISTS railway.profession_availability (
+                                                               id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                               technical_id INT UNSIGNED NOT NULL,
+                                                               profession_id INT UNSIGNED NOT NULL,
+                                                               availability_id INT UNSIGNED NOT NULL,
+                                                               experience_id INT UNSIGNED NOT NULL,
+                                                               PRIMARY KEY (id),
     INDEX fk_technical_has_profession_profesion1_idx (profession_id ASC) VISIBLE,
     INDEX fk_technical_has_profession_Tecnico1_idx (technical_id ASC) VISIBLE,
     INDEX fk_technical_has_profession_Experience1_idx (experience_id ASC) VISIBLE,
     INDEX fk_technical_has_profession_availability1_idx (availability_id ASC) VISIBLE,
     CONSTRAINT fk_technical_has_profession_Experience1
     FOREIGN KEY (experience_id)
-    REFERENCES db_springtec.experience (id),
+    REFERENCES railway.experience (id),
     CONSTRAINT fk_technical_has_profession_profesion1
     FOREIGN KEY (profession_id)
-    REFERENCES db_springtec.profession (id),
+    REFERENCES railway.profession (id),
     CONSTRAINT fk_technical_has_profession_Tecnico1
     FOREIGN KEY (technical_id)
-    REFERENCES db_springtec.technical (id),
+    REFERENCES railway.technical (id),
     CONSTRAINT fk_technical_has_profession_availability1
     FOREIGN KEY (availability_id)
-    REFERENCES db_springtec.availability (id)
+    REFERENCES railway.availability (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -358,15 +358,15 @@ CREATE TABLE IF NOT EXISTS db_springtec.profession_availability (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.services
+-- Table railway.services
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.services ;
+DROP TABLE IF EXISTS railway.services ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.services (
-                                                     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                     category_services_id INT UNSIGNED NOT NULL,
-                                                     currency_type_id INT UNSIGNED NOT NULL,
-                                                     name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.services (
+                                                id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                category_services_id INT UNSIGNED NOT NULL,
+                                                currency_type_id INT UNSIGNED NOT NULL,
+                                                name VARCHAR(45) NOT NULL,
     description VARCHAR(255) NULL DEFAULT NULL,
     price DOUBLE(10,2) UNSIGNED NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
@@ -375,47 +375,47 @@ CREATE TABLE IF NOT EXISTS db_springtec.services (
     INDEX fk_services_currency_type_idx (currency_type_id ASC) VISIBLE,
     CONSTRAINT fk_services_Category_services1
     FOREIGN KEY (category_services_id)
-    REFERENCES db_springtec.category_services (id),
+    REFERENCES railway.category_services (id),
     CONSTRAINT fk_services_currency_type1
     FOREIGN KEY (currency_type_id)
-    REFERENCES db_springtec.currency_type (id))
+    REFERENCES railway.currency_type (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.service_type_availability
+-- Table railway.service_type_availability
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.service_type_availability ;
+DROP TABLE IF EXISTS railway.service_type_availability ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.service_type_availability (
-                                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                                      profession_availability_id INT UNSIGNED NOT NULL,
-                                                                      services_id INT UNSIGNED NOT NULL,
-                                                                      PRIMARY KEY (id),
+CREATE TABLE IF NOT EXISTS railway.service_type_availability (
+                                                                 id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                                 profession_availability_id INT UNSIGNED NOT NULL,
+                                                                 services_id INT UNSIGNED NOT NULL,
+                                                                 PRIMARY KEY (id),
     INDEX fk_service_type_availability_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
     INDEX fk_service_type_availability_services1_idx (services_id ASC) VISIBLE,
     CONSTRAINT fk_service_type_availability_profession_availability1
     FOREIGN KEY (profession_availability_id)
-    REFERENCES db_springtec.profession_availability (id)
+    REFERENCES railway.profession_availability (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
     CONSTRAINT fk_service_type_availability_services1
     FOREIGN KEY (services_id)
-    REFERENCES db_springtec.services (id)
+    REFERENCES railway.services (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table db_springtec.state_direct_request
+-- Table railway.state_direct_request
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.state_direct_request ;
+DROP TABLE IF EXISTS railway.state_direct_request ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.state_direct_request (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.state_direct_request (
+                                                            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                            name VARCHAR(45) NOT NULL,
     PRIMARY KEY (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
@@ -423,20 +423,20 @@ CREATE TABLE IF NOT EXISTS db_springtec.state_direct_request (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.direct_request
+-- Table railway.direct_request
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.direct_request ;
+DROP TABLE IF EXISTS railway.direct_request ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
-	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    profession_availability_id INT UNSIGNED NOT NULL,
-    client_id INT UNSIGNED NOT NULL,
-    category_services_id INT UNSIGNED NOT NULL,
-    service_type_availability_id INT UNSIGNED NULL,
-    state_direct_request_id INT UNSIGNED NOT NULL,
-	latitude DOUBLE NOT NULL,
-    longitude DOUBLE NOT NULL,
-    title VARCHAR(80) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.direct_request (
+                                                      id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                      profession_availability_id INT UNSIGNED NOT NULL,
+                                                      client_id INT UNSIGNED NOT NULL,
+                                                      category_services_id INT UNSIGNED NOT NULL,
+                                                      service_type_availability_id INT UNSIGNED NULL,
+                                                      state_direct_request_id INT UNSIGNED NOT NULL,
+                                                      latitude DOUBLE NOT NULL,
+                                                      longitude DOUBLE NOT NULL,
+                                                      title VARCHAR(80) NOT NULL,
     description VARCHAR(255) NOT NULL,
     state_invoice CHAR(1) NULL DEFAULT '0',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- CURENT_... cuando no se pase, se establecera en la hora actual
@@ -450,19 +450,19 @@ CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
     INDEX fk_direct_request_state_direct_request1_idx (state_direct_request_id ASC) VISIBLE,
     CONSTRAINT fk_direct_request_client1
     FOREIGN KEY (client_id)
-    REFERENCES db_springtec.client (id),
+    REFERENCES railway.client (id),
     CONSTRAINT fk_direct_request_category_services1
     FOREIGN KEY (client_id)
-    REFERENCES db_springtec.client (id),
+    REFERENCES railway.client (id),
     CONSTRAINT fk_direct_request_profession_availability1
     FOREIGN KEY (category_services_id)
-    REFERENCES db_springtec.category_services (id),
+    REFERENCES railway.category_services (id),
     CONSTRAINT fk_direct_request_service_type_availability1
     FOREIGN KEY (service_type_availability_id)
-    REFERENCES db_springtec.service_type_availability (id),
+    REFERENCES railway.service_type_availability (id),
     CONSTRAINT fk_direct_request_state_direct_request_1
     FOREIGN KEY (state_direct_request_id)
-    REFERENCES db_springtec.state_direct_request (id)
+    REFERENCES railway.state_direct_request (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -471,14 +471,14 @@ CREATE TABLE IF NOT EXISTS db_springtec.direct_request (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.image_upload
+-- Table railway.image_upload
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.image_upload ;
+DROP TABLE IF EXISTS railway.image_upload ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.image_upload (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    direct_request_id INT UNSIGNED NOT NULL,
-    original_name VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.image_upload (
+                                                    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                    direct_request_id INT UNSIGNED NOT NULL,
+                                                    original_name VARCHAR(100) NOT NULL,
     extension_name VARCHAR(20) NOT NULL,
     content_type VARCHAR(20) NOT NULL,
     fake_name VARCHAR(100) NOT NULL,
@@ -487,21 +487,21 @@ CREATE TABLE IF NOT EXISTS db_springtec.image_upload (
     INDEX fk_img_firebase_direct_request_id_idx (direct_request_id ASC) VISIBLE,
     CONSTRAINT fk_img_firebase_direct_request_id1
     FOREIGN KEY (direct_request_id)
-    REFERENCES db_springtec.direct_request (id))
+    REFERENCES railway.direct_request (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.invoice
+-- Table railway.invoice
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.invoice ;
+DROP TABLE IF EXISTS railway.invoice ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.invoice (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    direct_request_id INT UNSIGNED NOT NULL,
-    task VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.invoice (
+                                               id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                               direct_request_id INT UNSIGNED NOT NULL,
+                                               task VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     price DOUBLE(10,2) UNSIGNED NOT NULL,
     date DATE NOT NULL,
@@ -511,7 +511,7 @@ CREATE TABLE IF NOT EXISTS db_springtec.invoice (
     INDEX fk_invoice_direct_request_id_idx (direct_request_id ASC) VISIBLE,
     CONSTRAINT fk_invoice_direct_request_id1
     FOREIGN KEY (direct_request_id)
-    REFERENCES db_springtec.direct_request (id))
+    REFERENCES railway.direct_request (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
@@ -520,14 +520,14 @@ CREATE TABLE IF NOT EXISTS db_springtec.invoice (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.material
+-- Table railway.material
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.material ;
+DROP TABLE IF EXISTS railway.material ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.material (
-    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    invoice_id INT UNSIGNED NOT NULL,
-    name VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.material (
+                                                id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                invoice_id INT UNSIGNED NOT NULL,
+                                                name VARCHAR(100) NOT NULL,
     price DOUBLE(10,2) UNSIGNED NOT NULL,
     stock TINYINT UNSIGNED NOT NULL,
     state CHAR(1) NOT NULL DEFAULT '1',
@@ -535,7 +535,7 @@ CREATE TABLE IF NOT EXISTS db_springtec.material (
     INDEX fk_material_invoice_id_idx (invoice_id ASC) VISIBLE,
     CONSTRAINT fk_material_invoice_id1
     FOREIGN KEY (invoice_id)
-    REFERENCES db_springtec.invoice (id))
+    REFERENCES railway.invoice (id))
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
@@ -543,35 +543,35 @@ CREATE TABLE IF NOT EXISTS db_springtec.material (
 
 
 -- -----------------------------------------------------
--- Table db_springtec.Profession_local
+-- Table railway.Profession_local
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.profession_local ;
+DROP TABLE IF EXISTS railway.profession_local ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.profession_local (
-                                                             id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                             profession_availability_id INT UNSIGNED NOT NULL,
-                                                             lat DOUBLE NULL,
-                                                             lng DOUBLE NULL,
-                                                             state CHAR(1) DEFAULT '1' NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.profession_local (
+                                                        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                        profession_availability_id INT UNSIGNED NOT NULL,
+                                                        lat DOUBLE NULL,
+                                                        lng DOUBLE NULL,
+                                                        state CHAR(1) DEFAULT '1' NOT NULL,
     PRIMARY KEY (id),
     INDEX fk_Profession_local_profession_availability1_idx (profession_availability_id ASC) VISIBLE,
     CONSTRAINT fk_Profession_local_profession_availability1
     FOREIGN KEY (profession_availability_id)
-    REFERENCES db_springtec.profession_availability (id)
+    REFERENCES railway.profession_availability (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table db_springtec.image_service
+-- Table railway.image_service
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS db_springtec.image_service ;
+DROP TABLE IF EXISTS railway.image_service ;
 
-CREATE TABLE IF NOT EXISTS db_springtec.image_service (
-                                                          id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                          services_id INT UNSIGNED NOT NULL,
-                                                          original_name VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS railway.image_service (
+                                                     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                                     services_id INT UNSIGNED NOT NULL,
+                                                     original_name VARCHAR(100) NOT NULL,
     extension_name VARCHAR(20) NOT NULL,
     content_type VARCHAR(20) NOT NULL,
     fake_name VARCHAR(100) NOT NULL,
@@ -580,7 +580,7 @@ CREATE TABLE IF NOT EXISTS db_springtec.image_service (
     INDEX fk_image_service_services1_idx (services_id ASC) VISIBLE,
     CONSTRAINT fk_image_service_services1
     FOREIGN KEY (services_id)
-    REFERENCES db_springtec.services (id)
+    REFERENCES railway.services (id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
     ENGINE = InnoDB
@@ -738,7 +738,7 @@ WHERE
               6371 * ACOS(
                           COS(RADIANS(p_latitude)) * COS(RADIANS(t.lat)) * COS(RADIANS(p_longitude) - RADIANS(t.lng))
                       + SIN(RADIANS(p_latitude)) * SIN(RADIANS(t.lat))
-                     )
+              )
           ) <= p_rango;
 END //
 
@@ -771,7 +771,7 @@ WHERE
               6371 * ACOS(
                           COS(RADIANS(p_latitude)) * COS(RADIANS(COALESCE(pl.lat, t.lat))) * COS(RADIANS(p_longitude) - RADIANS(COALESCE(pl.lng, t.lng)))
                       + SIN(RADIANS(p_latitude)) * SIN(RADIANS(COALESCE(pl.lat, t.lat)))
-                     )
+              )
           ) <= p_rango;
 END //
 
@@ -802,7 +802,7 @@ WHERE
               6371 * ACOS(
                           COS(RADIANS(p_latitude)) * COS(RADIANS(COALESCE(pl.lat, t.lat))) * COS(RADIANS(p_longitude) - RADIANS(COALESCE(pl.lng, t.lng)))
                       + SIN(RADIANS(p_latitude)) * SIN(RADIANS(COALESCE(pl.lat, t.lat)))
-                     )
+              )
           ) <= p_rango;
 END //
 DELIMITER ;
@@ -823,6 +823,7 @@ END //
 DELIMITER ;
 
 
+
 DELIMITER //
 CREATE PROCEDURE findAllByTechnicalIdAndStateIdAndStateInvoiceId(
     IN p_technical_id INT,
@@ -834,28 +835,12 @@ SELECT
     dr.*
 FROM direct_request dr
          INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
-WHERE pa.technical_id = p_technical_id AND dr.state_direct_request_id = p_state_id AND dr.state_invoice = p_state_invoice_id;
-END //
-DELIMITER ;
-
-
-DELIMITER //
-CREATE PROCEDURE findAllByTechnicalIdAndStateIdAndStateInvoiceId(
-    IN p_technical_id INT,
-    IN p_state_id INT,
-    IN p_state_invoice_id INT
-)
-BEGIN
- SELECT
-        dr.*
-    FROM direct_request dr
-        INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
-    WHERE pa.technical_id = p_technical_id 
-        AND (
-            (p_state_id = 2 AND dr.state_direct_request_id IN (2, 5)) 
-            OR (p_state_id <> 2 AND dr.state_direct_request_id = p_state_id)
-        )
-        AND dr.state_invoice = p_state_invoice_id;
+WHERE pa.technical_id = p_technical_id
+  AND (
+        (p_state_id = 2 AND dr.state_direct_request_id IN (2, 5))
+        OR (p_state_id <> 2 AND dr.state_direct_request_id = p_state_id)
+    )
+  AND dr.state_invoice = p_state_invoice_id;
 END //
 DELIMITER ;
 
@@ -864,22 +849,22 @@ DELIMITER ;
 -- TRIGGERS
 DELIMITER //
 CREATE TRIGGER tr_direct_request_state_invoice
-BEFORE UPDATE ON db_springtec.direct_request
-FOR EACH ROW
+    BEFORE UPDATE ON railway.direct_request
+    FOR EACH ROW
 BEGIN
     IF NEW.state_invoice = '1' THEN
         SET NEW.answered_at = CURRENT_TIMESTAMP;
-    END IF;
+END IF;
 END;
 //
 
 CREATE TRIGGER tr_direct_request_state_direct_request
-BEFORE UPDATE ON db_springtec.direct_request
-FOR EACH ROW
+    BEFORE UPDATE ON railway.direct_request
+    FOR EACH ROW
 BEGIN
     IF NEW.state_direct_request_id = 3 THEN
         SET NEW.resolved_at = CURRENT_TIMESTAMP;
-    END IF;
+END IF;
 END;
 //
 DELIMITER ;
