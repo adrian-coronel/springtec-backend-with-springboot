@@ -18,7 +18,7 @@ public class ProfessionAvailabilityDto {
    private Integer id;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    private Integer technicalId;
-   @JsonIgnore
+   @JsonInclude(JsonInclude.Include.NON_NULL)
    private TechnicalDto technical;
    @JsonInclude(JsonInclude.Include.NON_NULL)
    @NotNull(message = "professionId no puede ser nulo")
