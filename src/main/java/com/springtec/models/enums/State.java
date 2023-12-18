@@ -6,5 +6,6 @@ public interface State {
     Integer CANCELED = 4;
     Integer PENDING = 1;
     Integer IN_PROCESS = 2;
+    Integer CLOSURE_REQUEST = 5;
     Integer CLOSED = 3;
 }

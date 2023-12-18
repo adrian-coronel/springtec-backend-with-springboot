@@ -51,20 +51,6 @@ public class ClientImplService implements IClientService {
                 .orElseThrow(()->new ElementNotExistInDBException("El cliente con id :"+id+" no existe"));
     }
 
-    /*
-    * if (!imageUserRepository.existsByUserId(user.getId())) {
-            return new TechnicalDto(technical);
-        }
-        ImageUser imageUser = imageUserRepository.findByUserId(user.getId());
-        String fakeFileName = imageUser.getFakeName() +"."+imageUser.getFakeExtensionName();
-        String originalFileName = imageUser.getOriginalName()+"."+imageUser.getExtensionName();
-        try {
-            byte[] file = storageService.loadAsDecryptedFile(fakeFileName, originalFileName);
-            return new TechnicalDto(technical, file);
-        } catch (IOException e) {
-            return new TechnicalDto(technical);
-        }
-    * */
 
     @Override
     public ClientDto findByUser(User user) {

@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -14,6 +15,7 @@ public interface DirectRequestRepository extends JpaRepository<DirectRequest, In
 
    List<DirectRequest> findAllByClientIdAndCreatedAtGreaterThanEqualAndStateDirectRequestId(Integer client_id, Timestamp createdAt, Integer stateDirectRequest_id);
    List<DirectRequest> findAllByClientIdAndStateDirectRequestId(Integer client_id, Integer stateDirectRequest_id);
+   List<DirectRequest> findAllByClientIdAndStateDirectRequestIdIn(Integer client_id, List<Integer> stateDirectRequest_id);
    @Query(nativeQuery = true, value = "CALL findAllByTechnicalIdAndDistintStateId(:ptechnicalId,:pstateId);")
    List<DirectRequest> findAllByTechnicalIdAndDistintState( @Param("ptechnicalId") int technicalId, @Param("pstateId") int stateId);
 

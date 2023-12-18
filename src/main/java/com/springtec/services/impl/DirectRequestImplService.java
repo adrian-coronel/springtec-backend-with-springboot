@@ -55,7 +55,10 @@ public class DirectRequestImplService implements IDirectRequestService {
             Timestamp oneDaysAgo = Timestamp.valueOf(LocalDateTime.now().minus(Duration.ofDays(1)));
             // Obtenemos los directRequest por estado y que tengan un plazo maximo de un DÍA
             directRequestList = directRequestRepository.findAllByClientIdAndCreatedAtGreaterThanEqualAndStateDirectRequestId(clientId, oneDaysAgo, state);
-         } else {
+         }else if(state == State.IN_PROCESS){
+            directRequestList = directRequestRepository.findAllByClientIdAndStateDirectRequestIdIn(clientId,List.of(State.IN_PROCESS, State.CLOSURE_REQUEST));
+         }
+         else {
             directRequestList = directRequestRepository.findAllByClientIdAndStateDirectRequestId(clientId, state);
          }
 

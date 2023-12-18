@@ -810,17 +810,21 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE PROCEDURE findAllByTechnicalIdAndProfessionIdAndCategoryId(
+CREATE PROCEDURE findAllByTechnicalIdAndStateIdAndStateInvoiceId(
     IN p_technical_id INT,
-    IN p_profession_id INT,
-    IN p_category_services_id INT
+    IN p_state_id INT,
+    IN p_state_invoice_id INT
 )
 BEGIN
-SELECT
-    s.*
-FROM services s
-         INNER JOIN service_type_availability sta ON sta.services_id = s.id
-         INNER JOIN profession_availability pa ON sta.profession_availability_id = pa.id
-WHERE pa.technical_id = p_technical_id AND pa.profession_id = p_profession_id AND s.category_services_id = p_category_services_id;
+ SELECT
+        dr.*
+    FROM direct_request dr
+        INNER JOIN profession_availability pa ON dr.profession_availability_id = pa.id
+    WHERE pa.technical_id = p_technical_id 
+        AND (
+            (p_state_id = 2 AND dr.state_direct_request_id IN (2, 5)) 
+            OR (p_state_id <> 2 AND dr.state_direct_request_id = p_state_id)
+        )
+        AND dr.state_invoice = p_state_invoice_id;
 END //
 DELIMITER ;
