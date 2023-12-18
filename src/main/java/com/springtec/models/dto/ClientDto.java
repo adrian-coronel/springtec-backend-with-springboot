@@ -26,6 +26,7 @@ public class ClientDto implements ITypeUserDTO{
    private String motherLastname;
    private String dni;
    private Date birthDate;
+   private byte[] file;
 
    public ClientDto (Client client) {
       this.id = client.getId();
@@ -35,6 +36,17 @@ public class ClientDto implements ITypeUserDTO{
       this.motherLastname = client.getMotherLastname();
       this.dni = client.getDni();
       this.birthDate = client.getBirthDate();
+   }
+
+   public ClientDto (Client client, byte[] file) {
+      this.id = client.getId();
+      this.name = client.getName();
+      this.userId = client.getUser().getId();
+      this.lastname = client.getLastname();
+      this.motherLastname = client.getMotherLastname();
+      this.dni = client.getDni();
+      this.birthDate = client.getBirthDate();
+      this.file = file;
    }
 
 }

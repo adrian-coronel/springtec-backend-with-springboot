@@ -11,10 +11,12 @@ import com.springtec.models.payload.TechnicalRequest;
 import com.springtec.models.repositories.*;
 import com.springtec.services.IProfessionAvailabilityService;
 import com.springtec.services.ITechnicalService;
+import com.springtec.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,8 @@ import java.util.Map;
 public class TechnicalImplService implements ITechnicalService {
 
     private final TechnicalRepository technicalRepository;
+    private final ImageUserRepository imageUserRepository;
+    private final StorageService storageService;
     private final IProfessionAvailabilityService professionAvailabilityService;
     private final UserRepository userRepository;
 
@@ -39,7 +43,18 @@ public class TechnicalImplService implements ITechnicalService {
     @Override
     public TechnicalDto findByUser(User user) {
         Technical technical = technicalRepository.findByUser(user);
-        return new TechnicalDto(technical);
+        if (!imageUserRepository.existsByUserId(user.getId())) {
+            return new TechnicalDto(technical);
+        }
+        ImageUser imageUser = imageUserRepository.findByUserId(user.getId());
+        String fakeFileName = imageUser.getFakeName() +"."+imageUser.getFakeExtensionName();
+        String originalFileName = imageUser.getOriginalName()+"."+imageUser.getExtensionName();
+        try {
+            byte[] file = storageService.loadAsDecryptedFile(fakeFileName, originalFileName);
+            return new TechnicalDto(technical, file);
+        } catch (IOException e) {
+            return new TechnicalDto(technical);
+        }
     }
 
     @Transactional

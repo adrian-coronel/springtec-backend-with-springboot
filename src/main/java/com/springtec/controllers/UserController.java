@@ -7,6 +7,7 @@ import com.springtec.models.payload.UserRequest;
 import com.springtec.services.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,6 @@ public class UserController {
 
    @GetMapping("user/{id}")
    public ResponseEntity<?> show(@PathVariable Integer id) {
-      // todo CREAR UN PAYLOAD
       try {
          ITypeUserDTO user = userService.findById(id);
          return new ResponseEntity<>(
@@ -38,8 +38,8 @@ public class UserController {
 
    }
 
-   @PutMapping("user/{id}")
-   public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UserRequest request) {
+   @PutMapping(value= "user/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+   public ResponseEntity<?> update(@PathVariable Integer id, @ModelAttribute UserRequest request) {
       try {
          userService.update(request, id);
          return new ResponseEntity<>(
@@ -48,10 +48,10 @@ public class UserController {
                  .build()
              , HttpStatus.OK
          );
-      } catch (ElementNotExistInDBException eNEID) {
+      } catch (Exception e) {
          return new ResponseEntity<>(
-             eNEID.getMessage()
-             , HttpStatus.OK
+             e.getMessage()
+             , HttpStatus.BAD_REQUEST
          );
       }
    }

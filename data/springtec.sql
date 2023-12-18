@@ -57,6 +57,39 @@ CREATE TABLE IF NOT EXISTS db_springtec.user (
     COLLATE = utf8mb4_0900_ai_ci;
 
 
+
+-- -----------------------------------------------------
+-- Table db_springtec.image_user
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS db_springtec.image_user ;
+
+CREATE TABLE IF NOT EXISTS db_springtec.image_user (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id INT UNSIGNED NOT NULL,
+	original_name VARCHAR(100) NOT NULL,
+    extension_name VARCHAR(20) NOT NULL,
+    content_type VARCHAR(20) NOT NULL,
+    fake_name VARCHAR(100) NOT NULL,
+    fake_extension_name VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id),
+    INDEX fk_image_user_user1_idx (user_id ASC) VISIBLE,
+    CONSTRAINT fk_image_user_user1
+    FOREIGN KEY (user_id)
+    REFERENCES db_springtec.user (id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
 -- -----------------------------------------------------
 -- Table db_springtec.help_desk
 -- -----------------------------------------------------
@@ -539,7 +572,7 @@ INSERT INTO state_direct_request(name) VALUES ('Pendiente');
 INSERT INTO state_direct_request(name) VALUES ('En proceso');
 INSERT INTO state_direct_request(name) VALUES ('Cerrado');
 INSERT INTO state_direct_request(name) VALUES ('Cancelado');
-
+Insert into state_direct_request(name) values ("Solicitud de Cierre");
 
 -- ------- AVAILABILITY ----------- --
 -- -------------------------------- --

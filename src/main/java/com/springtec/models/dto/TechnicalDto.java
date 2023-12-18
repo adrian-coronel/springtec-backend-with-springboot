@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,8 @@ public class TechnicalDto implements ITypeUserDTO{
     ProfessionAvailabilityDto professionAvailability;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String statusWorking;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private byte[] file;
 
     public TechnicalDto(Technical technical) {
         this.id = technical.getId();
@@ -59,6 +62,32 @@ public class TechnicalDto implements ITypeUserDTO{
             )
             .toList();
     }
+
+    public TechnicalDto(Technical technical, byte[] file) {
+        this.id = technical.getId();
+        this.name = technical.getName();
+        this.lastname = technical.getLastname();
+        this.motherLastname = technical.getMotherLastname();
+        this.dni = technical.getDni();
+        this.birthDate = technical.getBirthDate();
+        this.user = new UserDto( technical.getUser() );
+        this.latitude = technical.getLatitude();
+        this.longitude = technical.getLongitude();
+        this.statusWorking = String.valueOf(technical.getWorkingStatus());
+        this.professionsAvailability = technical.getProfessionsAvailability()
+            .stream()
+            .map( pA -> ProfessionAvailabilityDto
+                .builder()
+                .id(pA.getId())
+                .profession( new ProfessionDto(pA.getProfession()) )
+                .availability( new AvailabilityDto(pA.getAvailability()) )
+                .experience( new ExperienceDto(pA.getExperience()) )
+                .build()
+            )
+            .toList();
+        this.file = file;
+    }
+
 
     public TechnicalDto(Technical technical, ProfessionAvailabilityDto professionAvailabilityDto) {
         this.id = technical.getId();
