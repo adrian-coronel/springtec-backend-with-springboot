@@ -261,6 +261,37 @@ CREATE TABLE IF NOT EXISTS db_springtec.technical (
     COLLATE = utf8mb4_0900_ai_ci;
 
 
+
+-- -----------------------------------------------------
+-- Table db_springtec.review
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS db_springtec.review ;
+
+CREATE TABLE IF NOT EXISTS db_springtec.review (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    technical_id INT UNSIGNED NOT NULL,
+    client_id INT UNSIGNED NOT NULL,
+    number_stars INT(5) NULL,
+    extension_name VARCHAR(20) NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    comment VARCHAR(250) NOT NULL,
+    date DATE NOT NULL,
+    hour TIME NOT NULL,
+    PRIMARY KEY (id),
+    INDEX fk_review_technical_id_idx (technical_id ASC) VISIBLE,
+    INDEX fk_review_client_id_idx (client_id ASC) VISIBLE,
+    CONSTRAINT fk_review_techncial_id1
+    FOREIGN KEY (technical_id)
+    REFERENCES db_springtec.technical (id),
+    CONSTRAINT fk_review_client_id1
+    FOREIGN KEY (client_id)
+    REFERENCES db_springtec.client (id))
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4
+    COLLATE = utf8mb4_0900_ai_ci;
+
+
+
 -- -----------------------------------------------------
 -- Table db_springtec.experience
 -- -----------------------------------------------------
