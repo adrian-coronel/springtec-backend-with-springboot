@@ -858,3 +858,29 @@ BEGIN
         AND dr.state_invoice = p_state_invoice_id;
 END //
 DELIMITER ;
+
+
+
+-- TRIGGERS
+DELIMITER //
+CREATE TRIGGER tr_direct_request_state_invoice
+BEFORE UPDATE ON db_springtec.direct_request
+FOR EACH ROW
+BEGIN
+    IF NEW.state_invoice = '1' THEN
+        SET NEW.answered_at = CURRENT_TIMESTAMP;
+    END IF;
+END;
+//
+
+CREATE TRIGGER tr_direct_request_state_direct_request
+BEFORE UPDATE ON db_springtec.direct_request
+FOR EACH ROW
+BEGIN
+    IF NEW.state_direct_request_id = 3 THEN
+        SET NEW.resolved_at = CURRENT_TIMESTAMP;
+    END IF;
+END;
+//
+DELIMITER ;
+
